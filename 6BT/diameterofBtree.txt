@@ -1,0 +1,40 @@
+    public int findht(TreeNode root)
+    {
+        if(root ==null) return 0;
+        int l=findht(root.left);
+        int r=findht(root.right);
+        
+        return Math.max(l,r)+1;   
+    }
+
+    int maxi=0;
+    public int diameterOfBinaryTree(TreeNode root) {
+        //T- O(n-sq) 
+        if(root==null) return 0;
+        
+        int l=findht(root.left);
+        int r=findht(root.right);
+        
+        maxi=Math.max(maxi,l+r);
+        
+        diameterOfBinaryTree(root.left);
+        diameterOfBinaryTree(root.right);
+    
+        return maxi;
+    }
+================================================================================
+int maxi=0;
+    public int findht(TreeNode root)
+    {
+        if(root ==null) return 0;
+        int l=findht(root.left);
+        int r=findht(root.right);
+        
+        maxi=Math.max(maxi,l+r);
+        return Math.max(l,r)+1;   
+    }
+    public int diameterOfBinaryTree(TreeNode root) {
+        //T- O(n) 
+       findht(root);
+       return maxi;
+    }

@@ -1,0 +1,114 @@
+import java.util.*;
+import java.lang.*;
+import java.io.*;
+
+
+//D - Roads not only in Berland
+public class Main
+{
+	public static void main (String[] args) throws java.lang.Exception
+	{ 
+	 PrintWriter out=new PrintWriter(System.out);
+     BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+     int n=Integer.parseInt(br.readLine());
+     DSU dsu= new DSU(n+1);
+     ArrayList<Pair> extraroads=new ArrayList<>();
+     // storage of old roads is done
+     for(int i=0;i<n-1;i++)
+        {
+           StringTokenizer st  = new StringTokenizer(br.readLine()," ");
+           int u=Integer.parseInt(st.nextToken()), v=Integer.parseInt(st.nextToken());
+           
+           if(dsu.findparent(u)==dsu.findparent(v))
+            extraroads.add(new Pair(u,v));
+            else dsu.union(u,v);
+        }
+       // figure out the no. of components
+       HashSet<Integer> set= new HashSet<>();
+       for(int i=1;i<=n;i++)   set.add(dsu.findparent(i));   
+	  
+	   ArrayList <Integer> arr= new ArrayList<>(set); 
+	   int j=0; 
+	   out.println(set.size()-1); // no. of edges
+	   // connect all unique ultimate components
+	    for(int i=1;i<=set.size()-1;i++)
+	    {
+	        out.println(extraroads.get(j).x+" "+extraroads.get(j).y+" "+arr.get(i-1) +" "+arr.get(i));
+	        j++;
+	    }
+	   
+       out.close();
+	}
+}
+class Pair{
+    int x,y;
+    public Pair(int a,int b)
+    { x=a; y=b; }
+}
+class DSU{
+    ArrayList<Integer> parent= new ArrayList<>();
+    ArrayList<Integer> size= new ArrayList<>();
+    ArrayList<Integer> rank= new ArrayList<>();
+    public DSU(int n)
+    {
+        for(int i=0;i<=n;i++)
+        {
+            parent.add(i); size.add(1); rank.add(0);
+        }
+    }
+    public int findparent(int n)
+    {
+        if(parent.get(n)==n)  return n;
+        // path compression ht-log(n)
+        //path + size compression 4xalpha
+         parent.set(n, findparent(parent.get(n)));
+        return parent.get(n);
+    }
+    
+    public void union(int u,int v)
+    {
+        int   pu= findparent(u), pv=findparent(v);
+        if(pu==pv) return;
+        
+        if(size.get(pu)<size.get(pv))
+        {
+            parent.set(pu,pv);
+            size.set(pv,size.get(pv)+size.get(pu));
+        }
+        else 
+        {
+            parent.set(pv,pu);
+            size.set(pu,size.get(pu)+size.get(pv));
+        }
+    }
+    
+    public void unionRank(int u,int v)
+    {
+        int   pu= findparent(u), pv=findparent(v);
+        if(pu==pv) return;
+        
+        if(rank.get(pu)<rank.get(pv))
+            parent.set(pu,pv);
+           
+        else if(rank.get(pu)>rank.get(pv)) 
+            parent.set(pv,pu);
+           
+        else 
+        {
+            parent.set(pu,pv);
+            rank.set(pv,pv+1);
+        }
+    }
+}
+
+
+// 7
+// 1 2
+// 2 3
+// 3 1
+// 4 5
+// 5 6
+// 6 7
+
+// 1
+// 3 1 1 4

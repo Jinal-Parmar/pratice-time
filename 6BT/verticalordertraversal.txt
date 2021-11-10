@@ -1,0 +1,47 @@
+class Tuple{
+    TreeNode n;
+    int v,l;
+    public Tuple(TreeNode n,int v,int l){
+        this.l=l; this.v=v; this.n=n;
+    }
+}
+class Solution {
+    public List<List<Integer>> verticalTraversal(TreeNode root) {
+        // v, l- multinodes
+        TreeMap<Integer,TreeMap<Integer,PriorityQueue<Integer>>> m= new TreeMap<>();
+        Queue<Tuple> q= new LinkedList<>();
+        q.offer(new Tuple(root,0,0));  // node,vertical,level
+        
+        while(!q.isEmpty())
+        {
+            Tuple t=q.poll();
+            TreeNode tn=t.n;
+            int tv=t.v; 
+            int tl=t.l;
+        
+            if(!m.containsKey(tv))
+                m.put(tv,new TreeMap<>());
+            
+            if(!m.get(tv).containsKey(tl))
+                m.get(tv).put(tl,new PriorityQueue<>());
+            
+                m.get(tv).get(tl).offer(tn.val);
+            
+            if(tn.left!=null)                           // level always +1
+                q.offer(new Tuple(tn.left,tv-1,tl+1)); //left pe vertical -1
+             if(tn.right!=null)
+                q.offer(new Tuple(tn.right,tv+1,tl+1));  //right pe vertical +1   
+        }
+        List<List<Integer>> ans=new ArrayList<>();
+        for(TreeMap<Integer,PriorityQueue<Integer>> cur:m.values())
+        {
+            ans.add(new ArrayList<>());
+            for(PriorityQueue<Integer> pq: cur.values())
+            {
+                while(!pq.isEmpty())
+                ans.get(ans.size()-1).add(pq.poll()); //add at end of list
+            }
+        }
+        return ans;
+    }
+}

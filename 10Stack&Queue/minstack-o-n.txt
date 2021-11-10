@@ -1,0 +1,58 @@
+class MinStack {
+
+    /*
+       when val is less than mini push(2*val-mini)
+       top() check if val is modified when pushed( val<mini)? return mini
+       pop() check if top element is modified one,( val<mini)? then pop it 
+       and change mini=2mini-top
+       eg. -2 0 -4
+        mini=-2/-3
+       jab -4 nikalenge---> mini=-6+4(2*curmini-(2*curmini-prevmini))=-2
+    */
+    
+    /** initialize your data structure here. */
+    Stack<Long> st=new Stack<>();
+    Long mini;    
+    public MinStack() {
+        mini=Long.MAX_VALUE;
+    }
+    
+    public void push(int val) {
+        Long v=Long.valueOf(val);
+        if(st.isEmpty())
+        {
+            mini=v;
+            st.push(v);
+        }
+        else{
+            if(v<mini)
+            {
+                st.push(2*v-mini);
+                mini=v;
+            }
+            else
+                st.push(v);
+        }
+    }
+    
+    public void pop() {
+        if(st.isEmpty()) return;
+        
+        Long v=st.pop();
+        if(v<mini)
+          mini=2*mini-v;
+    }
+    
+    public int top() {
+        
+        if(st.peek()<mini)
+            return mini.intValue();
+        else    
+        return st.peek().intValue();
+        
+    }
+    
+    public int getMin() {
+        return mini.intValue();
+    }
+}

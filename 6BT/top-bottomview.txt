@@ -1,0 +1,66 @@
+// Top View 
+class Pair{
+    int v; Node n;
+    Pair(int v,Node n)
+    { this.v=v; this.n=n;}
+}
+
+class Solution
+{
+    static ArrayList<Integer> topView(Node root)
+    {
+        ArrayList<Integer> ans= new ArrayList<Integer>();
+        if(root==null) return ans;
+        TreeMap<Integer,Integer> m= new TreeMap<>();
+        Queue<Pair> q= new LinkedList<>();
+        q.add(new Pair(0,root)); // pair me kese bhhi store kro fark nai padta
+        
+        while(!q.isEmpty())
+        {
+            Pair p=q.poll();
+            int cv=p.v;
+            Node cn=p.n;
+            if(m.get(cv)==null)  m.put(cv,cn.data);
+            if(cn.left!=null)    q.add(new Pair(cv-1,cn.left));
+            if(cn.right!=null)    q.add(new Pair(cv+1,cn.right));
+        }
+        for(Map.Entry<Integer,Integer> e :m.entrySet())
+        ans.add(e.getValue());
+        
+        return ans;
+    }
+}
+
+========================================================================
+// Bottom View 
+class Pair{
+    int v; Node n;
+    Pair(int v,Node n)
+    { this.v=v; this.n=n;}
+}
+
+class Solution
+{
+    static ArrayList<Integer> bottomView(Node root)
+    {
+        ArrayList<Integer> ans= new ArrayList<Integer>();
+        if(root==null) return ans;
+        TreeMap<Integer,Integer> m= new TreeMap<>();
+        Queue<Pair> q= new LinkedList<>();
+        q.add(new Pair(0,root)); // pair me kese bhhi store kro fark nai padta
+        
+        while(!q.isEmpty())
+        {
+            Pair p=q.poll();
+            int cv=p.v;
+            Node cn=p.n;
+            m.put(cv,cn.data); // replace honge denge last me jo bacha wahi o/p me jaaega
+            if(cn.left!=null)    q.add(new Pair(cv-1,cn.left));
+            if(cn.right!=null)    q.add(new Pair(cv+1,cn.right));
+        }
+        for(Map.Entry<Integer,Integer> e :m.entrySet())
+        ans.add(e.getValue());
+        
+        return ans;
+    }
+}

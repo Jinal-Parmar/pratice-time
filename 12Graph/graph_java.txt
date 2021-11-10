@@ -1,0 +1,1076 @@
+mcq
+2 ques
+theoritical
+dsa
+hr
+
+projects
+
+tnp django
+blockchain
+covid android 
+
+
+blockchain
+eleminate banks (no conversion in currency)
+realestate - records history
+hospital - paitent
+smart contracts ethereum- blockchain - solidity is language
+theory
+implement
+real life
+mock test- https://www.geeksforgeeks.org/quiz-corner-gq/
+
+
+
+==================================================================
+graph
+
+node/vertex and edge
+
+types
+
+1.undirected u-v
+ degree = 2*E
+
+2.directed u->v or u<=>v
+ indegree and outdegree
+
+path:  sequence of nodes where no node visited twice in a path
+eg. 1 2 3 2 =not a path
+
+cycle: reach to same node
+
+->Undirected cyclic/acyclic graph 
+->Directed cyclic/acyclic graph
+weighted and unweighted
+
+
+graph representations
+1.Adjacency matrix
+  n-nodes m-edges
+  m lines u v
+
+  =>now make matrix of (n+1)(n+1) if 1 based indexing
+  =>mark adj[u][v]=1  adj[v][u]=1
+
+public static void main(String[] args)
+{
+ int n=3,m=3;
+ int adj[][]=new int[n+1][n+1];
+ // 1--2  
+ adj[1][2]=1; adj[2][1]=1;
+ // 2--3
+ adj[2][3]=1; adj[3][2]=1;
+ // 1--3
+ adj[1][3]=1; adj[3][1]=1;
+}
+
+2.Adjacency List
+  
+  if 0/1 based indexing
+  =>now make matrix of ArrayList<ArrayList<Integer>>
+  =>for(int i=0;i<=n;i++) adj.add(new ArrayList<Integer>()); 
+  =>adj.get(u).add(v)  adj.get(v).add(u)
+
+public static void main(String[] args)
+{
+ int n=3,m=3;
+ ArrayList<ArrayList<Integer>> adj=new ArrayList<ArrayList<Integer>>();
+ for(int i=0;i<=n;i++)   adj.add(new ArrayList<Integer>());
+ 
+ // 1--2  
+ adj.get(1).add(2); adj.get(2).add(1);
+ // 2--3
+ adj.get(2).add(3); adj.get(3).add(2);
+ // 1--3
+ adj.get(1).add(3); adj.get(3).add(1);
+
+     for(int i=1;i<=n;i++)
+     {
+	System.out.print(i+"=>");    
+ 	for(int j=0;j<adj.get(i).size();j++)
+          System.out.print(adj.get(i).get(j)+" "); 
+ 	System.out.println();
+     }
+}
+===============================================================
+disconnected graph
+-connected components
+visited array for multiple components traversal
+for(int i=1;i<=10;i++) 
+{
+ if(!visited[i])
+  {
+   bfs/dfs 
+  }
+}
+
+to find no. of components
+count no. of times code goes inside if statement
+===============================================================
+//BFS 
+// S-o(n+e)+o(n)+o(n)  - adj list + array + queue
+// T-o(n+e)    - visitng n nodes + e-travelling through adj nodes
+           
+     public ArrayList<Integer> bfsOfGraph(int V, ArrayList<ArrayList<Integer>> adj) {
+        ArrayList<Integer> bfs= new ArrayList<>();
+        boolean vis[]=new boolean[V+1];
+              for(boolean  x:vis){  x=false;  }
+        //for(int i=0;i<V;i++)
+       // if(vis[i]==false){
+            Queue<Integer> q=new LinkedList<>();
+            q.add(0);
+            vis[0]=true;
+            
+            while(!q.isEmpty()){
+                  int x=q.poll(); 
+                  bfs.add(x);
+                  
+                  for(Integer y:adj.get(x))
+                  {
+                    if(vis[y]==false) 
+                    {
+                        vis[y]=true; 
+                        q.add(y);
+                    }
+                  }
+              }
+       // }
+        return bfs;
+    }
+
+
+===============================================================
+// DFS
+// S-o(n+e)+o(n)+o(n)  - adj list + array + auxiliary space
+// T-o(n+e)    - visitng n nodes + e-travelling through adj nodes           
+
+    public void dfs(int x,boolean vis[],ArrayList<ArrayList<Integer>> adj,ArrayList<Integer> dfs )
+    {
+      dfs.add(x);    
+      vis[x]=true;
+      for(Integer y: adj.get(x))
+      {
+          if(!vis[y])
+          dfs(y,vis,adj,dfs);
+      }
+    }
+    
+    public ArrayList<Integer> dfsOfGraph(int V, ArrayList<ArrayList<Integer>> adj) {
+        ArrayList<Integer> dfs =new ArrayList<Integer>();
+        boolean vis[]=new boolean [V+1];
+       for(int i=0;i<V;i++)
+       {
+           if(!vis[i])
+           dfs(i,vis,adj,dfs);
+       }
+       return dfs;
+    }
+
+
+
+===============================================================
+//cycle using BFS
+// if any of adj node is  already visited but not previous node where we came from then it has a cycle
+
+class Node{
+    int cur,prev;
+    public Node(int c,int p)
+    {cur=c; prev=p; }
+}
+
+class Solution {
+public boolean isCycle(int V, ArrayList<ArrayList<Integer>> adj) {
+        
+	boolean vis[]=new boolean[V];
+        for(int i=0;i<V;i++)
+        { 
+            if(!vis[i])
+	    {
+                  Queue<Node> q=new LinkedList<Node>();
+                  q.add(new Node(i,-1));
+                  vis[i]=true;
+            
+                  while(!q.isEmpty()){
+                  Node x=q.poll(); 
+                  int xf=x.cur;
+                  int xs=x.prev;
+                
+                    for(Integer y:adj.get(xf))
+                    {
+                       if(vis[y]==false) 
+                       {
+                        vis[y]=true; 
+                        q.add(new Node(y,xf));
+                       }
+                    else if( xs!=y) return true; // prev nai hai pr visited hai
+                    }
+                  }
+            }
+        }
+        return false;
+    }
+}
+
+                  OR YOU CAN WRITE--->
+class Node{
+    int cur,prev;
+    public Node(int c,int p)
+    {cur=c; prev=p; }
+}
+class Solution {
+    public boolean isCycle(int n,boolean vis[],ArrayList<ArrayList<Integer>> adj)
+    {
+            Queue<Node> q=new LinkedList<Node>();
+            q.add(new Node(n,-1));
+            vis[n]=true;
+            
+            while(!q.isEmpty()){
+                  Node x=q.poll(); 
+                  int xf=x.cur;
+                  int xs=x.prev;
+                
+                  for(Integer y:adj.get(xf))
+                  {
+                    if(vis[y]==false) 
+                    {
+                        vis[y]=true; 
+                        q.add(new Node(y,xf));
+                    }
+                    else if( xs!=y) return true; // prev nai hai pr visited hai
+                  }
+              }
+              return false;
+    }    
+    public boolean isCycle(int V, ArrayList<ArrayList<Integer>> adj) {
+        
+       boolean vis[]=new boolean[V];
+        for(int i=0;i<V;i++)
+        { 
+            if(!vis[i]){
+              if(isCycle(i,vis,adj))  return true;
+           }
+        }
+        return false;
+    }
+}
+
+
+===============================================================
+//cycle using dfs
+    
+    public boolean isCycle(int x,int prev,boolean vis[],ArrayList<ArrayList<Integer>> adj)
+    {
+        vis[x]=true;
+        for(int y: adj.get(x)){
+            if(!vis[y])
+            {
+                if(isCycle(y,x,vis,adj)==true)  return true;
+            }
+            else  if(prev!=y)  return true;
+    }
+        return false;
+    }
+    
+    public boolean isCycle(int V, ArrayList<ArrayList<Integer>> adj) {
+       
+        boolean vis[]=new boolean[V];
+        for(int i=0;i<V;i++)
+        { 
+            if(!vis[i])
+	        {
+                if(isCycle(i,-1,vis,adj))
+                return true;
+            }
+        }
+        return false;
+    }
+
+
+
+===============================================================
+/*
+bipartite graph
+(if it has odd length cycle then not bipartite graph)
+(if doesnot have odd length cycle/(if have even lengthcycle or doesnot have cycle) then bipartite)
+- colored using 2 colors so that no 2 adj nodes have same color
+ 
+Using BFS 
+*/
+
+
+public boolean isBipartite(int x,int color[],ArrayList<ArrayList<Integer>>adj)
+    {
+        Queue<Integer>q=new LinkedList<>();
+        q.add(x);   color[x]=1;
+        while(!q.isEmpty())
+        {
+            int n=q.poll();
+            for(int y: adj.get(n))
+            {
+                if(color[y]==-1)
+                {   color[y]=1-color[n]; q.add(y);  }
+                else if(color[y]==color[n]) return false;
+            }
+        }
+        return true;
+    }
+   
+    public boolean isBipartite(int V, ArrayList<ArrayList<Integer>>adj)
+    {
+       int color[]=new int[V];
+       for(int i=0; i<V;i++)  color[i]=-1;
+      
+       for(int i=0;i<V;i++)
+       {
+           if(color[i]==-1)
+           {
+               if(!isBipartite(i,color,adj))
+               return false;
+           }
+       }
+       return true;
+    }
+
+
+
+
+===============================================================
+/*
+
+bipartite graph
+Using DFS
+
+*/
+
+    public boolean isBipartite(int x,int color[],ArrayList<ArrayList<Integer>>adj)
+    {
+        if (color[x]==-1) color[x]=1;
+        for(int y: adj.get(x))
+        {
+            if(color[y]==-1) {
+                color[y]=1-color[x];
+                if (!isBipartite(y,color,adj)) return false;
+            }
+            else if(color[y]==color[x])
+            return false;
+        }
+        return true;
+    }
+   
+    public boolean isBipartite(int V, ArrayList<ArrayList<Integer>>adj)
+    {
+       int color[]=new int[V];
+       for(int i=0; i<V;i++)  color[i]=-1;
+      
+       for(int i=0;i<V;i++)
+       {
+           if(color[i]==-1)
+           {
+               if(!isBipartite(i,color,adj))
+               return false;
+           }
+       }
+       return true;
+    }
+
+
+
+
+
+
+===============================================================
+//cycle in directed graph-dfs
+// if 3->4->5 aur 3->6->5   ho to bhi cycle dega which is wrong
+
+//so 
+//vis
+//dfsvis- same dfs call me hi cycle milegi 
+// jabhi ek dfs call finish ho jae(no adj nodes are left) so dfsvis me 0 kr do wapis
+
+    public boolean isCyclic(int x,int []vis,int []dfsvis,ArrayList<ArrayList<Integer>> adj)
+    {
+        vis[x]=1; dfsvis[x]=1;
+        for(int y: adj.get(x))
+        {
+            if(vis[y]==0)
+            {
+                vis[y]=1;// likho ya nahi fark nai padta
+                if(isCyclic(y,vis,dfsvis,adj)) return true;
+            }
+            else if(dfsvis[y]==1) return true;
+        }
+        
+        dfsvis[x]=0;
+        return false;
+    }
+    public boolean isCyclic(int V, ArrayList<ArrayList<Integer>> adj) {
+        int []vis=new int[V]; int []dfsvis=new int[V];
+        
+        for(int i=0;i<V;i++)
+        {
+            if(vis[i]==0)
+            {
+                if(isCyclic(i,vis,dfsvis,adj)) return true;
+            }
+        }
+        return false;
+    }
+
+
+===============================================================
+//topological sort-only possible in DAG 
+//  dfs  
+//use stack to confirm  u->v
+// jis node ka dfs khtm usko add krte jo stack me
+
+    static void addtostack(int x,Stack<Integer> s,boolean[]vis,ArrayList<ArrayList<Integer>> adj)
+    {
+        vis[x]=true; 
+        for(int y: adj.get(x))
+        {
+            if(!vis[y])
+            {
+                addtostack(y,s,vis,adj);
+            }
+        }
+        s.push(x); //jabhi node ka dfs complete ho add to stack
+    }
+    
+    static int[] topoSort(int V, ArrayList<ArrayList<Integer>> adj) 
+    {
+        boolean vis[]=new boolean [V];
+        Stack<Integer> s=new Stack<>();
+        
+        for(int i=0;i<V;i++)
+        {
+            if(!vis[i])
+               addtostack(i,s,vis,adj); 
+        }
+        int [] topo= new int[V]; int i=0;
+        while(!s.isEmpty())
+            topo[i++]=s.pop();
+        
+        return topo;
+    }
+
+
+===============================================================
+//topological sort-
+// bfs for DAG
+// (kahn's algo) 
+// find in degree for all nodes
+// queue me add kro jiski degree 0 hai
+// bfs on queue ---> while doing this pop kiya wo topo me add kro aur jis bhi node pe gye agge reduce its degree
+// if 0 ho jaae to add it into queue
+// by this way we are removing dependencies
+
+
+   static int[] topoSort(int V, ArrayList<ArrayList<Integer>> adj) 
+    {
+        int []indeg=new int[V];
+        for(int i=0;i<V;i++) 
+        {
+            for(int x: adj.get(i))
+            indeg[x]++;
+        }
+        
+        Queue<Integer> q=new LinkedList<>();
+        for(int i=0;i<V;i++)
+        {
+          if(indeg[i]==0) q.add(i);
+        }
+        
+        int [] topo= new int[V]; int i=0;
+        while(!q.isEmpty())
+        {
+            int x=q.poll();
+            topo[i++]=x;// jab pop kiya topo me add kiya 
+            for(int y: adj.get(x))
+            {
+                indeg[y]--;
+                if(indeg[y]==0) q.add(y);
+            }
+        }
+        return topo;
+    }
+
+
+===============================================================
+//cycle detection in directed graph 
+//topological sort
+//bfs (kahn's algo) DAG
+//try to generate topo sort if nahi ho pta matlab its cyclic
+
+    public boolean isCyclic(int V, ArrayList<ArrayList<Integer>> adj) {
+        int []indeg=new int[V];
+        for(int i=0;i<V;i++) 
+        {
+            for(int x: adj.get(i))
+            indeg[x]++;
+        }
+        Queue<Integer> q=new LinkedList<>();
+        for(int i=0;i<V;i++)
+        {
+          if(indeg[i]==0) q.add(i);
+        }
+        int c=0;
+        //int [] topo= new int[V]; int i=0;
+        while(!q.isEmpty())
+        {
+            int x=q.poll();
+            // topo[i++]=x;// jab pop kiya topo me add kiya 
+            c++;
+            for(int y: adj.get(x))
+            {
+                indeg[y]--;
+                if(indeg[y]==0) q.add(y);
+            }
+        }
+        if(c==V) return false;// topo sirf Directed acyclic k liye hota that means cycle nahi hai
+        return true;
+    }
+
+
+
+===============================================================
+//shortest path in undirected graph unweighted graph (- unit weight bfs)
+
+
+/*
+ dist[] --> infi   dist[0]=0// source hai
+ queue se pop krte jana hai bfs lagao new dist is small then update in dist and add to queue
+
+*/
+
+import java.io.*;
+import java.lang.*;
+import java.util.*;
+
+class GFG {
+    
+    public static void shortestpath(int V,ArrayList<ArrayList<Integer>> adj, int s)
+    {
+        int dist[]=new int[V]; 
+        for(int i=0;i<V;i++) dist[i]=1000000000;
+        dist[s]=0;
+        Queue<Integer> q=new LinkedList<>();
+        q.add(s);
+        
+        while(!q.isEmpty())
+        {
+            int x=q.poll();
+            for(int y: adj.get(x))
+            {
+                if(dist[y]>dist[x]+1)
+                {dist[y]=dist[x]+1; q.add(y);}
+            }
+        }
+        for(int i=0;i<V;i++)
+        System.out.print(dist[i]+" ");
+    }
+	public static void main(String[] args)
+    {
+    int n=9,m=3;
+    ArrayList<ArrayList<Integer>> adj=new ArrayList<ArrayList<Integer>>();
+    for(int i=0;i<=n;i++)   adj.add(new ArrayList<Integer>());
+    adj.get(0).add(1); adj.get(0).add(3);
+    adj.get(1).add(0); adj.get(1).add(2); adj.get(1).add(3);
+    adj.get(2).add(1); adj.get(2).add(6);
+    adj.get(3).add(0); adj.get(3).add(4);
+    adj.get(4).add(3); adj.get(4).add(5);
+    adj.get(5).add(4); adj.get(5).add(6);
+    adj.get(6).add(2); adj.get(6).add(5); adj.get(6).add(7);adj.get(6).add(8);
+    adj.get(7).add(6); adj.get(7).add(8);
+    adj.get(8).add(6); adj.get(8).add(7);
+     
+     shortestpath(n,adj,0);
+     }
+}
+
+===============================================================
+//shortest path in DAG dfs -topo
+/*
+ vis[]
+topo -> stack - jabhi dfs khtm ho to stack me add kro 
+
+
+*/
+
+import java.io.*;
+import java.lang.*;
+import java.util.*;
+class Pair{
+    int v,w;
+    public Pair(int vv,int ww)
+    { 
+      v=vv; w=ww;  
+    }
+    int getV() {return v;}
+    int getW() {return w;}
+}
+
+class GFG {
+    
+    static void addtostack(int x,Stack<Integer> s,boolean[]vis,ArrayList<ArrayList<Pair>> adj)
+    {
+        vis[x]=true; 
+        for(Pair y: adj.get(x))
+        {
+            if(!vis[y.getV()])
+            {
+                addtostack(y.getV(),s,vis,adj);
+            }
+        }
+        s.push(x); //jabhi node ka dfs complete ho add to stack
+    }
+    
+    
+    
+    public static void shortestpath(int V,ArrayList<ArrayList<Pair>> adj, int s)
+    {
+        Stack<Integer> stack=new Stack<>();
+        boolean vis[]=new boolean[V];
+        for(int i=0;i<V;i++)
+        {
+            if(!vis[i])
+               addtostack(i,stack,vis,adj); 
+        }
+         
+        int dist[]=new int[V];
+        for(int i=0;i<V;i++)   dist[i]=Integer.MAX_VALUE;
+        dist[s]=0;
+        while(!stack.isEmpty())  
+        {
+          int x=stack.pop();
+          if(dist[x]!=Integer.MAX_VALUE) // if non infi hai matlab you have reached that node
+          {
+              for(Pair y:adj.get(x))
+              {
+                  if(dist[y.getV()]>dist[x]+y.getW())  dist[y.getV()]=dist[x]+y.getW();
+              }
+          }
+        }
+        for(int i=0;i<V;i++)
+        if(dist[i]==Integer.MAX_VALUE) System.out.print("unreachable node ");
+        else System.out.print(dist[i]+" ");
+    }
+	public static void main(String[] args)
+    {
+    int n=6;
+    ArrayList<ArrayList<Pair>> adj=new ArrayList<ArrayList<Pair>>();
+    for(int i=0;i<=n;i++)   adj.add(new ArrayList<Pair>());
+    
+    adj.get(0).add(new Pair(1,2));  adj.get(0).add(new Pair(4,1)); 
+    adj.get(1).add(new Pair(2,3)); 
+    adj.get(2).add(new Pair(3,6)); 
+    adj.get(4).add(new Pair(2,2)); adj.get(4).add(new Pair(5,4));
+    adj.get(5).add(new Pair(3,1)); 
+     
+     shortestpath(n,adj,0);
+     }
+}
+
+===============================================================
+// shortest path in undirected unweighted graph (- unit weight bfs)
+
+// since we have  undirected WEIGHTED graph queue will not work
+//Dijkstra's Algo -PQ-minheap (dist,Node)
+// dist[] = infi
+
+
+
+import java.io.*;
+import java.lang.*;
+import java.util.*;
+
+class Pair implements Comparator<Pair>{
+    int v,w;
+    public Pair(){}
+    public Pair(int vv,int ww)
+    { 
+      v=vv; w=ww;  
+    }
+    int getV() {return v;}
+    int getW() {return w;}
+    
+    public int compare(Pair n1,Pair n2)
+    {
+        if(n1.w<n2.w) return -1;
+        if(n1.w>n2.w) return 1;
+        return 0;
+    }
+}
+
+class Solution
+{
+    public static void dijkstra(int V, ArrayList<ArrayList<Pair>> adj, int S)
+    {
+      // T- ((N+E)logN)  
+      int dist[]=new int[V];
+      for(int i=0;i<V;i++) dist[i]=Integer.MAX_VALUE; dist[S]=0;
+      PriorityQueue<Pair> pq= new  PriorityQueue<>(V, new Pair());
+      pq.add(new Pair(S,0));
+      
+      while(pq.size()>0){
+          Pair x=pq.poll();
+          for(Pair y: adj.get(x.getV()))
+          {
+              if(dist[x.getV()]+y.getW()<dist[y.getV()])
+              {
+                  dist[y.getV()]=dist[x.getV()]+y.getW();
+                  pq.add(new Pair(y.getV(),dist[y.getV()]));
+              }
+          }
+      }  
+      
+      for (int i = 0; i < V; i++)
+        {
+            System.out.print( dist[i] + " ");
+        }
+    }
+    
+    public static void main(String args[])
+    {
+        int n = 5;
+        ArrayList<ArrayList<Pair> > adj = new ArrayList<>();
+		
+		for (int i = 0; i < n; i++) 
+		adj.add(new ArrayList<Pair>());
+			
+		adj.get(0).add(new Pair(1, 2));
+		adj.get(1).add(new Pair(0, 2));
+		
+		adj.get(1).add(new Pair(2, 4));
+		adj.get(2).add(new Pair(1, 4));
+		
+		adj.get(0).add(new Pair(3, 1));
+		adj.get(3).add(new Pair(0, 1));
+		
+		adj.get(3).add(new Pair(2, 3));
+		adj.get(2).add(new Pair(3, 3));
+		
+		adj.get(1).add(new Pair(4, 5));
+		adj.get(4).add(new Pair(1, 5));
+		
+		adj.get(2).add(new Pair(4, 1));
+		adj.get(4).add(new Pair(2, 1));
+	
+		dijkstra(n,adj, 0); 
+		
+    }
+}
+
+
+
+
+===============================================================
+//Minimum spanning trer/graph
+//tree/(n=nodes n-1=edges)/all nodes reachable/ minimum cost
+
+// brute-o(n^2) 
+
+/*
+Prime alog 
+mini  adj edge in all possible for given nodes
+
+key[] key[0]=0 baki infi
+mst[] false
+parent[] -1
+
+
+go to key[s]
+if not infi go to mst
+if false make it true and update key-dis and parent-node for adj nodes
+then iterate through  key[i] everytime choose min
+go to mst
+if false make it true and update key-dis and parent-node for adj nodes
+(if adj node ka mst[i]=true or is new wala bada hai dont consider it )
+
+then in parent[] ->iterate from 1 to n-1 as 0 dont have parent
+
+*/
+
+// Brute implementation prim algo O(n-sq)
+import java.io.*;
+import java.lang.*;
+import java.util.*;
+
+class Pair {
+    int v,w;
+    public Pair(){}
+    public Pair(int vv,int ww)
+    { 
+      v=vv; w=ww;  
+    }
+    int getV() {return v;}
+    int getW() {return w;}
+}
+
+class Solution
+{
+    public static void primalgo(int V, ArrayList<ArrayList<Pair>> adj, int S)
+    {
+        int key[]=new int[V];
+        boolean mst[]=new boolean[V];
+        int parent[]=new int[V];
+        
+        for(int i=0;i<V;i++)
+        {
+            key[i]=Integer.MAX_VALUE;
+            mst[i]=false;
+            parent[i]=-1;
+        }
+        key[S]=0;
+        
+        for(int i=0;i<V-1;i++) //as V-1 edges
+        {
+            int mini=Integer.MAX_VALUE,x=0;
+            
+            for(int j=0;j<V;j++)
+            {
+               if(!mst[j] && key[j]<mini) // find min key[-] and it should not be in mst
+               {
+                   mini=key[j]; // to get minium 
+                   x=j; // to store choosen node
+               }
+            }
+            
+            mst[x]=true; // add it in mst[-]
+            
+            for(Pair y: adj.get(x)) // go to adj nodes 
+            {
+                if(!mst[y.getV()] && y.getW()<key[y.getV()]) // min key[-] compared to new one and it should not be in mst
+                {
+                    parent[y.getV()]=x;
+                    key[y.getV()]=y.getW();
+                }
+            }
+        }
+        
+        for(int i=1;i<V;i++)
+        {
+            System.out.println(parent[i] + " - " + i); 
+        }
+    }
+    
+    public static void main(String args[])
+    {
+        int n = 5;
+        ArrayList<ArrayList<Pair> > adj = new ArrayList<>();
+		
+		for (int i = 0; i < n; i++) 
+			adj.add(new ArrayList<Pair>());
+			
+	    adj.get(0).add(new Pair(1, 2));
+		adj.get(1).add(new Pair(0, 2));
+		
+		adj.get(1).add(new Pair(2, 3));
+		adj.get(2).add(new Pair(1, 3));
+		
+		adj.get(0).add(new Pair(3, 6));
+		adj.get(3).add(new Pair(0, 6));
+		
+		adj.get(1).add(new Pair(3, 8));
+		adj.get(3).add(new Pair(1, 8));
+		
+		adj.get(1).add(new Pair(4, 5));
+		adj.get(4).add(new Pair(1, 5));
+		
+		adj.get(2).add(new Pair(4, 7));
+		adj.get(4).add(new Pair(2, 7));
+	
+		primalgo(n,adj, 0); 
+		
+    }
+}
+
+
+// Optimise implementation prim algo using priority queue efficient-o(nlogn)
+import java.io.*;
+import java.lang.*;
+import java.util.*;
+
+class Pair implements Comparator<Pair>{
+    int v,w;
+    public Pair(){}
+    public Pair(int vv,int ww)
+    { 
+      v=vv; w=ww;  
+    }
+    int getV() {return v;}
+    int getW() {return w;}
+    
+    public int compare(Pair n1,Pair n2)
+    {
+        if(n1.w<n2.w) return -1;
+        if(n1.w>n2.w) return 1;
+        return 0;
+    }
+}
+
+class Solution
+{
+    public static void primalgo(int V, ArrayList<ArrayList<Pair>> adj, int S)
+    {
+        int key[]=new int[V];
+        boolean mst[]=new boolean[V];
+        int parent[]=new int[V];
+        
+        for(int i=0;i<V;i++)
+        {
+            key[i]=Integer.MAX_VALUE;
+            mst[i]=false;
+            parent[i]=-1;
+        }
+        PriorityQueue<Pair> pq= new PriorityQueue<Pair>(V,new Pair());
+        
+        key[S]=0;
+        pq.add(new Pair(0,key[S]));
+        for(int i=0;i<V-1;i++) //as V-1 edges
+        {
+            int x=pq.poll().getV();
+
+            mst[x]=true; // add it in mst[-]
+            
+            for(Pair y: adj.get(x)) // go to adj nodes 
+            {
+                if(!mst[y.getV()] && y.getW()<key[y.getV()]) // min key[-] compared to new one and it should not be in mst
+                {
+                    parent[y.getV()]=x;
+                    key[y.getV()]=y.getW();
+                    pq.add(new Pair(y.getV(),key[y.getV()]));
+                }
+            }
+        }
+        
+        for(int i=1;i<V;i++)
+        {
+            System.out.println(parent[i] + " - " + i); 
+        }
+    }
+    
+    public static void main(String args[])
+    {
+        int n = 5;
+        ArrayList<ArrayList<Pair> > adj = new ArrayList<>();
+		
+		for (int i = 0; i < n; i++) 
+			adj.add(new ArrayList<Pair>());
+			
+	    adj.get(0).add(new Pair(1, 2));
+		adj.get(1).add(new Pair(0, 2));
+		
+		adj.get(1).add(new Pair(2, 3));
+		adj.get(2).add(new Pair(1, 3));
+		
+		adj.get(0).add(new Pair(3, 6));
+		adj.get(3).add(new Pair(0, 6));
+		
+		adj.get(1).add(new Pair(3, 8));
+		adj.get(3).add(new Pair(1, 8));
+		
+		adj.get(1).add(new Pair(4, 5));
+		adj.get(4).add(new Pair(1, 5));
+		
+		adj.get(2).add(new Pair(4, 7));
+		adj.get(4).add(new Pair(2, 7));
+	
+		primalgo(n,adj, 0); 
+		
+    }
+}
+
+
+
+
+===============================================================
+
+===============================================================
+//Disjoint set findPar()- same component or not  Union()
+//same rank then height will increase  lower attach to higher one
+//diff rank then height will be same
+//union by rule and path compansion o(4alpha)
+
+
+
+===============================================================
+//Kruskal's Algorithm
+//sort all edges acc to wt
+//u v same component? disjoint set
+//o(nlogn)+ o(nxo(4alpha))
+
+
+
+
+===============================================================
+//Bridges in graph - on removing edge 2/ more components
+
+===============================================================
+//Articulation point- cut vertex
+
+
+===============================================================
+//Kosaraju's algo SCC
+
+===============================================================
+//Bellman Ford algo detect negative weight cycle in graph 
+/*
+relax all edges n-1 times(n-1 is longest path we can have )
+if(d[u]+w<d[v]) d[v]=d[u]+w
+relax 1 more time and dis reduces so neg cycle hai
+o(n-1)xo(e)
+*/
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

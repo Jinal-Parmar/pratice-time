@@ -1,0 +1,84 @@
+import java.util.*;
+import java.io.*;
+import java.lang.*;
+ 
+ public class Main {
+    public static void solve(int n, ArrayList<ArrayList<Pair>> adj,PrintWriter out)
+    {
+       PriorityQueue<Pair> pq = new PriorityQueue<>(n, new Comparator<Pair>() {
+        public int compare(Pair n1,Pair n2){
+	          if(n1.d<n2.d) return -1;
+              if(n1.d>n2.d) return 1;
+              return 0;
+	      }   });
+	      
+      long dis[]=new long[n+1]; int par[]=new int[n+1];
+      Arrays.fill(dis,Long.MAX_VALUE/2);
+      dis[1]=0;   par[1]=1;  pq.add(new Pair(1,0));
+      while(!pq.isEmpty())
+      {
+          Pair p=pq.poll();
+          int node=p.node;
+          long d=p.d;
+         
+          for(Pair x: adj.get(node))
+          {
+              int adjn=x.node;
+              long adjd=x.d; 
+              if(dis[adjn]>d+adjd)
+              { 
+                  dis[adjn]=d+adjd;
+                  par[adjn]=node;
+                  pq.add(new Pair(adjn,dis[adjn]));
+              }
+          }
+      }
+     
+        if (dis[n] == Long.MAX_VALUE/2)
+			out.println(-1); 
+        else
+        {
+            int x=n;
+            LinkedList<Integer> ans= new LinkedList<>();
+            ans.addFirst(x); // add at beginning of ArrayList
+            while(x!=1)  ans.addFirst(x=par[x]);    
+            for(int j : ans) out.print(j+" ");
+        }
+    }
+     
+	public static void main (String[] args) throws Exception{
+	PrintWriter out=new PrintWriter(System.out);
+     	BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+     	StringTokenizer st = new StringTokenizer(br.readLine()," ");
+     	int n=Integer.parseInt(st.nextToken()), m=Integer.parseInt(st.nextToken());
+     
+    	ArrayList<ArrayList<Pair>> adj= new ArrayList<>();
+      	for(int i=0;i<n+1;i++)   adj.add(new ArrayList<Pair>());
+     	for(int i=0;i<m;i++)
+        {
+           st = new StringTokenizer(br.readLine()," ");
+           int u=Integer.parseInt(st.nextToken()), v=Integer.parseInt(st.nextToken());
+           long w=Long.parseLong(st.nextToken());
+           adj.get(u).add(new Pair(v,w));
+           adj.get(v).add(new Pair(u,w));
+        }
+        solve(n,adj,out);
+     	out.close();
+	}
+}
+class Pair{
+      int node; long d;
+      public Pair(){}
+      public Pair(int n,long dis)
+      {  node=n; d=dis;  }
+    }
+
+// https://codeforces.com/contest/20/problem/C 
+// 20C - Dijkstra?
+// 5 6
+// 1 2 2
+// 2 5 5
+// 2 3 4
+// 1 4 1
+// 4 3 3
+// 3 5 1

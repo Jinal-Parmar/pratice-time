@@ -1,0 +1,88 @@
+
+public int findMinXor(ArrayList<Integer> A) {
+     int s=Integer.MAX_VALUE; 
+     Collections.sort(A);
+     // T- O(nlogn)
+     // jitni values close hogi utni hi xor min hoti jaegi
+     // so sort and then xor adj. values
+        for(int i=0;i<A.size()-1;i++)
+             s=Math.min(s,A.get(i)^A.get(i+1));
+     return s;
+
+}
+
+===========================
+
+public class Solution {
+    public class Node{
+    Node[] arr; int v;
+    public Node()
+    {  arr= new Node[2]; }
+    
+    public boolean contains(int b)
+    {return (arr[b]!=null);}
+    
+    public void put(int b, Node newnode)
+    {arr[b]=newnode;}
+    
+    public Node getnext(int b)
+    {return arr[b];}
+    }
+    
+    
+    Node root= new Node();
+    public void insert(int n)
+    {
+        Node t=root;
+        for(int b=31;b>=0;b--)
+        {
+            int bvalue=n&(1<<b);
+            if(bvalue!=0) 
+             bvalue=1;
+            else 
+             bvalue=0;
+             
+            if(!t.contains(bvalue))
+                t.put(bvalue,new Node());
+            
+            t=t.getnext(bvalue);
+        }
+        t.v=n; // bit store hua but pta nahi h kya no. h so flag k jagah pe no. store krna hai end me
+    }
+    public int findmin_xor(int n)
+    {
+      Node t=root;
+        for(int b=31;b>=0;b--)
+        {
+            int bvalue=n&(1<<b);
+            if(bvalue!=0) 
+             bvalue=1;
+            else 
+             bvalue=0;
+             
+            if(t.contains(bvalue))
+                t=t.getnext(bvalue); //same bit hai to le lo
+            else if(t.contains(1-bvalue))
+                t=t.getnext(1-bvalue); // ya uski oposite le lo
+            else
+                return Integer.MAX_VALUE;    // koi nai hai
+        }
+        return n^(t.v);   // cur no. aur jisko find kiya
+    }
+    public int findMinXor(ArrayList<Integer> A) {
+    
+    /*
+    we will try to take similiar bits so mini no. therfore min xor
+    before insertion find who can give min Xor with it
+    */
+    
+    int s=A.get(0)^A.get(1); 
+    insert(A.get(0));
+    for(int i=1;i<A.size();i++)
+    {
+        s=Math.min(s,findmin_xor(A.get(i)));
+        insert(A.get(i));
+    }
+    return s;
+    }
+}

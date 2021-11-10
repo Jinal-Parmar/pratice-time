@@ -1,0 +1,25 @@
+class Solution {
+    
+    public void solve(int i,int []candidates,int t,List<List<Integer>> ans,List<Integer> ds){
+        // multiple times ek hi no. le skte haai
+        if(i==candidates.length)
+        {
+            if(t==0) ans.add(new ArrayList<>(ds));
+            return;
+        }
+        
+        if(candidates[i]<=t) // target se chota hai to we can consider
+        {
+           ds.add(candidates[i]);
+            solve(i,candidates,t-candidates[i],ans,ds);
+            ds.remove(ds.size()-1);
+        }
+        solve(i+1,candidates,t,ans,ds); // we need to move forward
+        
+    }
+    public List<List<Integer>> combinationSum(int[] candidates, int target) {
+        List<List<Integer>> ans=new ArrayList<>();
+        solve(0,candidates,target,ans,new ArrayList<>());
+        return ans;
+    }
+}

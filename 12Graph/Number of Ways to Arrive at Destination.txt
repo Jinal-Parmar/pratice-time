@@ -1,0 +1,47 @@
+
+class Solution {
+    class Pair implements Comparator<Pair>{
+    int n; long d;
+    public Pair(){}    
+    public Pair(int n,long d)
+    { this.n=n; this.d=d; }
+    
+    public int compare(Pair n1,Pair n2){
+	      if(n1.d<n2.d) return -1;
+          if(n1.d>n2.d) return 1;
+          return 0;
+    }
+}
+    public int countPaths(int n, int[][] roads) {
+       long mod= 1000000000+7;
+       long []dis=new long[n]; Arrays.fill(dis,Long.MAX_VALUE); 
+       long []ways=new long[n]; ways[0]=1;
+        
+        ArrayList<ArrayList<Pair>> adj= new ArrayList<>();
+        for(int i=0;i<n;i++) adj.add(new ArrayList<>());
+        for(int x[] : roads){
+            adj.get(x[1]).add(new Pair(x[0],x[2]));
+            adj.get(x[0]).add(new Pair(x[1],x[2]));
+        }
+        PriorityQueue<Pair> pq= new PriorityQueue<>(new Pair());
+        pq.add(new Pair(0,0));
+        while(!pq.isEmpty())
+        {
+            Pair p=pq.poll();
+            int node=p.n; long d=p.d;
+            for(Pair x: adj.get(node))
+            {
+                int adjn=x.n; long adjd=x.d;
+                if(dis[adjn]> adjd+d)
+                {
+                    dis[adjn]=adjd+d;
+                    ways[adjn]=ways[node]; // jis node se aye uske pas jitne ways hai utne hi abhi wale k pas honge
+                    pq.add(new Pair(adjn, dis[adjn]));
+                }
+                else if(dis[adjn]==adjd+d)
+                    ways[adjn]=(ways[adjn]+ways[node])%mod;  // same weight aya (repeat hua) matlab jaaha se aya uskko add kro     
+            } 
+       }        
+        return (int)ways[n-1];
+    }
+}

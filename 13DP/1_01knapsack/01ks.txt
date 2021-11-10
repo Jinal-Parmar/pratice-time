@@ -1,0 +1,64 @@
+class jinal{
+    static int knapSack(int W, int wt[], int val[], int n) 
+    { 
+        if(n==0 || W==0) return 0;
+      
+        if(wt[n-1]<W || wt[n-1]==W)
+        return Math.max(val[n-1]+knapSack(W-wt[n-1],wt,val,n-1),knapSack(W,wt,val,n-1)); 
+      
+        else 
+        return knapSack(W,wt,val,n-1);
+      
+      // recursive O(2^n).   
+    }
+
+    static int memoknapSack(int W, int wt[], int val[], int n) 
+    {
+        int t[][]=new int[n+1][W+1];
+        for(int[] row: t)
+        Arrays.fill(row,-1);
+        return memoknapSack(W,wt,val,n,t);
+        // O(nxW)
+    } 
+    
+    static int memoknapSack(int W, int wt[], int val[], int n,int t[][])
+    {
+        if(n==0 || W==0) return 0;
+        
+        if(t[n][W]!=-1) return t[n][W];
+        
+        if(wt[n-1]<W || wt[n-1]==W)
+        return t[n][W] =Math.max(val[n-1]+memoknapSack(W-wt[n-1],wt,val,n-1,t),memoknapSack(W,wt,val,n-1,t));
+        
+        else 
+        return t[n][W] =memoknapSack(W,wt,val,n-1,t);
+    }
+
+    static int dpknapSack(int W, int wt[], int val[], int n) 
+    {
+       int t[][]=new int[n+1][W+1];
+       for(int i=0;i<=n;i++ )                //if(n==0 || W==0) return 0;
+        {
+            for(int j=0;j<=W;j++)
+            { 
+                if(i==0 || j==0) t[i][j]=0;
+                else if(wt[i-1]<=j)
+                t[i][j] =Math.max(val[i-1]+t[i-1][j-wt[i-1]],t[i-1][j]);
+                else  t[i][j] =t[i-1][j];
+            }
+        }    
+        return t[n][W];
+        // O(nxW)
+       
+    }
+
+    public static void main(String args[])
+    {
+        int val[] = new int[] { 60, 100, 120 };
+        int wt[] = new int[] { 10, 20, 30 };
+        int W = 50;
+        int n = val.length;
+        System.out.println(knapSack(W, wt, val, n));
+    }
+
+}

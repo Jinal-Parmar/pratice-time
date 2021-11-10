@@ -1,0 +1,45 @@
+// dijkstra maze ii
+// https://www.lintcode.com/problem/the-maze-ii/description
+public class Solution {
+    public class Pair implements Comparator<Pair>{
+    int d,x,y;
+        public Pair(){}
+        public Pair(int x,int y,int d)
+        { 
+         this.x=x; this.y=y; this.d=d;
+        }        
+        public int compare(Pair n1,Pair n2){
+	      if(n1.d<n2.d) return -1;
+              if(n1.d>n2.d) return 1;
+              return 0;
+	      }   
+    }
+    public int shortestDistance(int[][] maze, int[] s, int[] e) {
+        int n=maze.length, m=maze[0].length;
+        PriorityQueue<Pair> pq= new PriorityQueue<>(new Pair());
+        int []dis= new int [n*m +1]; Arrays.fill(dis, Integer.MAX_VALUE);
+         dis[s[0]*m+s[1]]=0;
+         pq.add(new Pair(s[0],s[1], 0));
+
+        while(!pq.isEmpty())
+        {   
+            Pair p=pq.poll(); int x=p.x; int y=p.y; int d=p.d;
+            int dx[]= new int []{-1,0,1,0};
+            int dy[]=new int[]{0,1,0,-1};
+            for(int i=0;i<4;i++)
+            {
+                int newx=x;
+                int newy=y; int c=0;
+                while(newx>=0 && newx<n && newy>=0 && newy<m && maze[newx][newy]==0)
+                {   newx+= dx[i]; newy+=dy[i];   c++;   }
+                newx-=dx[i]; newy-=dy[i]; c--;
+                if(dis[newx*m+newy]> d+ c)
+                {
+                 dis[newx*m+newy]= d+ c;   
+                 pq.add(new Pair(newx,newy,d+c));
+                }
+            }
+        }
+        return (dis[e[0]*m+e[1]]==Integer.MAX_VALUE) ?  -1: dis[e[0]*m+e[1]];
+    }
+}

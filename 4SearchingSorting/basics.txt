@@ -1,0 +1,232 @@
+import java.util.*;
+import java.io.*;
+
+class GFG {
+    
+    public static int descendingsortedarray(int a[],int n,int x){
+        // first check size too 1 to return kr do first element
+        // if we dont kn its ascending or descending -- Order Not Known(agnostic) Search
+        // we can just compare 2 values and say!
+        int i=0,j=n-1;
+        while(i<=j)
+        {
+            int mid=i+(j-i)/2;
+            if(a[mid]==x)
+            return mid;
+            else if(x<a[mid]) // descending hai so right side choti values
+            i=mid+1;
+            else
+            j=mid-1;
+        }
+         
+        return -1;
+    }
+    
+     
+    // first occurance - h=mid-1 (mid mila hai pr first hai kya)
+
+    // last occurance -  l=mid+1 (mid mila hai pr last hai kya)
+        
+        
+    // count of elenment in sorted array - (last occ - first occ +1)
+    // yaha duplciates sath honge
+     
+     
+        
+    // how many times is a sorted array rotated
+    //  2 5 6 8 11 12 15 18
+    //  0  1  2  3  4 5 6 7
+    //  11 12 15 18 2 5 6 8  right rotated
+    // no. of times rotated = index of min. no. = x 
+    // here we only know x is  min no.'s index
+    // mid=x will be smaller than mid-1 and mid+1
+    
+    public static int rotatedsoredarray(int a[],int n){
+       int i=0,j=n-1;
+        // while(i<=j)
+        // {
+        //     if (a[i]<= a[j]) return i; // already sorted
+        //     int mid=i+(j-i)/2;
+            
+        //     if(a[mid]<=a[((mid+n-1)%n)]) //a[mid]<=a[(mid+1)%n] &&
+        //         return mid;
+            
+        //     else if(a[i]<=a[mid]) // left side is sorted then goto right
+        //       i=mid+1;  // min element will always be in unsorted array side
+        //     else if(a[mid]<=a[j])
+        //       j=mid-1;
+        // }
+        
+        if (a[i]<= a[j]) return i;
+        while(i<=j)
+        {
+            int mid=i+(j-i)/2;
+            
+            if(a[mid]<=a[((mid+n-1)%n)]) //a[mid]<=a[(mid+1)%n] &&
+                return mid;
+            
+            else if(a[0]<=a[mid]) // left side is sorted then goto right
+              i=mid+1;  // min element will always be in unsorted array side
+            else if(a[mid]<=a[n-1])
+              j=mid-1;
+        }
+        return -1;
+    }
+    
+    // find element in rotated sorted array 
+    // find index of minimum element
+    // then bs on (0--> index-1) (index--> n-1)
+    
+    // find element in nearly sorted array 
+    // i th element canbe at i-1/i/i+1 
+    public static int find_nearlysoredarray(int a[],int n,int x){
+       int i=0,j=n-1;
+        while(i<=j)
+        {
+            int mid=i+(j-i)/2;
+            
+            if (a[mid]== x) return mid;
+            else if ( mid+1<=j && a[mid+1]== x) return mid+1;
+            else if (mid-1>=i && a[mid-1]== x) return mid-1;
+            else if(x< a[mid])
+             j=mid-2;
+            else i=mid+2; 
+             
+        }
+        return -1;
+    }
+    
+    // floor of element(x) in a sorted array
+    
+    // return greatest element(y) smaller than (x=5)
+    public static int floor(int a[],int n,int x)
+    {
+      int i=0,j=n-1, res=Integer.MIN_VALUE;
+        while(i<=j)
+        {
+            int mid=i+(j-i)/2;
+            
+            if (a[mid]== x) return x;
+            else if(a[mid]>x) // greater than x are eliminated
+             j=mid-1; // left jaana hai
+            else 
+            {
+                res= Math.max(res, a[mid]);//// smaller than x are consdiered
+                i=mid+1; // right jana hai
+            }
+        }
+        return  res==Integer.MIN_VALUE? -1: res;  
+    }
+
+    // ceil of element(x) in a sorted array
+    
+    // return smallest element(y) greater than (x=5)
+    public static int ceil(int a[],int n,int x)
+    {
+      int i=0,j=n-1, res=Integer.MAX_VALUE;
+        while(i<=j)
+        {
+            int mid=i+(j-i)/2;
+            
+            if (a[mid]== x) return x;
+            else if(a[mid]<x) // smaller than x are eliminated
+             i=mid+1; // right jana hai
+            else 
+            {
+                res= a[mid];//// greater than x are consdiered
+                j=mid-1; // left jana hai
+            }
+        }
+        return  res==Integer.MAX_VALUE? -1: res;  
+    }
+    
+     public static char nextletter(char a[],int n, char x)
+    {
+      int i=0,j=n-1;
+      char res='#';
+        while(i<=j)
+        {
+            int mid=i+(j-i)/2;
+            
+            if (a[mid]== x) { i=mid+1;} // right jana hai
+            else if(a[mid]<x) // smaller than x are eliminated
+             i=mid+1; // right jana hai
+            else 
+            {
+                res= a[mid];//// greater than x are consdiered
+                j=mid-1; // left jana hai
+            }
+        }
+        return res;  
+    }
+    
+    //positon of last 1 in sorted array	
+
+    // positon of  an element(x) in an infi sorted array
+    // we need to find pos of j(high)
+    // i=0, j= 1 ,x
+    //while(x>a[j]) {i=j; j=j*2;}
+    // then apply bs
+    
+    // positon of  1st  1 in an infi binary sorted array
+    // 1st occ+ infi array(x=1)
+    
+    
+    // min diff element in a sorted array
+    // 4 6 10 key=7
+    // ans =6
+    // normal binary Search 
+    // if key is present to wahi ans hai ans= a[mid]
+    // vrna after bs completed 
+    // i and j will be at neighbours of missing (key)
+    // so if(Math.abs(a[i]-key)<Math.abs(a[j]-key)) return a[i];
+    //     else return a[j];
+    
+    
+    // bs on answer (unsorted array)
+    //peak element (unsorted array, find index of peak element-no. grater than both neighbours)
+    // bs 
+    // only check when mid>0 and mid<n-1 edge cases
+    
+    // if a[mid] --a[mid-1] && a[mid+1] se bada hai to return mid
+    // go to that side which is more promising
+    //  if a[mid]<a[mid-1] go left
+    //  if a[mid]< a[ mid+1] go right
+    
+    // fir mid==0 (compare with 2nd)and n-1(compare with n-2) k liye alag se dekh lo
+    
+    
+    // find max element in bitonic array = find peak element
+    
+    //find  element in bitonic array 
+    // find peak then bs for asc and desc parts
+    
+    // search in rowise cloumnwise sorted matrix
+       
+    // find element in sorted array that appears only once
+ 		
+    //allocate pages of books
+    
+    
+    
+	public static void main (String[] args) {
+	// int arr[] = { 5, 4, 3, 2, 1 };
+    // System.out.println(descendingsortedarray(arr, arr.length, 10));
+    
+    // int b[] = {4,5,6,7,0,1,2};
+    // System.out.println(rotatedsoredarray(b, b.length));
+    
+    // int c[] = {5,10,30,20,40};
+    // System.out.println(find_nearlysoredarray(c, c.length, 20));
+    
+    // int floor[] = { 2, 8, 10, 10, 12, 19};
+    // System.out.println(floor(floor, floor.length, 5));
+    
+    int ceil[] = { 1, 2, 8, 10, 10, 12, 19};
+    System.out.println(ceil(ceil, ceil.length, 11));
+    
+    char nextletter[] = {'a','c', 'f','h' };
+    System.out.println(nextletter(nextletter, nextletter.length, 'f'));
+    
+	}
+}

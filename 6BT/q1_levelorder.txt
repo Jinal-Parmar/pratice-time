@@ -1,0 +1,44 @@
+import java.io.*;
+import java.util.*;
+
+class Node{
+    int data;
+    Node left,right;
+    public Node(int d)
+    { data=d; left=null; right=null;}
+}
+
+class BinaryTree{
+    Node root;
+    
+    ArrayList<Integer> fun1(Node r){
+        Queue<Node> q=new LinkedList<Node>();
+        ArrayList<Integer> xx=new ArrayList<>();
+         if(r==null) return xx;
+        q.add(r);
+        while(!q.isEmpty()){
+            Node temp=q.poll();
+            xx.add(temp.data);
+            
+            if(temp.left!=null) q.add(temp.left);
+            if(temp.right!=null) q.add(temp.right);
+        }
+        return xx;
+    }
+    
+    public static void main(String args[])
+    {
+       
+        BinaryTree t = new BinaryTree();
+        t.root = new Node(1);
+        t.root.left = new Node(2);
+        t.root.right = new Node(3);
+        t.root.left.left = new Node(4);
+        t.root.left.right = new Node(5);
+ 
+        ArrayList<Integer> x =t.fun1(t.root);
+        for(Integer i: x)
+        System.out.print(i+" ");
+    }
+    
+}

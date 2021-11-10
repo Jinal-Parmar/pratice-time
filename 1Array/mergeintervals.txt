@@ -1,0 +1,29 @@
+ public int[][] merge(int[][] i) {
+	
+	// first ask if intervals are sorted or not
+	// brute force T-o(n-sq)
+	// for every interval check next intervals if merging(add to a data structure) or not  
+	// and add that merged interval to res
+
+
+	// T- O(nlogn)+ O(n)
+        List<int[]> res=new ArrayList<>();
+        if(i.length==0 || i==null) return res.toArray(new int[0][]);
+        // sorted or not?
+        Arrays.sort(i,(a,b)->a[0]-b[0]);
+        int start=i[0][0],end=i[0][1];
+        
+        for(int []x: i)
+        {
+            // check if merges?? current (new) start will be less than previous end
+            if(x[0]<=end)
+                end=Math.max(end,x[1]);
+            else
+            { 
+                res.add(new int[]{start,end});
+                start=x[0]; end=x[1];
+            }       
+        }
+        res.add(new int[]{start,end});  
+        return res.toArray(new int [0][]);
+    }

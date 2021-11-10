@@ -1,0 +1,38 @@
+class Solution {
+    public boolean isScramble(String s1, String s2) {
+        if(s1.length()!=s2.length()) return false;
+        if(s1.length()==0 && s2.length()==0) return true;
+        if(s1.equals(s2)) return true; // 'a' 'a' yahi check hoga
+        if(s1.length()<=1) return false; // koi ek empty nai hona chahiye and 'a' 'b' hua to yaha check hoga
+        int n=s1.length(); boolean f=false;
+        for(int i=1;i<=n-1;i++)
+        {
+             if( ( isScramble(s1.substring(0,i),s2.substring(n-i)) && isScramble(s1.substring(i),s2.substring(0,n-i) ) ) 
+                ||  ( isScramble(s1.substring(0,i),s2.substring(0,i)) && isScramble(s1.substring(i),s2.substring(i)) ) )
+             {  f=true; break; }
+        }
+        return f;
+    }
+}
+========================================================
+class Solution {
+    public Map<String ,Boolean> hm= new HashMap<>();
+    public boolean isScramble(String s1, String s2) {
+        if(s1.length()!=s2.length()) return false;
+        if(s1.length()==0 && s2.length()==0) return true;
+        if(s1.equals(s2)) return true; // 'a' 'a' yahi check hoga
+        if(s1.length()<=1) return false; // koi ek empty nai hona chahiye and 'a' 'b' hua to yaha check hoga
+        
+        String t=s1+" "+s2;
+        if(hm.containsKey(t)) return hm.get(t);
+        int n=s1.length(); boolean f=false;
+        for(int i=1;i<=n-1;i++)
+        {
+        if(( isScramble(s1.substring(0,i),s2.substring(n-i)) && isScramble(s1.substring(i),s2.substring(0,n-i)) ) || 
+           ( isScramble(s1.substring(0,i),s2.substring(0,i)) && isScramble(s1.substring(i),s2.substring(i)) ) )
+        { f=true; break; }
+        }
+        hm.put(t,f);
+        return f;
+    }
+}

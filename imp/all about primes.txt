@@ -1,0 +1,105 @@
+all about prime numbers
+
+2 is the only even prime no.
+except 2,3 every prime 6b+1/6b-1 
+
+goldbach conjecture
+every even no. = sum of 2 primes
+
+wilson's theorem 
+(p-1)!= (p-1)%p
+
+2 & 3 only consec that are prime
+
+prime==> (1 and itself) and factors=2
+check if n is prime or not
+c=0;
+for(int i=1;i<=n;i++)
+	if(n%i==0) c++;
+
+if(c==2) sout("yes");
+o(n)
+36
+ix n/i
+1x36
+2x18
+3x12
+4x9
+6x6
+====
+9x4
+12x3
+18x2
+36x1
+
+c=0;
+for(int i=1;i<=Math.sqrt(n);i++)
+{
+	if(n%i==0) 
+	{  c++;
+          if(n/i!=i)
+	   c++;	
+ 	}
+}
+if(c==2) sout("yes");
+
+o(sqrt(n)xlogn) logn for Math.sqrt(n) computation
+
+c=0;
+for(int i=1;i*i<=n;i++)
+{
+	if(n%i==0) 
+	{  c++;
+          if(n/i!=i)
+	   c++;	
+ 	}
+}
+if(c==2) sout("yes");
+o(sqrt(n))
+
+
+sum of factors
+s=0;
+for(int i=1;i*i<=n;i++)
+{
+	if(n%i==0) 
+	{  
+	  s+=i;
+          if(n/i!=i)
+	  s+=n/i;	
+ 	}
+}
+if(c==2) sout(s);
+
+Q.given-n  find a,b,c? axbxc=n & a!=b!=c!=1 
+smallest one a
+next smallest one b 
+remaining c= n/(axb)
+
+int a=1,b=1,c=1;
+for(int i=2;i*i<=n;i++)
+{
+	if(n%i==0) 
+	{   
+	  a=i; break;	
+ 	}
+}
+n=n/i;
+for(int i=2;i*i<=n;i++)
+{
+	if(n%i==0) 
+	{   
+	  if(i!=a)
+	  b=min(b,i); 
+	  if((n/i)!=i && (n/i)!=a)
+	  b=min(b,n/i);
+ 	}
+}
+c= (n/b);
+if(a!=b && b!=c && c!=1) sout(yes);
+
+
+
+
+
+

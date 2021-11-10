@@ -1,0 +1,27 @@
+public int maxProfit(int[] prices) {
+        // max. 2 transactions possible
+        if(prices.length==0) return 0;
+        
+        int fb=Integer.MAX_VALUE,sb=Integer.MAX_VALUE,fs=0,ss=0;
+        
+        for(int i=0;i<prices.length;i++)
+        {
+            fb=Math.min(fb,prices[i]);
+            fs=Math.max(fs,prices[i]-fb);
+            sb=Math.min(sb,prices[i]-fs);
+            ss=Math.max(ss,prices[i]-sb);            
+        }
+         return ss;
+        
+        /*
+        
+              3,3,5, 0, 0, 3,1,4
+        
+           fb 3 3 3 0 0  0  0  0
+     -fb   fs 0 0 2 2 2  3  3  4
+        
+     -fs   sb 3 3 3 0 0  0 -2 -2
+     -sb   ss 0 0 2 2 2  3  3  6
+        
+        */
+    }

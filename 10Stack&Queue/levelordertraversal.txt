@@ -1,0 +1,21 @@
+public List<List<Integer>> levelOrder(TreeNode r) {
+        Queue<TreeNode> q=new LinkedList<TreeNode>();
+        List<List<Integer>> xx=new ArrayList<>();
+        if(r==null) return xx;
+        q.add(r);
+        
+        while(!q.isEmpty()){
+            int size = q.size();
+            ArrayList<Integer> x=new ArrayList<>();
+            for(int i=0;i<size;i++)
+            {    
+            TreeNode temp=q.poll();
+            x.add(temp.val);
+            
+            if(temp.left!=null) q.add(temp.left);
+            if(temp.right!=null) q.add(temp.right);
+            }
+             xx.add(x);
+        }
+        return xx;
+    }

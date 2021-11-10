@@ -1,0 +1,22 @@
+ int minDeletions(String S, int n)
+    {
+        
+         // agbcba-->abcba(1 delete)
+         // longgggest plandromic subseq then only mini.no of deltetions
+         // lps(a)= lcs(a,reverse(a))
+         // agbcba  abcbga  ->abcba
+        StringBuilder rev=new StringBuilder(S);
+        String S2=new String(rev.reverse());
+        int t[][]=new int[n+1][n+1];
+        for(int i=0;i<n+1;i++)
+        {
+          for(int j=0;j<n+1;j++){
+              if(i==0|| j==0) t[i][j]=0;
+              else if(S.charAt(i-1)==S2.charAt(j-1))
+              t[i][j]=1+t[i-1][j-1];
+              else
+              t[i][j]=Math.max(t[i-1][j],t[i][j-1]);
+          }  
+        }
+        return n-t[n][n];
+    }

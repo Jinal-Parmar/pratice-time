@@ -1,0 +1,98 @@
+
+//https://www.lintcode.com/problem/434/
+
+class DSU{
+    ArrayList<Integer> parent= new ArrayList<>();
+    ArrayList<Integer> size= new ArrayList<>();
+    ArrayList<Integer> rank= new ArrayList<>();
+    public DSU(int n)
+    {
+        for(int i=0;i<=n;i++)
+        {
+            parent.add(i); size.add(1); rank.add(0);
+        }
+    }
+    public int findparent(int n)
+    {
+        if(parent.get(n)==n)  return n;
+        // path compression ht-log(n)
+        //path + size compression 4xalpha
+         parent.set(n, findparent(parent.get(n)));
+        return parent.get(n);
+    }
+    
+    public void union(int u,int v)
+    {
+        int   pu= findparent(u), pv=findparent(v);
+        if(pu==pv) return;
+        
+        if(size.get(pu)<size.get(pv))
+        {
+            parent.set(pu,pv);
+            size.set(pv,size.get(pv)+size.get(pu));
+        }
+        else 
+        {
+            parent.set(pv,pu);
+            size.set(pu,size.get(pu)+size.get(pv));
+        }
+    }
+    
+    public void unionRank(int u,int v)
+    {
+        int   pu= findparent(u), pv=findparent(v);
+        if(pu==pv) return;
+        
+        if(rank.get(pu)<rank.get(pv))
+            parent.set(pu,pv);
+           
+        else if(rank.get(pu)>rank.get(pv)) 
+            parent.set(pv,pu);
+           
+        else 
+        {
+            parent.set(pu,pv);
+            rank.set(pv,pv+1);
+        }
+    }
+}
+/**
+ * Definition for a point.
+ * class Point {
+ *     int x;
+ *     int y;
+ *     Point() { x = 0; y = 0; }
+ *     Point(int a, int b) { x = a; y = b; }
+ * }
+ */
+public class Solution {
+    public List<Integer> numIslands2(int n, int m, Point[] operators) {
+        List<Integer> ans= new ArrayList<>();
+        if(operators==null || operators[1]==null) return ans;
+        DSU  dsu= new DSU(n*m+1); int c=0;
+        int [][] grid= new int[n][m];
+        for(Point i: operators)
+        {
+              if(grid[i.x][i.y]==1) 
+              {
+                  ans.add(c);
+                  continue;
+              }
+              grid[i.x][i.y]=1;
+              int idx=(i.x)*m+(i.y+1);
+              c++;
+
+              int dx[]= new int []{-1,0,1,0};
+              int dy[]=new int[]{0,1,0,-1};
+              for(int j=0;j<4;j++)
+              {
+                int newx=i.x+dx[j], newy=i.y+dy[j];
+                int newidx= newx*m+(newy+1);
+                 if(newx>=0 && newx<n && newy>=0 && newy<m && grid[newx][newy]==1 && dsu.findparent(idx)!=dsu.findparent(newidx))
+                {  c--; dsu.union(idx,newidx);  }
+              }
+              ans.add(c);
+        }
+        return ans;
+    }
+}

@@ -1,0 +1,242 @@
+import java.io.*;
+import java.lang.*;
+
+class Node{
+    Node[] arr;
+    boolean f;
+    public Node()
+    { arr= new Node[26]; }
+    
+    public boolean contains(char c)
+    {return (arr[c-'a']!=null);}
+    
+    public void put(char c, Node newnode)
+    {arr[c-'a']=newnode;}
+    
+    public Node getnext(char c)
+    {return arr[c-'a'];}
+    
+    public void setflag()
+    {f=true;} 
+    
+    public boolean issetflag()
+    {return f;}  
+}
+
+class GFG {
+    
+    Node root= new Node();
+    public void insert(String w){
+        Node t=root;
+        for(int i=0;i<w.length();i++)
+        { 
+            // word wors
+            char ch=w.charAt(i);
+	    // there might be previous instance of ch
+            if(!t.contains(ch)) // t.arr[ch-'a']==null
+            {
+                Node newnode=new Node();
+                //t.arr[ch-'a']=newnode;
+                t.put(ch,newnode);
+            }
+            //t=t.arr[ch-'a'];
+            t=t.getnext(ch);
+        }
+        t.setflag();
+    }
+    public boolean search(String w)
+    {
+        Node t=root;
+        for(int i=0;i<w.length();i++)
+        {
+            char ch=w.charAt(i);
+            if(t.contains(ch))
+                t=t.getnext(ch);
+            else
+                return false;
+        }
+        // return t.f== true;
+        return t.issetflag();
+    }
+    public boolean startswith(String w)
+    {
+        Node t=root;
+        for(int i=0;i<w.length();i++)
+        {
+            char ch=w.charAt(i);
+            if(t.contains(ch))
+                t=t.getnext(ch);
+            else
+                return false;
+        }
+        return true;
+    }
+	public static void main (String[] args) 
+	}
+}
+
+
+=========================================
+
+import java.io.*;
+import java.lang.*;
+
+class Node{
+    Node[] arr;
+    int cnt_words_end=0, cnt_prefixes=0;
+    
+    public Node()
+    { arr= new Node[26]; }
+
+    public boolean contains(char c)
+    return arr[c-'a']!=null;
+    
+    public void put(char c, Node newnode)
+    { arr[c-'a']=newnode;}
+    public Node getnext(char c)
+    return arr[c-'a'];
+    
+    public void inc_words_end_with()
+    cnt_words_end++; 
+    
+    public void inc_words_prefixes()
+    cnt_prefixes++;
+    
+    public void dec_words_end_with()
+    cnt_words_end--; 
+    
+    public void dec_words_prefixes()
+    cnt_prefixes--;
+    
+    public int get_cnt_words_end()
+    return cnt_words_end;
+    
+    public int get_cnt_prefixes()
+    return cnt_prefixes;
+   
+}
+class GFG {
+    
+    Node root= new Node();
+    public void insert(String w){
+        Node t=root;
+        for(int i=0;i<w.length();i++)
+        { 
+            // word wors
+            char ch=w.charAt(i);
+            if(!t.contains(ch))
+            {
+                Node newnode=new Node();
+                t.put(ch,newnode);
+            }
+	    t.inc_words_prefixes();
+            t=t.getnext(ch);
+        }        
+        t.inc_words_end_with();
+    }
+    public int countWordsequalto(String w)
+    {
+        Node t=root;
+        for(int i=0;i<w.length();i++)
+        {
+            char ch=w.charAt(i);
+            if(t.contains(ch))
+                t=t.getnext(ch);
+            else
+                return 0;
+        }
+        return t.get_cnt_words_end();
+    }
+    public int startswith(String w)
+    {
+        Node t=root;
+        for(int i=0;i<w.length();i++)
+        {
+            char ch=w.charAt(i);
+            if(t.contains(ch))
+                t=t.getnext(ch);
+            else
+                return 0;
+        }
+        return t.get_cnt_prefixes();
+    }
+    
+    public void erase(String w)
+    {
+        Node t=root;
+	// if word exist hi nai krta to kya hi erase krna ji
+        if(countWordsequalto(w)==0) return;
+        
+        for(int i=0;i<w.length();i++)
+        {
+            char ch= w.charAt(i);
+            t.dec_words_prefixes();
+            t.getnext(ch);
+        }
+        t.dec_words_end_with();
+        
+    }
+	public static void main (String[] args) 
+	}
+}
+
+======================================
+longest word with all prefixes
+class Node{
+    Node[] arr;
+    boolean f;
+    public Node()
+    { arr= new Node[26]; }
+    
+    public boolean contains(char c)
+    {return (arr[c-'a']!=null);}
+    
+    public void put(char c, Node newnode)
+    {arr[c-'a']=newnode;}
+    
+    public Node getnext(char c)
+    {return arr[c-'a'];}
+    
+    public void setflag()
+    {f=true;} 
+    
+    public boolean issetflag()
+    {return f;}  
+}
+
+class GFG {
+    
+    Node root= new Node();
+    public int insert(String w){
+        Node t=root; int c=0;
+        for(int i=0;i<w.length();i++)
+        { 
+            char ch=w.charAt(i);
+            if(!t.contains(ch))
+            {
+                Node newnode=new Node();
+                t.put(ch,newnode);
+            }
+            if(t.issetflag()) c++;
+            t=t.getnext(ch);
+        }
+        t.setflag();  
+	return c;
+    }
+    
+    String longestWord(String []words)
+    {
+	Arrays.sort(words);
+	String res="";
+	
+	for(int i=0;i< words.length;i++)
+	{
+		int c=insert(words[i]);
+		if(c==words[i].size()-1 && words[i].size()>res.size())
+		res=words[i];
+	}
+
+	return res;
+    }
+     
+}

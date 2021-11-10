@@ -1,0 +1,89 @@
+import java.io.*;
+import java.util.*;
+
+class Node{
+    int data,height;
+    Node left,right;
+    public Node(int d)
+    { data=d; left=null; right=null;}
+}
+
+class BinaryTree{
+    Node root;
+    
+    
+    public void topview(Node R)
+    {
+        //  -1 if left
+        //  +1 if right
+        if(R==null) return;
+        Queue<Node> q=new LinkedList<>();
+        q.add(R);
+        TreeMap<Integer,Integer> tm=new TreeMap<>();
+        while(!q.isEmpty())
+        { 
+            Node t=q.poll();
+            int hd=t.height;
+            if(tm.get(hd)==null) 
+            tm.put(hd,t.data); // only update if its 1st time
+            if(t.left!=null)
+            {
+                t.left.height=hd-1;
+                q.add(t.left);
+            }
+            if(t.right!=null)
+            {
+                t.right.height=hd+1;
+                q.add(t.right);
+            }
+        }
+        
+        System.out.print(tm.values());
+    }
+    
+    public void bottomview(Node R)
+    {
+        //  -1 if left
+        //  +1 if right
+        if(R==null) return;
+        Queue<Node> q=new LinkedList<>();
+        q.add(R);
+        TreeMap<Integer,Integer> tm=new TreeMap<>();
+        while(!q.isEmpty())
+        { 
+            Node t=q.poll();
+            int hd=t.height;
+            //if(tm.get(hd)==null) 
+            tm.put(hd,t.data); //  update each time
+            if(t.left!=null)
+            {
+                t.left.height=hd-1;
+                q.add(t.left);
+            }
+            if(t.right!=null)
+            {
+                t.right.height=hd+1;
+                q.add(t.right);
+            }
+        }
+        
+        System.out.println(tm.values());
+    }
+    
+    public static void main(String args[])
+    {
+       
+        BinaryTree t = new BinaryTree();
+        t.root = new Node(1);
+        t.root.left = new Node(2);
+        t.root.right = new Node(3);
+        t.root.left.left = new Node(4);
+        t.root.left.right = new Node(5);
+        t.root.right.left = new Node(6);
+        t.root.right.right = new Node(7);
+ 
+        t.topview(t.root);
+        t.bottomview(t.root);
+    }
+    
+}

@@ -1,0 +1,323 @@
+import java.util.*;
+import java.io.*;
+
+
+// all primitive datatypes have wrapper class like Integer, Double
+public class Pair<X,Y>{
+  X x; Y y;
+  public Pair(X x,Y y) {this.x=x; this.y=y;}
+  public void getdata() {System.out.println(x+" "+y);}
+}
+
+// array(fixed) vs ArrayList/dynamic arrays(resizeable)
+// Collection<-List<-ArrayList
+//   I/I/C
+
+
+// ArrayList        vs             LinkedList (data+ pointer/refernce to next)
+// 1.index se access               1.traverse whole ll
+// 2.mid/start me ins/del k        2. easy to add/delete at middle place  
+//   liye aage k elements 
+//   displace honge 
+
+// End k liye dono same  time degi
+
+/*
+
+ class myLL{
+ Node head;
+ public void add(int d)
+ {
+    Node toadd=new Node(d);
+    Node t=head;
+    if(!isEmpty())
+    {
+     while(t.next!=null) t=t.next;
+     t.next=toadd;
+    }
+    else head=toadd;
+ }
+
+  public Boolean isEmpty()
+  {return head==null;}
+ 
+  public void printll()
+   {    Node t=head;
+        while(t!=null) // because last element bhi print krna h 
+        {
+        System.out.print(t.data+" ");
+        t=t.next;
+        }
+   }
+   
+  class Node{
+  int data; Node next;
+  public Node(int d) { data=d; next=null; } 
+  }
+
+}
+
+*/
+
+//use of generics by replacing int with E and <E> with Node
+class myLL<E>{
+ Node<E> head;
+ public void add(E d)
+ {
+    Node<E> toadd=new Node<>(d);
+    Node<E> t=head;
+    if(!isEmpty())
+    {
+     while(t.next!=null) t=t.next;
+     t.next=toadd;
+    }
+    else head=toadd;
+ }
+
+  public Boolean isEmpty()
+  {return head==null;}
+ 
+  public void printll()
+   {    Node<E> t=head;
+        while(t!=null) // because last element bhi print krna h 
+        {
+        System.out.print(t.data+" ");
+        t=t.next;
+        }
+   }
+   
+  public E removeLast()
+  {
+    Node<E> t=head;
+    if(isEmpty())
+    {
+      System.out.print("Empty ll");  //throw exception
+    }
+    if(t.next==null) 
+    {
+       Node<E> toremove=head;
+       head=null; 
+       return toremove.data;
+    }
+    while(t.next.next!=null) t=t.next; 
+    Node<E> toremove=t.next;
+    t.next=null;
+   return toremove.data;
+   }
+   
+  public E getLast()
+  {
+    Node<E> t=head;
+    while(t.next!=null) t=t.next; 
+    return t.data;
+  }
+}
+class Node<E>{
+  E data; Node<E> next;
+  public Node(E d) { data=d; next=null; } 
+  }
+// Vector 2times-syncorized(thread safe) lock mechansim so time leta hai zyda compared to ArrayList
+// so arraylist is time efficient and memory efficient 1.5times
+
+//Stack lifo
+// Collection/List/Vector/Stack
+// I/I/C/C
+// 1 2 3 4
+
+
+class mystack<E>{
+
+private myLL<E> s=new myLL<>();
+ 
+public void push(E e){
+s.add(e);
+}
+
+public void pop(){
+s.removeLast();
+}
+//-4
+
+public E peek()
+{
+ return s.getLast();
+}
+// 4
+
+public Boolean Empty(){
+return s.isEmpty();
+
+}
+
+public void showstack()
+{   s.printll(); }
+}
+
+//Queue/LinkedList
+// I/C
+//(throws exception)        add   remove element    
+//(return null/false/true)  offer poll   peek
+//1 2 3 4
+class myqueue<E>{
+private Node<E> head,rear;
+
+public void enqueue(E e){
+ Node<E> toadd=new Node<>(e);
+ if(head==null)
+ head=rear=toadd;
+ 
+ rear.next=toadd;
+ rear=rear.next;
+}
+
+public E dequeue(){
+ if(head==null)
+ return null;
+ 
+ Node<E> t=head;
+ head=head.next;
+ 
+ if(head==null){
+ rear=null; return null;}
+ 
+ return t.data;
+}
+//1
+
+public E peek(){
+    return head.data;
+}
+
+}
+
+// I/I/I/C
+//Collection/Queue/Deque/ArrayDeque
+//Collection/Queue/ArrayDeque
+// I/I/C
+// ArrayDouble Ended Queque
+class myarraydeque<E>
+{
+    Node<E> head,tail;
+    public void addtohead(E data)
+    {
+     Node<E> toadd=new Node<>(data);
+     if(head==null){
+     head=toadd; return;}
+     
+     head.next=toadd;
+     toadd.prev=head;
+     head=toadd;
+        
+    }
+    public E removeLast()
+    {
+        if(head==null) return null;
+        Node<E> toremove=tail;
+        tail=tail.next;
+        tail.prev=null;
+        toremove.prev=null;
+       
+        if(tail==null)
+        head=null; 
+        return toremove.d;
+    }
+    
+    public static class Node<E>{
+    E d;
+    Node<E> next,prev;
+    public Node(E data)
+    {
+        d=data;
+        this.next=this.prev=null;
+    }
+        
+    }
+}
+
+
+//Collection/Queue/Priority Queue
+// removed on bais of Priority
+//add remove element
+
+
+// Set- add/delete in constant time
+// no duplicates
+// Sout(mset.add()) will return true/false
+//HashSet uses hashmap
+// uses hash function and it gives reference to location
+// in arrays need to find elements
+// o(constant)
+
+//LinkedHashSet order me hoga vese store hoga
+// uses LinkedList
+// o(logn)
+
+//TreeSet for sorted order
+// uses TreeMap
+// o(n)
+//union addAll()
+//intersection retainAll() 
+//subset containsAll()
+
+
+//Collection/Map
+//I/I
+// put putAll putIfAbsent get getOrDefault containsKey containsValue replace(k.v) replace(k,pv,v) keySet values entrySet
+// HashMap  - o(1)
+//hashfunction returns int
+//chaining used to overcome collision(2 keys ka same hash aye)
+// table(16 size)/array + LinkedList
+//loadfactor=0.75
+/*
+Set<Entry<Integer,Integer>> e=hm.entrySet();
+for(Entry<Integer,Integer> x: e)
+{
+    x.setValue(x.getValue()+1);
+}
+*/
+
+//TreeMap
+
+
+class myMain{
+public static void main(String []args)
+ {
+  Pair<String,Integer> p=new Pair<>("Jinal",21);  p.getdata();
+  
+  //ArrayList
+  List<String> f=new ArrayList <>();
+  f.add("App");
+  String t[]=new String[f.size()]; 
+  f.toArray(t); // get(0) set(0,"Dpp") contains() isEmpty() remove()
+  
+  /* 
+  //LinkedList
+  myLL<Integer> j= new myLL<>(); // myLL j= new myLL();
+  j.add(13);j.add(133);j.add(123);
+ //j.printll();
+  */
+  
+  /*
+  //Stack
+  mystack<Integer> s=new mystack<>();
+  s.push(3);
+  s.push(24);
+  s.push(33);
+  //s.showstack();
+  s.pop();
+  //s.showstack();
+  s.pop();
+  System.out.println(s.peek());
+  s.pop();
+  System.out.println(s.Empty());
+  */
+  
+  myqueue<Integer> q=new myqueue<>();
+  q.enqueue(2); 
+  System.out.println(q.dequeue());
+  System.out.println(q.peek()); //kuch locha hai
+  
+  
+  
+}
+}

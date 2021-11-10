@@ -1,0 +1,84 @@
+    public int majorityElement1(int[] nums) {
+         // brute force T- o(n-sq)
+	 // find freq.(using counter) of each element and check > n/2 ?
+        for(int x: nums)
+        {
+         int c=0;
+         for(int y:nums){
+             if(y==x)  c++;
+         }
+            
+         if(c>nums.length/2)
+             return x;   
+        }
+          
+        return -1;
+    }    
+
+    public int majorityElement2(int[] nums) {
+        Arrays.sort(nums);
+	// T- O(nlogn)+ O(n)
+	// 1. we can traverse once i=0->n and till no. is matching c++; else start c=0
+	// if(nums.length==1) return nums[0];
+        // for(int i=1;i<nums.length;i++)
+        // {
+        //     if(nums[i]==nums[i-1]) c++;
+        //     else
+        //         c=1;
+        //     if(c>nums.length/2)
+        //      return nums[i-1];
+        // }
+        // return -1;
+
+        // T- O(nlogn)
+	// 2. trick  even if array is odd/even length there will be overlapp
+	// -------
+        // 0 1 2 3 4 5 6
+	//       -------
+	// -------
+	// 0 1 2 3 4 5
+	//     -------
+        return nums[nums.length/2];
+    }
+    
+    public int majorityElement3(int[] nums) {
+        // use space efficiently - hashmap  
+	//T-O(n)  S-O(n)
+        if(nums.length==1)return nums[0];
+        HashMap<Integer,Integer>m=new HashMap();
+        
+        for(int i: nums)
+        {  
+	    if(m.containsKey(i) && m.get(i)+1>nums.length/2)
+              return i;
+            else
+                m.put(i,m.getOrDefault(i,0)+1);
+        }
+        return -1;
+    }
+    
+   
+    public int majorityElement(int[] nums) {
+        // T-O(n) S-O(1)
+        // moore's voting algo
+	// elements cancels each other but majority wala last tak rahega
+         int cur=0,c=0;
+         for(int x: nums)
+         {
+             if(cur==x) c++;
+             else if(c==0)  {cur=x; c=1;}
+             else       c--;
+         }
+         return cur;
+          
+         // 7, 7, 5, 7, 5, 1 | 5, 7 | 5, 5, 7, 7 | 7, 7, 7, 7
+         // 1  2  1  2  1  0   1  0   1  2  1  0   1  2  3  4
+         
+    }
+
+
+
+    
+    
+    
+    

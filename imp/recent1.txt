@@ -1,0 +1,208 @@
+
+multithreading
+exception handling
+inner classes
+
+string/ string matching/ array 
+
+linkedlist/tree
+
+stack /queue /hash table
+
+dfs/bfs/graph
+
+sorting /sliding window /2pointer /matrix /greedy /prefix sum/ heap
+dc/ backtracking
+recusrion memo dp
+
+certmgr.msc
+
+//Singleton Pattern- multithreaded and db application me use hota
+//logging,caching,thread pool,config settings
+
+public class AppConfig{
+private AppConfig(){ }
+
+private static AppConfig obj=null; 
+
+public static AppConfig getInstance(){
+	if(obj==null)obj=new Config();	
+	return obj;
+} 
+
+}
+
+public class MainClass{
+
+public static void main(String[] args)
+//AppConfig obj=new Config();
+AppConfig obj=AppConfig.getInstance();
+}
+
+New (instance of thread class)
+Runnable (after calling start())
+Running (thread scheduler selected it as running thread)
+Non-Runnable (Blocked-alive but not eligible to run )
+Terminated (dead state-run() exists)
+
+
+Thread class or Runnable Interface/ isme explict Thread class ka instance bnna pdega
+run() directly kiya to same stack me hi call hoga so naormal method jesa treat hoga
+
+The join() method waits for a thread to die. 
+it causes the currently running threads to stop executing until the thread it joins
+with completes its task.
+t1.start t1.join t2.start t3.start.........so t1 pura hoga t2-t3 me context switching
+
+Daemon Thread
+It provides services to user threads for background supporting tasks. It has no role
+in life than to serve user threads.
+Its life depends on user threads.
+It is a low priority thread.
+daemon thread banai hai to us thread ko badme start() krna hai
+
+
+Thread pool- better peeformance
+a group of fixed size threads are created. A thread from the thread pool 
+is pulled out and assigned a job by the service provider.
+ After completion of the job, thread is contained in the thread pool again.
+
+ThreadGroup
+ group multiple threads in a single object
+suspend, resume or interrupt group of threads by a single method call.
+
+shutdown hook can be used to perform cleanup resource or save the state when JVM
+shuts down normally or abruptly.
+
+AR                                                 VR
+-uses a real-world setting                 -completely virtual
+-users can control their                   -users are controlled by the system
+presence in the real world;  
+-accessed with a smartphone                -requires a headset device,
+-enhances both the virtual+real world      -only enhances a fictional reality
+
+
+SDLC-req/design/implement/test/deploy/maintain
+
+Types of Keys: Candidate, Super, Foriengn keys
+Normal Forms
+Joins
+SQL queries
+ACID properties
+Indexing: B trees, B+ trees concepts
+
+DBMS: 
+What is DBMS ? Mention advantages.. 
+What is Database? 
+What is a database system? 
+What is RDBMS ? Properties.. 
+Types of database languages 
+ACID properties (VVVVV IMP) 
+Difference between vertical and horizontal scaling 
+What is sharding 
+Keys in DBMS 
+Types of relationship 
+Data abstraction in DBMS, three levels of it 
+Indexing in DBMS 
+What is DDL (Data Definition Language) 
+What is DML (Data Manipulation Language)
+What is normalization ? Types of them .. 
+What is denormalization ? 
+What is functional dependency ? 
+E-R Model ? 
+Conflict Serializability in DBMS .. 
+Explain Normal forms in DBMS 
+What is CCP ? (Concurrency Control Protocols) 
+Entity, Entity Type, Entity Set, Weak Entity Set.. 
+What are SQL commands ? Types of them.. 
+Nested Queries in SQL ? 
+What is JOIN .. Explain types of JOINs 
+Inner and Outer Join 
+Practice sql queries from leetcode
+Diff between 2 tier and 3 tier architecture 
+Diff between TRUNCATE and DELETE command .. 
+Difference between Intension and Extension in a DataBase
+Difference between share lock and exclusive lock, definition of lock 
+
+3-Way Handshake Process
+Server-side load balancer
+RSA Algorithm 
+What is HTTP and HTTPS protocol ? 
+What is SMTP protocol ? 
+What happens when you enter “google.com” (very very famous question) 
+Hub vs Switch 
+VPN, advantages and disadvantages of it 
+LAN
+
+Operating System:
+Basics of Threads
+Process scheduling algorithms
+Critical section Problem
+Deadlock
+Memory management
+Paging
+Segmentation
+Page replacement algorithms
+Disk scheduling algorithms
+What is the main purpose of an operating system? Discuss different types? 
+What is a socket, kernel and monolithic kernel ? 
+Difference between process and program and thread? Different types of process. 
+Define virtual memory, thrashing, threads.  
+What is RAID ? Different types. 
+What is a deadlock ? Different conditions to achieve a deadlock. 
+What is fragmentation? Types of fragmentation. 
+What is spooling ? 
+What is semaphore and mutex (Differences might be asked)? Define Binary semaphore. 
+Belady’s Anomaly
+Starving and Aging in OS
+Why does trashing occur? 
+What is paging and why do we need it? 
+Demand Paging, Segmentation 
+Real Time Operating System, types of RTOS. 
+Difference between main memory and secondary memory. 
+Dynamic Binding 
+FCFS Scheduling 
+SJF Scheduling 
+SRTF Scheduling 
+LRTF Scheduling 
+Priority Scheduling 
+Round Robin Scheduling 
+Producer Consumer Problem 
+Banker’s Algorithm 
+Explain Cache
+Diff between direct mapping and associative mapping 
+Diff between multitasking and multiprocessing 
+   
+coding decoded
+
+
+aditya verma
+https://www.youtube.com/c/AdityaVermaTheProgrammingLord/playlists
+coding simplified
+https://www.youtube.com/c/CodingSimplified/playlists
+
+sql/web
+https://www.w3schools.com/
+
+multisim
+
+https://www.youtube.com/watch?v=6GHBXC03EKs
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

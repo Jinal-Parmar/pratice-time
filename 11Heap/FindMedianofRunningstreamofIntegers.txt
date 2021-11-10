@@ -1,0 +1,64 @@
+class Solution
+{
+     // T-O(logn) S-O(n)
+    // even no.s hue to mean is median
+    // odd hue to middle one is median
+    // max heap | min heap me divide kro
+    // max heap me ek no. extra daalenge so odd no.s hue to max heap ka ans hi ans hoga
+ public static PriorityQueue<Integer> small = new PriorityQueue<>(Collections.reverseOrder());
+ public static PriorityQueue<Integer> large = new PriorityQueue<>(); //minheap
+
+  public static void insertHeap(int num)
+    {
+      if(small.isEmpty()|| small.peek()>=num) small.add(num);
+      else
+      large.add(num);
+      
+      balanceHeaps();
+    }
+    
+    public static void balanceHeaps()
+    {
+       if(small.size()>large.size()+1) large.add(small.poll());
+       else if(small.size()<large.size()) small.add(large.poll());
+    }
+   
+    public static double getMedian()
+    {
+        if (small.size()==large.size())
+        return (small.peek() + large.peek()) / 2.0;
+        else
+        return small.peek(); 
+    }
+    
+}
+
+========================================================
+
+//large =min heap me n/2 elements honge
+//small =max heap me n/2 or n/2 +1 elements honge
+
+// jab even hai to we need to add element in maxheap/small
+// jab odd hai to maxheap me extra hai so min me dalna hoga
+
+private PriorityQueue<Integer> small = new PriorityQueue<>(Collections.reverseOrder());
+private PriorityQueue<Integer> large = new PriorityQueue<>();
+private boolean even = true;
+
+public double findMedian() {
+    if (even)
+        return (small.peek() + large.peek()) / 2.0;
+    else
+        return small.peek();
+}
+
+public void addNum(int num) {
+    if (even) {
+        large.offer(num);
+        small.offer(large.poll());
+    } else {
+        small.offer(num);
+        large.offer(small.poll());
+    }
+    even = !even;
+}

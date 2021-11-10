@@ -1,0 +1,256 @@
+import java.io.*;
+import java.lang.*;
+import java.util.*;
+
+
+// T- O(2^n)
+// S - O(n)
+//op- [[1, 2, 3], [1, 2], [1, 3], [1], [2, 3], [2], [3], []]
+class generateallsubsq_array {
+    
+    
+    public static void gen_subseq(int i,ArrayList<Integer> ds,int []arr,int n,List<List<Integer>> ans)
+	{
+	    
+	    if(i==n)
+	    {
+	        ans.add(new ArrayList<Integer>(ds));
+	        return;
+	    }
+	    
+	    ds.add(arr[i]); // at index i pick this element
+	    gen_subseq(i+1,ds,arr,n,ans);
+	    ds.remove(ds.size()-1); // dont pick this element - backtrack
+	    gen_subseq(i+1,ds,arr,n,ans);
+	    
+	}
+	public static void main (String[] args) {
+	   List<List<Integer>> ans = new ArrayList<>();
+	   
+      gen_subseq(0,new ArrayList<>(),new int[] {1,2,3}, 3, ans);
+      System.out.println(ans);
+	}
+} 
+
+
+
+
+====================================================================
+
+import java.io.*;
+import java.lang.*;
+import java.util.*;
+
+// generate subsets whose sum is divisible by k 
+// op- [[4, 3, 2], [4, 2], [3]]
+
+class generateallsubsq_array {
+    
+    
+    public static void gen_subseq(int i,int s,int k,ArrayList<Integer> ds,int []arr,int n,List<List<Integer>> ans)
+	{
+	    
+	    if(i==n)
+	    {
+	        if(s%k==0 && ds.size()!=0) // ye condition yaha as if consider nai kr rahe ans me to return to krna hi hai
+	        ans.add(new ArrayList<Integer>(ds));
+	        
+	        return;
+	    }
+	    
+	    ds.add(arr[i]); // at index i pick this element
+	    gen_subseq(i+1,s+=arr[i],k,ds,arr,n,ans); // s-arr[i] bhi likh skte
+	    ds.remove(ds.size()-1); // dont pick this element - backtrack
+	    gen_subseq(i+1,s-=arr[i],k,ds,arr,n,ans); //// s bhi likh skte
+	    
+	}
+	public static void main (String[] args) {
+	   List<List<Integer>> ans = new ArrayList<>();
+	   int k=3;
+      gen_subseq(0,0,k,new ArrayList<>(),new int[] {4,3,2}, 3, ans);
+      System.out.println(ans);
+	}
+} 
+
+
+=========================================================================
+
+import java.io.*;
+import java.lang.*;
+import java.util.*;
+
+// count no. of subsets whose sum is divisible by k 
+// op- 3
+
+class generateallsubsq_array {
+    public static int gen_subseq(int i,int s,int k,int []arr,int n)
+	{
+	    
+	    if(i==n)
+	    {
+			           // empty subset ko include nahi krna h so -1 from final ans or s!=0
+	        if(s%k==0 && s!=0) // ye condition yaha as if consider nai kr rahe ans me to return to krna hi hai
+	        return 1;
+	        //else 
+	        return 0;
+	    }
+	    //ds.add(arr[i]); // at index i pick this element
+	   int pick= gen_subseq(i+1,s+=arr[i],k,arr,n);
+	    //ds.remove(ds.size()-1); // dont pick this element - backtrack
+	   int not_pick= gen_subseq(i+1,s-=arr[i],k,arr,n);
+	  
+	   // by piking we got a subset and by not picking as well 
+
+	   return pick+not_pick; 
+	}
+	public static void main (String[] args) {
+	   //List<List<Integer>> ans = new ArrayList<>();
+	   int k=3;
+      int x= gen_subseq(0,0,k,new int[] {4,3,2}, 3);
+      System.out.println(x);
+	}
+}
+
+=======================================================================
+
+import java.io.*;
+import java.lang.*;
+import java.util.*;
+
+// count subsets whose sum is k repetition allowed(you can pick one element more than once)
+// op- 4
+
+// T- (sum/arr[i])^n 
+class generateallsubsq_array {
+    public static int  gen_subseq(int i,int k,int []arr,int n)
+	{
+	    if(i==n)
+	    {
+	        if(k==0)
+	        return 1;
+	        else
+	        return 0;
+	    }
+	   int pick=0,not_pick=0;
+	   
+	   if(arr[i]<= k)
+	   pick= gen_subseq(i,k-arr[i],arr,n);
+	   
+	   not_pick= gen_subseq(i+1,k,arr,n);
+	   
+	    return pick+not_pick;
+	}
+	public static void main (String[] args) {
+	   List<List<Integer>> ans = new ArrayList<>();
+	   int k=6;
+      int x=gen_subseq(0,k,new int[] {1,2,3}, 2);
+      System.out.println(x);
+	}
+} 
+
+==================================================================
+
+
+import java.io.*;
+import java.lang.*;
+import java.util.*;
+
+// generate subsets whose sum is divisible by k 
+// print single answer
+// op- [[4, 3, 2]]
+
+class generateallsubsq_array {
+    
+    
+    public static boolean gen_subseq(int i,int s,int k,ArrayList<Integer> ds,int []arr,int n,List<List<Integer>> ans)
+	{
+	    
+	    if(i==n)
+	    {
+	        if(s%k==0 && ds.size()!=0) // ye condition yaha as if consider nai kr rahe ans me to return to krna hi hai
+	        {
+	            ans.add(new ArrayList<Integer>(ds));
+	            return true;
+	        }
+	        return false;
+	    }
+	    
+	    ds.add(arr[i]); // at index i pick this element
+	    if (gen_subseq(i+1,s+arr[i],k,ds,arr,n,ans) == true)// s-arr[i] bhi likh skte
+	    return true;
+	    
+	    ds.remove(ds.size()-1); // dont pick this element - backtrack
+	    if(gen_subseq(i+1,s,k,ds,arr,n,ans)== true) // s bhi likh skte
+	    return true;
+	    
+	    return false;
+	}
+	public static void main (String[] args) {
+	   List<List<Integer>> ans = new ArrayList<>();
+	   int k=3;
+      gen_subseq(0,0,k,new ArrayList<>(),new int[] {4,3,2}, 3, ans);
+      System.out.println(ans);
+	}
+} 
+
+====================================================
+
+import java.io.*;
+import java.lang.*;
+import java.util.*;
+
+// nqueen
+// print 1 solution 
+class nqueen{
+    
+    public static boolean isok(int n,int row,int col,int [][]mat)
+    {
+        // row-1 col-1
+        // row col-1
+        // row+1 col-1
+        
+    for(int i=row, j=col; i>=0 && j>=0 ;i-- ,j--)
+        if(mat[i][j]==1) return false;    
+    for(int i=row, j=col;  j>=0 ;j--)
+        if(mat[i][j]==1) return false;    
+    for(int i=row, j=col; i<n && j>=0 ;i++ ,j--)
+        if(mat[i][j]==1) return false;   
+        
+    return true;        
+    }
+    public static boolean nqueen(int n,int col,int[][] mat)
+	{
+	   if(col==n)
+	   {
+	     for(int i=0;i<n;i++)
+	     {
+	      for(int j=0;j<n;j++)
+	      {
+	          System.out.print(mat[i][j]+" ");
+	      }
+	      System.out.println();
+	     }
+	     return true;
+	   }
+	   
+	   
+	   for(int row=0;row<n;row++)
+	   {
+	       if(isok(n,row,col,mat))
+	       {
+	         mat[row][col]=1;
+	         if(nqueen(n,col+1,mat))     return true;
+	         mat[row][col]=0;
+	       }
+	   }
+	   return false;
+	}
+	public static void main (String[] args) {
+	   int n=4;
+	   int[][] mat = new int[n][n];
+	   for(int[] x: mat)
+	       Arrays.fill(x,0);
+	   
+	   nqueen(n,0,mat);
+	}
+} 

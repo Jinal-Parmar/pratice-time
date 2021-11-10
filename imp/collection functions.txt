@@ -1,0 +1,282 @@
+import java.io.*;
+import java.lang.*;
+import java.util.*;
+
+class learncollection {
+    
+	public static void main (String[] args) {
+	ArrayList<Integer> l=new ArrayList<>();
+	l.add(13);
+	l.add(35);
+	l.add(78);
+	l.add(1,44);
+	ArrayList<Integer> l2=new ArrayList<>();
+	l2.add(1344);
+	
+	l.addAll(l2);
+	
+	System.out.println(l.get(3));
+	System.out.println(l); // sout (object ) then -->invokes toString method
+	
+	l.remove(1); // index se remove
+	l.remove(Integer.valueOf(1344)); // use type ka data
+	System.out.println(l);
+	
+	//l.clear();
+	l.set(1,101010);
+	System.out.println(l.contains(35));
+	
+	for(int i=0;i<l.size();i++)
+    System.out.println("element:"+l.get(i));
+	
+	Iterator<Integer> i=l.iterator();
+	while(i.hasNext())
+     System.out.println(i.next());
+     }
+}
+
+
+import java.io.*;
+import java.lang.*;
+import java.util.*;
+
+class learnstack_q_pq {
+    
+	public static void main (String[] args) {
+	   Stack<String> s=new Stack<>();
+	   s.push("ABC");
+	   s.push("WRWND");
+	   s.push("fkjmnv");
+	   
+	   System.out.println(s.peek());
+	   System.out.println(s.pop());
+	   
+	   Queue<Integer> q=new LinkedList<>();
+	   q.offer(1);
+	   q.offer(23);
+	   q.offer(21);
+	   q.offer(323);
+	   
+	   System.out.println(q.poll() + " and "+ q.peek());
+	   // want to throw Exception then use
+	   // add remove element
+	   
+	   PriorityQueue<Integer> pq=new PriorityQueue<>(Comparator.reverseOrder); //maxheap
+	   ArrayDequeue<Integer> adq=new ArrayDequeue<>();
+       
+        adq.offer(12);
+        adq.offerLast(34);
+        
+        adq.offerFirst(23);// agge add krega
+	    
+	    adq.peek();
+	    adq.peekFirst();
+	    
+	    adq.peekLast();
+	    
+	    adq.poll();
+	    adq.pollFirst();
+	    
+	    adq.pollLast();
+	    
+	}
+} 
+
+
+
+import java.io.*;
+import java.lang.*;
+import java.util.*;
+
+class stud{
+    
+    String name;
+    int roll;
+    public stud(String n, int r){
+        name=n; roll=r;
+    }
+    
+    public String toString(){
+        return "Student: "+name+" Roll: "+roll;
+    }
+    
+    public boolean equals(Object o)
+    {
+        if(this==o) return true;
+        if(o==null || getClass()!=o.getClass()) return false;
+        stud s=(stud) o;
+        
+        return roll==s.roll;
+    }
+    public int hashCode(){
+        return Objects.hash(roll);
+    }
+}
+class learnset {
+    
+	public static void main (String[] args) {
+	    
+	   //Set<Integer> set=new HashSet<>(); // random order
+	   //Set<Integer> set=new LinkedHashSet<>(); // ordered
+	   Set<Integer> set=new TreeSet<>(); //sorted
+       set.add(33);
+       set.add(43);
+       set.add(566);
+
+       set.remove(43);
+      System.out.println(set.contains(33));
+      System.out.println(set.isEmpty() +"---"+set.size());
+      
+      Set<stud> st=new HashSet<>();
+      st.add(new stud("Jina", 10));
+      st.add(new stud("Rina", 6));
+      st.add(new stud("Tina", 10));
+      // as new object create ho ra so it cant distinguish on basis of content
+
+      System.out.println(st); // toString implement kiya
+      
+	}
+} 
+
+import java.io.*;
+import java.lang.*;
+import java.util.*;
+
+
+class learnmap {
+    
+	public static void main (String[] args) {
+	  Map<String, Integer> map=new HashMap<>();
+	  //Map<String, Integer> map=new TreeMap<>();
+	  
+	  map.put("one",1);
+	  map.put("Two",2);
+	  map.put("Three",3);
+	  
+	  if(!map.containsKey("Two"))// overwrite nai krega
+	  map.put("Two",23);
+    
+      map.putIfAbsent("Two",23); // overwrite/update nai krega
+      
+      System.out.println(map.containsValue(5));
+      System.out.println(map);
+    
+     for(Map.Entry<String,Integer> e: map.entrySet())
+      {
+        System.out.println(e);
+        System.out.println(e.getKey());
+        System.out.println(e.getValue());
+      }
+      
+	  map.remove("Two");
+	  for(String k: map.keySet())
+	     System.out.println(k);
+	  for(int v: map.values())
+	      System.out.println(v);   
+	  
+	}
+} 
+
+
+import java.io.*;
+import java.lang.*;
+import java.util.*;
+
+
+class learncollectionsclass {
+    
+	public static void main (String[] args) {
+        int []arr={1,2,5,45,6,7,9,14};
+        Arrays.sort(arr);
+        
+        int idx=Arrays.binarySearch(arr,6);
+        System.out.println(idx);
+        
+        // parallel sort me > 8192 se zyda no.s hone chahiye
+        Arrays.fill(arr, 1010);
+        
+        List<Integer> ll=new ArrayList<>();
+        ll.add(1);
+        ll.add(56);
+        ll.add(2);
+        ll.add(43);
+        ll.add(133);
+        ll.add(1);
+        System.out.println(Collections.min(ll)+"-"+Collections.max(ll)+"-"+Collections.frequency(ll,1));
+	    Collections.sort(ll,Comparator.reverseOrder());
+	    System.out.println(ll);
+	    
+	}
+} 
+
+
+import java.io.*;
+import java.lang.*;
+import java.util.*;
+
+class stud implements Comparable<stud> {
+    
+    String name;
+    int roll;
+    public stud(String n, int r){
+        name=n; roll=r;
+    }
+    
+    public String toString(){
+        return "Student: "+name+" Roll: "+roll;
+    }
+    
+    public boolean equals(Object o)
+    {
+        if(this==o) return true;
+        if(o==null || getClass()!=o.getClass()) return false;
+        stud s=(stud) o;
+        
+        return roll==s.roll;
+    }
+    public int hashCode(){
+        return Objects.hash(roll);
+    }
+    
+    @Override
+    public int compareTo(stud o)
+    {
+        
+        return this.roll-o.roll;
+        // pos to this(current wala) bada hai
+        // neg to o wala bada
+        
+        // to compare name wise
+        //return this.name.compareTo(o.name); 
+    }
+}
+
+class learncollectionsclass {
+    
+	public static void main (String[] args) {
+      List<stud> st=new ArrayList<>();
+      st.add(new stud("Tina", 10));
+      stud one=new stud("Jina", 10);
+      stud two=new stud("Rina", 6);
+      st.add(one);
+      st.add(two);
+      
+	  System.out.println(one.compareTo(two));  
+     /*
+      Collections.sort(st, new Comparator<stud>(){
+      public int compare(stud s1, stud s2){
+          return s1.name.compareTo(s2.name);
+      }    
+      });
+
+     */ 
+      Collections.sort(st,(s1,s2)->s1.name.compareTo(s2.name));
+      System.out.println(st);	  
+        
+	}
+} 
+
+
+
+
+

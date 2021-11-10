@@ -1,0 +1,180 @@
+import java.io.*;
+import java.lang.*;
+
+
+class Myqueue{
+    
+    int maxisize=5,front=0,rear=-1,size=0;
+    int [] arr= new int[maxisize];
+    
+    private boolean isFull()
+    {
+        return size==maxisize;
+    }
+    public boolean isEmpty()
+    {
+        return size==0;
+    }
+    public int getsize()
+    {return size;}
+    public int getfront()
+    {
+        if(isEmpty())
+        {
+            System.out.println("Queue is empty");
+            return Integer.MIN_VALUE;
+        }
+        return arr[front];
+    }
+    public int getrear()
+    {
+        if(isEmpty())
+        {
+            System.out.println("Queue is empty");
+            return Integer.MIN_VALUE;
+        }
+        return arr[rear];
+    }
+    public void insert(int v)
+    {
+        if(isFull())
+        {System.out.println("Queue is full");
+        return;}
+        rear= (rear+1)%maxisize;
+        size++;
+        arr[rear]=v;
+    }
+    public int remove()
+    {
+        if(isEmpty())
+        {
+            System.out.println("Queue is empty");
+            return Integer.MIN_VALUE;
+        }
+        front=front%maxisize;
+        size--;
+        return arr[front++];
+    }
+    
+    public void pall()
+    {
+        for(int i=0;i<maxisize;i++)
+        System.out.print(arr[i]+" ");
+        System.out.println();
+    }
+}
+
+class GFG {
+    
+    
+	public static void main (String[] args) {
+	    Myqueue q= new Myqueue();
+	    q.insert(2);
+	    q.insert(21);
+	    q.insert(62);
+	    q.insert(84);
+	    q.insert(5);
+	    q.pall();
+	    
+	    System.out.println(q.remove());
+	   
+	   
+	   
+	}
+}
+
+=========================
+import java.io.*;
+import java.lang.*;
+
+class Node{
+    int d; Node next;
+}
+
+class Myqueue{
+    
+    Node first,last;
+    int size=0;
+    
+    public boolean isEmpty()
+    {
+        return last==null;
+    }
+    
+    public int getsize()
+    {return size;}
+    
+    public int getfront()
+    {
+        if(isEmpty())
+        {
+            System.out.println("Queue is empty");
+            return Integer.MIN_VALUE;
+        }
+        return first.d;
+    }
+    public int getrear()
+    {
+        if(isEmpty())
+        {
+            System.out.println("Queue is empty");
+            return Integer.MIN_VALUE;
+        }
+        return last.d;
+    }
+    
+    public Node getnewnode(int val) {
+        Node a = new Node();
+        a.d = val;
+        a.next = null;
+        return a;
+    }
+    public void insert(int v)
+    {
+        if(last==null)
+        {
+            first=last=getnewnode(v);
+            size++;
+            return;
+        }
+        size++;
+        last.next=getnewnode(v);
+        last=last.next;
+    }
+    public int remove()
+    {
+        if(isEmpty())
+        {
+            System.out.println("Queue is empty");
+            return Integer.MIN_VALUE;
+        }
+        size--;
+        int t=first.d;
+        first=first.next;
+        if(first == null) 
+            last = null;
+        
+        return t;
+    }
+    
+}
+
+class GFG {
+    
+    
+	public static void main (String[] args) {
+	    Myqueue q= new Myqueue();
+	    q.insert(2);
+	    q.insert(21);
+	    q.insert(62);
+	    q.insert(84);
+	    q.insert(5);
+	    
+	    q.remove();
+	    q.remove();
+	    q.remove();
+	    
+	    q.insert(533);
+	    System.out.println(q.getrear());
+	}
+}

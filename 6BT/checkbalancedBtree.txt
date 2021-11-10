@@ -1,0 +1,41 @@
+public int  findht(TreeNode root)
+    {
+        if(root ==null) return 0;
+        int l=findht(root.left);
+        int r=findht(root.right);
+        
+        return Math.max(l,r)+1;   
+    }
+    public boolean isBalanced(TreeNode root) {
+     	//	 T-O(n-sq)
+        if(root==null) return true;
+        
+        int l=findht(root.left);
+        int r=findht(root.right);
+        if(Math.abs(l-r)>1) return false;
+        
+        if(!isBalanced(root.left) || !isBalanced(root.right)) return false;
+        return true;     
+    }
+
+
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+public int findht(TreeNode root)
+    {
+        // if balanced hai to height else -1
+        if(root ==null) return 0;
+        
+        int l=findht(root.left);
+        int r=findht(root.right);
+        
+        if(l==-1 || r==-1) return -1;
+        if(Math.abs(l-r)>1) return -1;
+        
+        return Math.max(l,r)+1;
+    }
+   
+    public boolean isBalanced(TreeNode root) {
+        // T- O(n)
+        if(findht(root)== -1) return false;
+        return true;
+    }

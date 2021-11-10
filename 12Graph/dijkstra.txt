@@ -1,0 +1,68 @@
+import java.io.*;
+import java.lang.*;
+import java.util.*;
+class Pair {
+    int n,dis;
+    public Pair(int n, int dis)
+    {this.n=n; this.dis=dis;}
+}
+class GFG {
+    public static void dijkstra(int V,int s, ArrayList<ArrayList<Pair>> adj)
+    {
+        PriorityQueue<Pair> pq= new PriorityQueue<>(V, new Comparator<Pair>() {
+        public int compare(Pair n1,Pair n2){
+	          if(n1.dis<n2.dis) return -1;
+              if(n1.dis>n2.dis) return 1;
+              return 0;
+	      }   });
+	      
+        pq.add(new Pair(s,0));
+        int []dis= new int[V+1]; Arrays.fill(dis,Integer.MAX_VALUE);
+        dis[s]=0;
+        
+        while(!pq.isEmpty())
+        {
+            Pair node=pq.poll();
+            for(Pair x: adj.get(node.n))
+            {
+                if(node.dis+x.dis< dis[x.n])
+                {
+                    dis[x.n]= node.dis+x.dis;
+                    pq.add(new Pair(x.n,dis[x.n]));
+                }
+            }
+        }
+        for(int i=0;i<=V;i++)
+         System.out.println(i+"-"+dis[i]);
+        
+    }
+	public static void main (String[] args) throws Exception {
+	 
+	 BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+     StringTokenizer st = new StringTokenizer(br.readLine()," ");
+     int n=Integer.parseInt(st.nextToken()), m=Integer.parseInt(st.nextToken());
+     
+     ArrayList<ArrayList<Pair>> adj= new ArrayList<>();
+     for(int i=0;i<=n;i++)   adj.add(new ArrayList<Pair>());
+     for(int i=0;i<m;i++)
+        {
+           st = new StringTokenizer(br.readLine()," ");
+           int u=Integer.parseInt(st.nextToken()), v=Integer.parseInt(st.nextToken());
+           int w=Integer.parseInt(st.nextToken());
+            adj.get(u).add(new Pair(v,w));
+            adj.get(v).add(new Pair(u,w));
+        }
+	 dijkstra(n,1,adj);
+// 4 4
+// 1 2 6
+// 1 3 1
+// 3 4 2
+// 2 4 1
+
+// 0-2147483647
+// 1-0
+// 2-4
+// 3-1
+// 4-3
+	}
+}

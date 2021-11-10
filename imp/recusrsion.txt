@@ -1,0 +1,137 @@
+Recursion
+
+
+print 1 to n
+//      if n-1 daala to (1 to n-1)
+// bas n print krna hai BADME fir ho gya smjo
+//                     (1 to n-1) n 
+    
+print n to 1
+//      if n-1 daala to (n-1 to 1)
+// bas n print krna hai PHELE fir ho gya smjo
+//                     n(n-1 to 1)    
+print(int n)  // hypo
+{
+    if(n==1) sout(1);// base condition
+    //sout(n);     // if yaaha print kiya to n to 1 
+    print(n-1);  //hypo  
+    sout(n);     // 1  to n induction 
+         
+}
+
+
+int height(Node root)
+{
+    if(root==null) return 0; //bc
+
+    int l=height(root.left);  // hypo
+    int h=height(root.right);  //hypo
+    return 1+Math.max(l,h);   // induction
+}
+
+
+void sort(ArrayList<Integer> a)
+{
+ if(a.size()==1) return; //bc
+ int t=a.get(a.size()-1);
+ a.removeLast(); 
+ sort(a);    //hypo
+ insert(a,t); // induction
+}
+
+insert(ArrayList a,int x)
+{
+   if(a.size()==0 || a.get(a.size()-1)<=x) a.add(x);
+   int t=a.get(a.size()-1);
+   a.removeLast();
+   insert(a,x);
+   a.add(t);
+}
+
+
+void sort(Stack<Integer> s)
+{
+ if(s.size()==1) return; //bc
+ int t=s.pop(); 
+ sort(s);    //hypo
+ insert(a,t); // induction
+}
+
+insert(Stack s,int x)
+{
+   if(s.size()==0 || s.peek()<=x) a.add(x);
+   int t=s.pop();
+   insert(a,x);
+   s.push(t);
+}
+
+
+// delete middle element
+
+delete(Stack<Integer> s,int n)
+{
+   if(s.size==1) s.pop(); 
+   int k=s+/2 +1;
+   deleteit(s,k);
+}
+
+deleteit(Stack<Integer> s,int k)
+{
+   if(k==1) s.pop();
+   int t=s.pop();
+   deleteit(s,k-1);
+   s.push(t);
+}
+
+// reverse stack
+reverse(Stack<Integer> s)
+{
+  if(s.size()==1)return;
+  int t=s.pop();
+  reverse(s);
+  insert(s,t);
+}
+
+insert(Stack<Integer> s,int k)
+{
+   if(s.isEmpty()) s.push(k);
+   int t=s.pop();
+   insert(s,k);
+   s.push(t);
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

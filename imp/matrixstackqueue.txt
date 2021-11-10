@@ -1,0 +1,71 @@
+import java.io.*;
+import java.util.*;
+
+class Solution{
+    
+    //Matrix...................................
+public static int matsearch(int mat[][], int N, int M, int X)
+    {
+       if(N==0 || M==0) return 0;
+       int i=0,j=M-1;
+       while(i<N && j>=0)
+       {
+            if(mat[i][j]==X)        return 1; 
+            if(X<mat[i][j])        j--; // left
+            else if(X>mat[i][j])   i++;//down
+       }
+       return 0;
+       // TC-O(n+m)
+    }
+    
+    public static int countsmallermat(int mat[][], int N, int M, int X)
+    {
+       if(N==0 || M==0) return -1;
+       int i=0,j=M-1; int c=0;
+       while(i<N && j>=0)
+       {
+            if(X<mat[i][j])        j--; // left
+            else if(X>=mat[i][j])   
+            {
+                c+=j+1;
+                i++;//down
+            }
+            }
+       return c;   // TC-O(n+m)
+    }
+    
+    public static int countgreatermat(int mat[][], int N, int M, int X)
+    {
+       if(N==0 || M==0) return -1;
+       int i=0,j=M-1; int c=0;
+       while(i<N && j>=0)
+       {
+            if(X<=mat[i][j])     
+            {
+                c+=N-i;
+                j--; // left
+            }
+            else  
+                i++;//down
+        }
+       return c;   // TC-O(n+m)
+    }
+
+
+
+    //Stack...................................
+    
+    //Queue...................................
+
+public static void main(String[] args)
+  {
+    int mat[][] = { { 10, 20, 30, 40 },
+                   { 15, 25, 35, 45 },
+                   { 27, 29, 37, 48 },
+                   { 32, 33, 39, 50 } };
+ 
+    System.out.print(countgreatermat(mat, 4,4,10));
+ 
+      
+  }
+}

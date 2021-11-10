@@ -1,0 +1,101 @@
+//===================================================================
+// 4sum 
+
+public List<List<Integer>> fourSum(int[] nums, int target) {
+        
+        /*
+        
+        T-O((ncube)*logn)+ O(nlogn)
+        
+        sort
+        
+        3ptr + Binary search
+        for(i=0)
+        for(j=i+1)
+        for(k=j+1)
+         find (nums[i]+nums[j]+nums[k]) ---> binary search on k+1 to n-1
+         if found push into set
+         
+        */
+        
+        
+        /*
+       
+        T-O(ncube)
+        
+        for(i=0) 
+        for(j=i+1) 
+         left and right- 2 pointer approach
+         we need to skip duplicates everytime for i j and left right
+        
+        */
+        
+        List<List<Integer>> res = new ArrayList<>();
+        if( nums==null || nums.length==0)     return res; 
+        Arrays.sort(nums);
+        
+        for(int i=0;i<nums.length;i++)
+        {
+          for(int j=i+1;j<nums.length;j++)
+          {
+              int t=target-(nums[j]+nums[i]),left=j+1,right=nums.length-1; 
+              while(left<right)
+              {
+                  int two_sum=nums[left]+nums[right];
+                  if(two_sum<t)             left++;
+                  else if(two_sum>t)       right--;
+                  else
+                  {
+                      List<Integer> cur=new ArrayList<>();
+                      cur.add(nums[i]);    cur.add(nums[j]);
+                      cur.add(nums[left]); cur.add(nums[right]);
+                      res.add(cur);
+                      while(left<right && nums[left]==cur.get(2)) ++left;
+                      while(left<right && nums[right]==cur.get(3)) --right;
+                  }
+              }
+               while(j+1<nums.length && nums[j+1]==nums[j]) ++j;
+          }
+            while(i+1<nums.length && nums[i+1]==nums[i]) ++i;
+        }
+         return res;
+    }
+
+
+
+//===================================================================
+// length of longest substring 
+
+public int lengthOfLongestSubstring(String A) {
+
+        HashSet<Character> s=new HashSet<>();
+        int ans=0,l=0,r=0;
+        while(r<A.length())
+        {
+            while(s.contains(A.charAt(r)))  
+            { s.remove(A.charAt(l)); 
+              l++;
+            }
+            
+            s.add(A.charAt(r));
+            ans=Math.max(ans,s.size());
+            r++;
+        }
+        return ans;
+    }
+
+public int lengthOfLongestSubstring(String A) {
+
+        HashMap<Character,Integer> map=new HashMap<>();
+        int ans=0,l=0,r=0;
+        while(r<A.length())
+        {
+            if(map.containsKey(A.charAt(r)))  
+            l=Math.max(map.get(A.charAt(r))+1,l);
+            
+            map.put(A.charAt(r),r);
+            ans=Math.max(ans,r-l+1);
+            r++;
+        }
+        return ans;
+    }

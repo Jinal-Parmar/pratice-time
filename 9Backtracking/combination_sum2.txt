@@ -1,0 +1,56 @@
+
+// brute force
+public void solve(int i,int []candidates,int t,Set<List<Integer>> ans,List<Integer> ds){
+        // multiple times ek hi no. le skte haai
+        if(i==candidates.length)
+        {
+            if(t==0) ans.add(new ArrayList<>(ds));
+            return;
+        }
+        
+        if(candidates[i]<=t) // target se chota hai to we can consider
+        {
+            ds.add(candidates[i]);
+            solve(i+1,candidates,t-candidates[i],ans,ds);
+            ds.remove(ds.size()-1);
+        }
+        solve(i+1,candidates,t,ans,ds); // we need to move forward
+        
+    }
+    public List<List<Integer>> combinationSum2(int[] candidates, int target) {
+        Arrays.sort(candidates);
+        Set<List<Integer>> ans=new HashSet<>();
+        solve(0,candidates,target,ans,new ArrayList<>());
+        
+        List<List<Integer>> finalans = new ArrayList<>();
+        finalans.addAll(ans);
+        return finalans;
+    }
+
+
+===========================================================
+class Solution {  
+   public void solve(int i,int []candidates,int t,List<List<Integer>> ans,List<Integer> ds){
+      
+       if(t==0)
+       { ans.add(new ArrayList<>(ds)); return;}
+        
+       for(int j=i;j<candidates.length;j++)
+       {
+           if(j>i &&  candidates[j]==candidates[j-1])
+               continue; // avoid duplicate combinations
+           if(candidates[j]>t) break;
+          
+           ds.add(candidates[j]);
+           solve(j+1,candidates,t-candidates[j],ans,ds);
+           ds.remove(ds.size()-1);
+       }
+    }
+    public List<List<Integer>> combinationSum2(int[] candidates, int t) {
+        Arrays.sort(candidates);
+        List<List<Integer>> ans=new ArrayList<>();
+        solve(0,candidates,t,ans,new ArrayList<>());
+        
+        return ans;
+    }
+}

@@ -1,0 +1,110 @@
+import java.util.*;
+import java.lang.*;
+import java.io.*;
+
+public class Main
+{
+    public static void krushal(int n, ArrayList<Pair> e, PrintWriter out)
+    {
+        Collections.sort(e, new Pair());
+        DSU dsu= new DSU(n); int cost=0;
+       // ArrayList<Pair> mst= new ArrayList<>();
+        for(Pair p: e)
+        {
+            int u=p.x, v=p.y,w=p.d;
+            if(dsu.findparent(u)!=dsu.findparent(v))
+             { 
+               dsu.union(u,v); 
+               //mst.add(new Pair(p));
+               cost+=w;
+             }
+        }
+       out.print(cost);
+    }
+	public static void main (String[] args) throws java.lang.Exception
+	{ 
+	 PrintWriter out=new PrintWriter(System.out);
+	 int n=6;
+	 ArrayList<Pair> e= new ArrayList<>();
+	 e.add(new Pair(5,0,9));
+	 e.add(new Pair(5,1,4));
+	 e.add(new Pair(0,2,5));
+	 e.add(new Pair(2,4,8));
+	 e.add(new Pair(1,2,3));
+	 e.add(new Pair(1,0,1));
+	 e.add(new Pair(3,4,7));
+	 e.add(new Pair(3,2,3));
+	 e.add(new Pair(1,3,2));
+     krushal(n,e,out);
+       out.close();
+	}
+}
+class Pair implements Comparator<Pair>{
+    int x,y,d;
+    public Pair(){}
+    public Pair(int a,int b, int d)
+    { x=a; y=b; this.d=d;}
+    public int compare(Pair p1,Pair p2)
+    {
+        if(p1.d<p2.d) return -1;
+        else if(p1.d>p2.d) return 1;
+        return 0;
+    }
+}
+class DSU{
+    ArrayList<Integer> parent= new ArrayList<>();
+    ArrayList<Integer> size= new ArrayList<>();
+    ArrayList<Integer> rank= new ArrayList<>();
+    public DSU(int n)
+    {
+        for(int i=0;i<=n;i++)
+        {
+            parent.add(i); size.add(1); rank.add(0);
+        }
+    }
+    public int findparent(int n)
+    {
+        if(parent.get(n)==n)  return n;
+        // path compression ht-log(n)
+        //path + size compression 4xalpha
+         parent.set(n, findparent(parent.get(n)));
+        return parent.get(n);
+    }
+    
+    public void union(int u,int v)
+    {
+        int   pu= findparent(u), pv=findparent(v);
+        if(pu==pv) return;
+        
+        if(size.get(pu)<size.get(pv))
+        {
+            parent.set(pu,pv);
+            size.set(pv,size.get(pv)+size.get(pu));
+        }
+        else 
+        {
+            parent.set(pv,pu);
+            size.set(pu,size.get(pu)+size.get(pv));
+        }
+    }
+    
+    public void unionRank(int u,int v)
+    {
+        int   pu= findparent(u), pv=findparent(v);
+        if(pu==pv) return;
+        
+        if(rank.get(pu)<rank.get(pv))
+            parent.set(pu,pv);
+           
+        else if(rank.get(pu)>rank.get(pv)) 
+            parent.set(pv,pu);
+           
+        else 
+        {
+            parent.set(pu,pv);
+            rank.set(pv,pv+1);
+        }
+    }
+}
+
+

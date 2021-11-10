@@ -1,0 +1,60 @@
+class Solution {
+    List<List<String>> ans;
+    public List<List<String>> solveNQueens(int n) {
+        ans = new ArrayList<>();
+        
+        char[][] board = new char[n][n];
+        for(char[] array : board)  Arrays.fill(array,'.');
+        
+        recursion(0,n,board);
+        return ans;
+    }
+   
+    void recursion(int row,int n,char[][] board)
+    {
+        if(row == n)
+        {
+            ans.add( makeList(board)); 
+            return ;
+        }
+        for(int col=0;col<n;col++)
+        {
+            if(isSafe(row,col,n,board))
+            {
+                board[row][col] = 'Q';
+                recursion(row+1,n,board);
+                board[row][col] = '.';  //backtrack
+            }
+        }
+    }
+    boolean isSafe(int row,int col,int n,char[][] b)
+    {
+        
+        for(int i=0;i<row;i++)  // us column me upr koi queen hai ki ni (niche,leftandright me to Q honge nai)
+            if(b[i][col] == 'Q')   
+                return false;
+        
+        int i = row-1,j=col-1;
+        while(i>=0 && j>=0)    // diagonally left upar side
+        {
+            if(b[i][j] == 'Q')     return false;
+            i--;j--;
+        }
+        i=row;j=col;
+        while(i>=0 && j<n)   // diagonally right upar side
+        {
+            if(b[i][j] == 'Q')     return false;
+            i--;j++;
+        }
+                             // niche to Q honge nai so already safe 
+        return true;        
+    }
+     List<String> makeList(char[][] b)
+    {
+        List<String> list = new ArrayList<>();
+        for(char[] array : b)
+            list.add(String.valueOf(array));
+        return list;
+    }
+    
+}

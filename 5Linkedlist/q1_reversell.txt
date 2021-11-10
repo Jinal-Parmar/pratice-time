@@ -1,0 +1,83 @@
+import java.util.*;
+public class ll{
+    Node head;
+    void add(int data)
+    {
+        Node addme=new Node(data);
+        if(isEmpty()){head=addme; return;}
+        Node t=head; 
+        while(t.next!=null) t=t.next;
+        t.next=addme;
+    }
+    
+    boolean isEmpty() {return head==null;}
+    void printll(){
+        Node t=head;
+        while(t!=null){
+            System.out.println(t.data+"");t=t.next;}
+    }
+    
+    
+    static class Node{
+        int data; Node next;
+        public Node(int data){ 
+            this.data=data; 
+            next=null; }
+    }
+    
+    public Node reverse(Node h)
+    {                 
+        Node p=null;      // p    h
+                          //null  1->2->3->null
+        while(h!=null)      
+        {                 
+            Node n=h.next;// p    h  n     
+            h.next=p;     //null<-1 2->3->null
+            p=h; h=n;     //      p h  
+                          //null<-1 2->3->null
+        }
+        return p;
+    }
+    
+    public Node reverse2(Node h)
+    {                 
+        if(h==null || h.next==null)
+        return h;
+                                 //    h  d
+        Node d=reverse2(h.next); // 1->2->3->null
+        h.next.next=h;           // 1->2<=>3 
+        h.next=null;             // 1->2<-3
+        return d;
+    }
+    
+    public Node reverse3(Node h)
+    {    
+        Stack<Node> s=new Stack<>();
+        Node d=h;
+        if(d==null) return h;
+        while(d.next!=null){ 
+        s.push(d); d=d.next;}
+        h=d;
+        while(!s.isEmpty())
+        {
+            d.next=s.pop();
+            d=d.next;
+        }
+        d.next=null;
+        return h;
+    }
+    
+    public static void main(String[] args)
+    {
+        ll x=new ll();
+        x.head=new Node(10);
+        x.add(45); 
+        x.add(20);
+        x.head=x.reverse3(x.head);
+        x.printll();
+       
+    }
+  //1. iterative 2. recursive 3. stack 
+
+    
+}

@@ -1,0 +1,113 @@
+// { Driver Code Starts
+//Initial Template for Java
+
+import java.io.*;
+import java.util.*;
+
+class GFG{
+    public static void main(String args[])throws IOException
+    {
+        BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
+        int t = Integer.parseInt(in.readLine());
+        while(t-- > 0){
+            int N = Integer.parseInt(in.readLine());
+            String S = in.readLine();
+            
+            Solution ob = new Solution();
+            System.out.println(ob.countWays(N, S));
+        }
+    }
+}// } Driver Code Ends
+
+
+//User function Template for Java
+
+class Solution{
+    
+    static int solve(String s,int i,int j, boolean isTF)
+    {
+        if(i>j) return 0;
+        if(i==j)
+        {
+            if(isTF==true) return s.charAt(i)=='T'? 1:0;
+            else           return s.charAt(i)=='F'? 1:0;
+        }
+        int ans=0;
+        for(int k=i+1;k<=j-1;k+=2)
+        {
+            int lt=solve(s,i,k-1,true), lf=solve(s,i,k-1,false); 
+            int rt=solve(s,k+1,j,true), rf=solve(s,k+1,j,false);
+            //xor
+            if(s.charAt(k)=='^')
+            {   
+                if(isTF==true)  ans+=lt*rf+lf*rt;
+                else            ans+=lt*rt+lf*rf;
+            }
+            //and
+            else if(s.charAt(k)=='&')
+            {   
+                if(isTF==true)  ans+=lt*rt;
+                else            ans+=lt*rf+lf*rt+lf*rf;
+            }
+            //or
+            else if(s.charAt(k)=='|')
+            {   
+                if(isTF==true) ans+=lt*rt+lt*rf+lf*rt;
+                else           ans+=lf*rf;
+            }
+            }
+        }
+    return ans%=1003;
+    }
+    static int countWays(int n, String s){
+        return solve(s,0,n-1, true);
+    }
+}
+
+==================================================
+class Solution{
+    static Map<String ,Integer> hm= new HashMap<>();
+    static int solve(String s,int i,int j, boolean isTF)
+    {
+        if(i>j) return 0;
+        if(i==j)
+        {
+            if(isTF==true) return s.charAt(i)=='T'? 1:0;
+            else           return s.charAt(i)=='F'? 1:0;
+        }
+        
+        String t=i+" "+j+" "+isTF;
+        if(hm.containsKey(t)) return hm.get(t);
+        
+        int ans=0;
+        for(int k=i+1;k<=j-1;k+=2)
+        {
+            int lt=solve(s,i,k-1,true), lf=solve(s,i,k-1,false); 
+            int rt=solve(s,k+1,j,true), rf=solve(s,k+1,j,false);
+            //xor
+            if(s.charAt(k)=='^')
+            {   
+                if(isTF==true)  ans+=lt*rf+lf*rt;
+                else            ans+=lt*rt+lf*rf;
+            }
+            //and
+            else if(s.charAt(k)=='&')
+            {   
+                if(isTF==true)  ans+=lt*rt;
+                else            ans+=lt*rf+lf*rt+lf*rf;
+            }
+            //or
+            else if(s.charAt(k)=='|')
+            {   
+                if(isTF==true) ans+=lt*rt+lt*rf+lf*rt;
+                else           ans+=lf*rf;
+            }
+        }
+    ans%=1003;  hm.put(t,ans);
+    return ans;
+    }
+    static int countWays(int n, String s){
+        hm.clear();
+        return solve(s,0,n-1, true);
+    }
+}

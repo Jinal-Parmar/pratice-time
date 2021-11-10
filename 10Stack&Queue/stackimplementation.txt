@@ -1,0 +1,109 @@
+import java.io.*;
+class Mystack{
+    
+    int t=0;
+    int max=5;
+    int[] a=new int[max];
+    
+    private boolean isfull()
+    {
+        if(t== max) return true;
+        else return false;
+    }
+    
+    private boolean isEmpty()
+    {
+        return (t==0);
+    }
+    
+    private int top()
+    {
+        if(isEmpty())
+        {System.out.println("Stack empty hai");
+        return -1;}
+        return a[t-1];
+    }
+    private void push(int v)
+    {
+        if(isfull())
+        {System.out.println("Stack full hai");
+        return;}
+        a[t++]=v;
+    }
+    
+    private int pop()
+    {
+        if(isEmpty())
+        {System.out.println("Stack empty hai");
+        return -1;}
+        return a[--t];
+    }
+    
+    public static void main (String[] args)
+      {
+	Mystack x=new Mystack();
+	System.out.println(x.top());
+	x.push(33);
+	System.out.println(x.top());
+      }	
+}
+
+
+using linkedlist
+==========================================
+
+import java.io.*;
+
+class Node{
+    int d;
+    Node next;
+    
+}
+class Mystack{
+    Node f;
+    
+     private int top()
+    {
+        if(f==null)
+        {System.out.println("Stack empty hai");
+        return -1;}
+        return f.d;
+    }
+    private Node getNewNode(int v){
+        Node a=new Node();
+        a.d=v;
+        a.next=null;
+        return a;
+    }
+    
+    private void push(int v)
+    {
+        if(f==null){
+        f= getNewNode(v); return;}
+        Node t= getNewNode(v);
+        t.next=f;
+        f=t;
+    }
+    
+    private int pop()
+    {
+       if(f==null)
+        {System.out.println("Stack empty hai");
+        return -1;}
+        int t=f.d;
+        f=f.next;
+        return t;
+    }
+    
+	public static void main (String[] args) {
+	Mystack x=new Mystack();
+	
+	x.push(33);
+	x.push(2);
+	x.push(3);
+	x.push(443);
+	System.out.println(x.pop());
+	System.out.println(x.top());
+	
+	}
+}

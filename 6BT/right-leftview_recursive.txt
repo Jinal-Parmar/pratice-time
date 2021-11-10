@@ -1,0 +1,36 @@
+//Right view 
+class Solution { 
+    List<Integer> ans= new ArrayList<>(); 
+    public void reversepreorder(TreeNode root, int l)
+    {   
+        if(root==null)
+            return;
+        if(l==ans.size()) ans.add(root.val);
+        reversepreorder(root.right,l+1);
+        reversepreorder(root.left,l+1);  
+    }
+    public List<Integer> rightSideView(TreeNode root) {
+     reversepreorder(root,0);
+     return ans;
+    }
+}
+
+
+==================================================
+//Left view 
+
+class Solution { 
+    List<Integer> ans= new ArrayList<>(); 
+    public void preorder(TreeNode root, int l)
+    {   
+        if(root==null)
+            return;
+        if(l==ans.size()) ans.add(root.val);
+        preorder(root.left,l+1);
+        preorder(root.right,l+1);  
+    }
+    public List<Integer> lefttSideView(TreeNode root) {
+     preorder(root,0);
+     return ans;
+    }
+}

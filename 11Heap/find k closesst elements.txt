@@ -1,0 +1,35 @@
+class Solution {
+    
+    class Pair implements Comparator<Pair>{
+        int diff, e;
+        public Pair(){}
+        public Pair(int d, int e){
+            diff=d; this.e=e;
+        }
+        public int compare(Pair p1, Pair p2) {
+		if (p1.diff == p2.diff)
+            return p2.e-p1.e;     // no change 
+		else
+            return p2.diff - p1.diff;
+        }
+        
+    }
+    public List<Integer> findClosestElements(int[] arr, int k, int x) {
+        // jisko nikal na ho wo heap banao
+        // badi vlaues nikal ni hai so max heap
+        //pair abs diff(element,x), element
+        
+    List<Integer> ans= new ArrayList<>();
+    PriorityQueue<Pair> pq = new PriorityQueue<Pair>(k, new Pair());
+         
+        for(int j: arr)
+        {   
+            pq.add(new Pair(Math.abs(j-x),j));
+            if(pq.size()>k)   pq.poll();
+        }
+        
+        while(pq.size()>0) ans.add(pq.poll().e);
+        Collections.sort(ans);
+     return ans;
+    }
+}

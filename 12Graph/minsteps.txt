@@ -1,0 +1,41 @@
+import java.io.*;
+import java.lang.*;
+import java.util.*;
+
+//Minimum steps s->e by performing multiplication operations with array elements
+class Pair{
+    int v,step;
+    public Pair(int v, int step)
+    {this.v=v; this.step=step;}
+}
+class GFG {
+    public static int fun(int a[],int s, int e)
+    {
+        boolean vis[]= new boolean [e+1];
+        vis[s]=true;
+        Queue<Pair> q= new LinkedList<>();
+        q.add(new Pair(s,0));
+        
+        while(!q.isEmpty())
+        {
+            Pair n=q.poll();
+            
+            if(n.v==e) return n.step;
+            
+            for(int x=0;x<a.length;x++)
+            {
+                int des=n.v*a[x];
+                if(des<=e && !vis[des])
+                {
+                    vis[des]=true;
+                    q.add(new Pair(des,n.step+1));
+                }
+            }
+        }
+        return -1;
+    }
+	public static void main (String[] args) {
+	    int a[]={5,2,10};
+	    System.out.print(fun(a,3,30));
+	}
+}

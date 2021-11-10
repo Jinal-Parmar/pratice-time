@@ -1,0 +1,44 @@
+class Solution
+{
+    void addleft(Node root,	ArrayList <Integer> ans){
+        Node cur=root.left;
+        while(cur!=null)
+        {   
+            if(!isleaf(cur))     ans.add(cur.data);
+            if(cur.left!=null)   cur=cur.left;
+            else                 cur=cur.right;
+        }
+    }
+    void addright(Node root, ArrayList <Integer> ans){
+        Node cur=root.right;
+        ArrayList <Integer> t= new ArrayList <Integer>();
+        while(cur!=null)
+        {   
+            if(!isleaf(cur))     t.add(cur.data);
+            if(cur.right!=null)  cur=cur.right;
+            else                 cur=cur.left;
+        }
+        Collections.reverse(t);
+        ans.addAll(t);
+    }
+    void addleaves(Node root, ArrayList <Integer> ans){
+        if(isleaf(root))
+        {   ans.add(root.data);  return;    }
+        if(root.left!=null)      addleaves(root.left,ans);
+        if(root.right!=null)     addleaves(root.right,ans);
+    }
+    Boolean isleaf(Node root){
+        if(root.left==null && root.right==null) return true; 
+        return false;
+    }
+	ArrayList <Integer> printBoundary(Node node)
+	{
+	    ArrayList <Integer> ans= new ArrayList <Integer>();
+	    if(node==null) return ans;
+	    if(isleaf(node)==false) ans.add(node.data);
+	    addleft(node,ans);
+	    addleaves(node,ans);
+	    addright(node,ans);
+	    return ans; 
+	}
+}

@@ -1,0 +1,74 @@
+/*
+
+  Brute force 
+  for each element i
+  >iterate till begining find left max
+  >iterate till ending find right max
+  >min(left max, right max) - a[i]
+ 
+  O(n-sq)
+
+*/
+
+
+  public int trap(int[] a) {
+ 
+        // T-O(n)   S-O(2n)
+
+        int n=a.length,ans=0;
+        int left[]=new int[n], right[]=new int[n];
+        left[0]=a[0]; right[n-1]=a[n-1];
+       
+        for(int i=1;i<n;i++) // cur aur uske left me konsa bada hai
+            left[i]=Math.max(left[i-1],a[i]);
+        for(int i=n-2;i>=0;i--)// cur aur uske right me konsa bada hai
+            right[i]=Math.max(right[i+1],a[i]);
+        for(int i=0;i<n;i++)
+            ans+=Math.min(left[i],right[i])-a[i];
+       return ans;
+    
+        //a      4,2,0,3,2,5
+        //left ->4 4 4 4 4 5
+        //right  5 5 5 5 5 5<- 
+        //ans    0+2+4+1+2+0=9  
+        
+    }
+
+public int trap(int[] a) {
+ 
+        // T-O(n)   S-O(2n)
+       //Stack wala 
+        
+    }
+
+ public int trap(int[] a) {
+
+   	// 2pointer 
+	// T- O(n)	S- O(1)	
+
+        int res=0,l=0,r=a.length-1,leftmax=0,rightmax=0;
+        while(l<r)
+        {
+            if(a[l]<=a[r]) // someone on right is greater than current left
+            {
+                if(a[l]>=leftmax)  
+                    leftmax=a[l]; //isiliye hame yaha minium mil raha hai 
+                else
+                    res+=leftmax-a[l];
+                
+                l++;
+            }
+            else
+            {
+                if(a[r]>=rightmax) 
+                    rightmax=a[r];
+                else
+                    res+=rightmax-a[r];
+                
+                r--;
+            }       
+        }
+        return res;
+    }
+
+

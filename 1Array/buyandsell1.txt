@@ -1,0 +1,48 @@
+  
+
+     //Best Time to Buy and Sell Stock -1 
+     // 1 transaction (1-b 1-s)
+          
+        
+        /* 
+           brute for everyday buy check uske aage wale elements pe sell
+           T- O(n-sq)
+           
+           for(buy i=0->n)
+            for(sell j=i+1->n)
+        */
+
+    public int maxProfit2(int[] prices)
+    {
+      
+        // T- O(n) S- O(n)
+	// store current ke aage max. wala 
+        int x[]=new int[prices.length];
+        x[prices.length-1]=prices[prices.length-1];
+        
+        //   7,1,5,3,6,4
+        // x=7,6,6,6,6,4
+         
+         for(int i=prices.length-2;i>=0;i--)
+         {
+               if(prices[i]> x[i+1])    x[i]=prices[i];
+               else                     x[i]=x[i+1];   
+         } 
+         int ans=0; 
+         for(int i=0;i< prices.length-1;i++)    ans=Math.max(ans,x[i]-prices[i]);
+            
+       return ans;   
+    }
+
+    public int maxProfit3(int[] prices)
+    {
+        // T-O(n)
+        // minimum so far store krnege 
+        int minsofar=prices[0],ans=0;
+        for(int i=0;i<prices.length;i++)
+        {
+           minsofar= Math.min(minsofar,prices[i]);
+           ans= Math.max(ans,prices[i]-minsofar);   
+        }
+        return ans;
+    }

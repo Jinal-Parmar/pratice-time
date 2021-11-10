@@ -1,0 +1,38 @@
+class Solution {
+    public void solveSudoku(char[][] board) {
+     solveme(board);   
+    }
+    public boolean solveme(char[][] b)
+    {
+        for(int i=0;i<b.length;i++)
+        {
+            for(int j=0;j<b[0].length;j++)
+            {
+                if(b[i][j]=='.')
+                {
+                    for(char c='1';c<='9';c++)
+                    {
+                        if(canIput(b,i,j,c))
+                        {
+                            b[i][j]=c;
+                            if(solveme(b)) return true;
+                            else b[i][j]='.';// backtrack    
+                        }
+                    }
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+    
+    public boolean  canIput(char b[][],int row,int col,char c)
+    {
+        for(int i=0;i<9;i++){
+            if(b[i][col]!='.' && b[i][col]==c) return false; // check row
+            if(b[row][i]!='.' && b[row][i]==c) return false; //check colum
+            if (b[3*(row/3)+ i/3][3*(col/3)+ i%3]!='.' &&b[3*(row/3)+ i/3][3*(col/3)+ i%3]==c ) return false;
+        }
+        return true;
+    }
+}

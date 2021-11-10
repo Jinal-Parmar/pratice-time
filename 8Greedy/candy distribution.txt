@@ -1,0 +1,32 @@
+============================================================================
+//greedy
+
+// candy distribution
+public int candy(int[] A) {
+        //1, 5, 2, 1
+        int x[]=new int[A.length];
+        int ans=0;
+        for(int i=0;i<A.length;i++)     x[i]=1;
+        //1 1 1 1
+        for(int i=1;i<A.length;i++) 
+        {
+            if(A[i]>A[i-1])
+              x[i]=x[i-1]+1;
+            else
+              x[i]=1;
+        }
+        //1 2 1 1
+        
+        for(int i=A.length-2;i>=0;i--)
+        {
+          if(A[i]>A[i+1])
+            x[i]=Math.max(x[i],x[i+1]+1);
+          else
+            x[i]=Math.max(x[i],1);
+        }
+         //1 3 2 1
+        for(int c: x) ans+=c;
+    
+        return ans;
+    }
+

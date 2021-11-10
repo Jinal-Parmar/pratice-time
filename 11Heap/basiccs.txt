@@ -1,0 +1,71 @@
+import java.util.*;
+import java.io.*;
+import java.lang.*;
+class GFG {
+    
+   
+//   compare(Pair p1, Pair p2)
+//   p1.val-p2.val; // ascending- min heap
+//   p2.val-p1.val; // descending - max heap
+   
+    //  p1.val> p2.val --  1   // ascending
+    //  p1.val< p2.val --  1   // descending                  
+   
+    // string 
+    // return s1.name.compareTo(s2.name); //ascending
+    // return s2.name.compareTo(s1.name); //descending
+    
+    
+    // minheap top/largest/greatest
+    // maxheap closest/smallest/lowest
+
+   // sorting nlogn
+   // heap nlogk
+   
+   // kth smallest element
+   // maintain max heap of size k
+   // PriorityQueue<Integer> pq= new PriorityQueue<Integer>(Collections.reverseOrder());
+   // eg . 10 20 4 15 3 7  --> 3 4 7 10 15 20
+   //  20 10 4
+   //  20 will be out 20 15 10 4
+   //  15 will be out 15 10 4 3
+   //  10 will be out 10 7 4 3
+   // return top
+   
+   // kth largest element
+   // maintain min heap of size k
+   // PriorityQueue<Integer> pq= new PriorityQueue<Integer>();
+   // eg . 7 20 10 4 15 3   --> 3 4 7 10 15 20
+   //  7 10 20
+   //  4 will be out 4 7 10 20
+   //  7 will be out 7 10 15 20
+   //  3 will be out 3 10 15 20
+   // return top
+   
+   // sort a k (nearly) sorted array
+   // k size ki min heap window chalaoo
+   
+   // kth closest Number
+   // need to sort acc to diff between e and x
+   // so Pair in pq
+   
+   // top k frequent no.s
+
+   // freqeuncy sort
+  
+  
+   // k closest points to origin
+   
+   // connect ropes to minimize cost
+   // min heap
+   
+    
+   // sum of elements between k1 smallest and k2 smallest numbers
+   // kth x1=smallest(arr, k1) and for k2 too
+   // traverse arr then sum+=e such that x1<e<x2 
+   
+   
+	public static void main (String[] args) {
+     
+	}
+}

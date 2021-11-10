@@ -1,0 +1,61 @@
+import java.io.*;
+import java.lang.*;
+
+
+
+class Mpq{
+     
+    int maxisize=10,size=0;
+    int [] arr= new int[maxisize];
+    
+    public void insert(int v)
+    {
+        int i;
+        
+        if (size==0)
+        {
+            arr[0]=v;
+            size++;
+            return;
+        }
+        for ( i=size-1;i>=0 ;i-- )
+        {
+            if(v>arr[i])  // descending order me rehega
+            arr[i+1]=arr[i];
+            else
+            break;
+        }
+        arr[i+1]=v;
+        size++;
+    }
+    
+    public void pall()
+    {
+        for(int i=0;i<size;i++)
+        System.out.print(arr[i]+" ");
+    }
+    public int remove()
+    {return arr[--size];
+    }
+    public boolean isEmpty()
+    {return size==0;
+    }
+    public int getpeek()
+    {return arr[size-1];}
+}
+
+class GFG {
+    
+    
+	public static void main (String[] args) {
+	   
+	   Mpq pq= new Mpq();
+	   pq.insert(2);
+	   pq.insert(12);
+	   pq.insert(5);
+	   pq.insert(10);
+	   pq.insert(8);
+	   
+	   pq.pall();
+	}
+}

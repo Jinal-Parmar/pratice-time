@@ -1,0 +1,66 @@
+   public static int distinctSubstring(String word) {
+       HashSet<String> hs = new HashSet<>(); 
+       // T-O(n-sq) S-O((n-sq)x(n/2)) = O(n-cube)
+		for(int i=0;i<word.length();i++)
+        {
+            String t="";
+            for(int j=i;j<word.length();j++)
+            {
+                t+=word.charAt(j);
+                hs.add(t);
+            } 
+        }
+        return hs.size();
+    }
+
+
+========================================
+
+import java.util.*;
+
+class Node{
+    Node[] arr;
+    boolean f;
+    public Node()
+    { arr= new Node[26]; }
+    
+    public boolean contains(char c)
+    {return (arr[c-'a']!=null);}
+    
+    public void put(char c, Node newnode)
+    {arr[c-'a']=newnode;}
+    
+    public Node getnext(char c)
+    {return arr[c-'a'];}
+    
+    public void setflag()
+    {f=true;} 
+    
+    public boolean issetflag()
+    {return f;}  
+}
+public class Solution {
+    
+    public static int distinctSubstring(String word) { 
+        Node root= new Node();
+        int c=0;
+        //  T= O(n) S-O(n)*26 
+        for(int i=0;i<word.length();i++)
+        {
+      		Node t= root;
+            for(int j=i;j<word.length();j++)
+            {
+                char  ch=word.charAt(j);
+                if(!t.contains(ch))
+                {
+                    Node newnode= new Node();
+                    t.put(ch, newnode);
+                    t.setflag();
+                    c++; 
+                }      
+                t=t.getnext(ch);
+            }
+        }
+        return c;
+    }
+}

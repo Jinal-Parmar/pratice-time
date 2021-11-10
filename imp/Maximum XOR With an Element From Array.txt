@@ -1,0 +1,79 @@
+class Solution {
+    public class Node{
+    Node[] arr; int v;
+    public Node()
+    {  arr= new Node[2]; }
+    
+    public boolean contains(int b)
+    {return (arr[b]!=null);}
+    
+    public void put(int b, Node newnode)
+    {arr[b]=newnode;}
+    
+    public Node getnext(int b)
+    {return arr[b];}
+    }
+    
+    public Node root;
+    public void insert(int n)
+    {
+        Node t=root;
+        for(int b=31;b>=0;b--)
+        {
+            int bvalue=n&(1<<b);
+            if(bvalue!=0) 
+             bvalue=1;
+            else 
+             bvalue=0;
+             
+            if(!t.contains(bvalue))
+                t.put(bvalue,new Node());
+            
+            t=t.getnext(bvalue);
+        }
+        t.v=n; // bit store hua but pta nahi h kya no. h so flag k jagah pe no. store krna hai end me
+    }
+    
+    public int findmax_xor(int n)
+    {
+      Node t=root;
+        for(int b=31;b>=0;b--)
+        {
+            int bvalue=n&(1<<b);
+            if(bvalue!=0) 
+             bvalue=1;
+            else 
+             bvalue=0;
+             
+            if(t.contains(1-bvalue))
+                t=t.getnext(1-bvalue); //opposite bit hai to le lo
+            else if(t.contains(bvalue))
+                t=t.getnext(bvalue); // ya wahi lena hoga
+            else
+                return Integer.MIN_VALUE;    // koi nai hai
+        }
+        return n^(t.v);   // cur no. aur jisko find kiya
+    }
+    public int[] maximizeXor(int[] nums, int[][] queries) {
+        root= new Node();
+        int[][] sortedQueries = new int[queries.length][3];
+        for (int i = 0; i < queries.length; i++) {
+            sortedQueries[i][0] = queries[i][0];
+            sortedQueries[i][1] = queries[i][1];
+            sortedQueries[i][2] = i;
+        }
+        Arrays.sort(nums);
+		Arrays.sort(sortedQueries, (o1, o2) -> o1[1] - o2[1]);
+        int i=0;
+        int[] ans=new int[queries.length]; Arrays.fill(ans,-1);
+        for(int[] x: sortedQueries){
+            int end=x[1];
+            while( i<nums.length && nums[i]<=end)
+            {
+                insert(nums[i]); i++;
+            }
+                ans[x[2]]= Math.max(ans[x[2]],findmax_xor(x[0]));
+        }
+            return ans;
+    }
+}

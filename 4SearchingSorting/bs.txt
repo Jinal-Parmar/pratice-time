@@ -1,0 +1,259 @@
+iterative_bs(int [] arr,int x)
+{
+	int l=0,r=arr.length()-1;
+   	while(l<=r)
+	{
+		int m=(l+h)/2;
+		if(x==arr[m]) return m;
+		if(x<arr[m])  h=m-1;
+		else          l=m+1;
+	}
+	return -1;
+}
+
+rec_bs(int l,int h, int [] arr, int x)
+{
+  	if(l>h) return -1;
+   	int m= (l+h)/2;
+	if(x==arr[m]) 	return m;
+	if(x<arr[m]) 	return rec_bs(l,m-1,arr,x);
+   	return rec_bs(m+1,h,arr,x);
+}
+
+lower_bound(itn arr[], int x)
+{
+	int ans=arr.length();
+	int l=0,r=arr.length()-1;
+   	while(l<=r)
+	{
+		int m=(l+h)/2;
+		if(x>=arr[m])  { ans=m; h=m-1;}
+		else          l=m+1;
+	}
+	return ans;
+}
+upper_bound(itn arr[], int x)
+{  
+	int ans=arr.length();
+	int l=0,r=arr.length()-1;
+   	while(l<=r)
+	{
+		int m=(l+h)/2;
+		if(x>arr[m])  { ans=m; h=m-1;}
+		else          l=m+1;
+	}
+	return ans;
+}
+
+firstocc(int arr[],int x,int n)
+{
+        int l=0,h=n-1;
+            while(l<=h)
+            {
+                int m=l+(h-l)/2;
+		if(arr[m]== x) { ans=m; h=m-1; }
+                if(x<a[m])  h=m-1;
+                else        l=m+1;
+            }
+	return -1;// return low
+}
+
+lastocc(int arr[],int x,int n)
+{
+        int l=0,h=n-1;
+            while(l<=h)
+            {
+                int m=l+(h-l)/2;
+		if(arr[m]== x) { ans=m; l=m+1; }
+                if(x<a[m])  h=m-1;
+                else        l=m+1;
+            }
+	return -1;// return low
+}
+
+
+//Q. find no. of occ of x in sorted array
+// ans - 1. check if exists or not then-> lastocc- firstocc+1
+//       2.  lb!=x return -1; else return ub-lb; 
+
+// x=26 find integer sq root of x  1<=x<=Integer.MAX_VALUE
+// biggest i*i<=x
+// and we know i will lie in 0 to x
+ public int mySqrt(int x) {
+        long l=0,h=x,ans=1;
+        while(l<=h)
+        {
+            long m=l+(h-l)/2;
+            if(m*m<= x) { ans=m; l=m+1;}
+            else          h=m-1;
+        }
+        return (int )ans;
+}
+
+
+// (l+h)/2 will overflow if infi+infi/2 
+
+
+//Find Minimum in Rotated Sorted Array
+public int findMin(int[] nums) {
+      int l=0,h= nums.length-1;
+        while(l<h)
+        {
+            int m=l+(h-l)/2;
+            if(nums[m]<nums[h]) h=m;
+            else                l=m+1;
+        }
+        return nums[l]; // jab h=l ho jae( ek hi element bache)
+}
+
+//Find Minimum in Rotated Sorted Array II
+// WC- O(n)   111111
+// AC- O(logn)
+public int findMin(int[] nums) {
+        int l=0,h= nums.length-1;
+        while(l<h)
+        {
+            int m=l+(h-l)/2;
+            if(nums[m]<nums[h]) h=m;
+            else if(nums[m]>nums[h]) l=m+1;
+            else 
+            h--;    // eliminate those who can never be our answer
+        }
+        return nums[l]; 
+        
+        // egde case
+        // 111001
+        // 011111
+        // else 
+        //     if(h!=0 && nums[h]>= nums[h-1]) h--;
+        //     else return nums[h];        
+}
+
+//Search in Rotated Sorted Array
+ public int search(int[] nums, int x) {
+        int l=0,h= nums.length-1;
+        while(l<=h)
+        {
+            int m= l+(h-l)/2;
+            if (nums[m]== x) return m; 
+            if(nums[l]<=nums[m])
+            {
+               if(x>= nums[l] && x<= nums[m])  h=m-1;
+                else     l=m+1; 
+            }
+            else
+            {
+                 if(x>= nums[m] && x<= nums[h])  l=m+1;
+                else      h=m-1;                
+            }
+        }
+        return -1;
+        // either left or right will be sorted 
+}
+
+// Find Peak element
+public int findPeakElement(int[] nums) {
+        int l=0, h= nums.length-1;
+        while(l<h)
+        {
+            int m=l+(h-l)/2;
+            if(nums[m]>nums[m+1]) h=m; // left side pakka peak ho skta 
+            else  l=m+1;               // right side pakka peak ho skta
+        }
+        return l;        
+}
+        
+
+// Minimum Size Subarray Sum
+
+class Solution {
+    public boolean sliding(int t,int []nums, int m) 
+    {
+        int i=0,j=0,sum=0,max=Integer.MIN_VALUE;
+        while(j<nums.length)
+        {
+            sum+=nums[j];
+            if(j-i+1<m)     j++;
+            else if(j-i+1==m){
+                    max=Math.max(max,sum);
+                    sum-=nums[i];
+                    j++; i++;   
+                }
+        }
+        return max>=t;
+    }
+    public int minSubArrayLen(int t, int[] nums) {
+        int l=1, h=nums.length;
+        while(l<h)
+        {
+            int m= l+(h-l)/2; 
+            if(sliding(t,nums,m)) // decrease size
+            { h=m; }
+             else
+                l=m+1;    
+        }
+        return sliding(t,nums,l) ? l:0;
+        
+        //2,3,1,2,4,3    >=7
+        // ans ka range 1 to nums.length (1-6)
+        // 1 2 3 4 5 6 
+        // sum vs length 
+        
+        // 4 7 9 --- monotonic increasing function
+                
+        // max subarray sum of size k
+        // use sliding window 
+    }
+}
+
+========================
+class Solution {
+    public boolean sliding(int s,int []prefix, int window) 
+    {
+         int i=0;
+        while(i+window-1<prefix.length){
+            if(i==0){
+                if(prefix[i+window-1]>=s) return true;
+            }
+            else{
+                if (prefix[i+window-1]-prefix[i-1]>=s) return true;
+            }
+            i++;   
+        }
+        return false;
+        
+    }
+    public int minSubArrayLen(int t, int[] nums) {
+        if(nums.length==0) return 0;
+        int l=1, h=nums.length,f=0;
+        int []prefix=new int[nums.length+1];
+        int sum=0;
+        for(int i=0;i<nums.length;i++){
+            sum+=nums[i];
+            prefix[i]=sum;    
+        }
+        
+        while(l<h)
+        {
+            int m= l+(h-l)/2;
+             
+            if(sliding(t,prefix,m)) // decrease size
+            { h=m; f=1;}
+             else
+                l=m+1;    
+        }
+        return sliding(t,prefix,l) ? l:0;
+        
+        //2,3,1,2,4,3    >=7
+        // ans ka range 1 to nums.length (1-6)
+        // 1 2 3 4 5 6 
+        // sum vs length 
+        
+        // 4 7 9 --- monotonic increasing function
+                
+        // max subarray sum of size k
+        // use sliding window 
+        
+         
+    }
+}

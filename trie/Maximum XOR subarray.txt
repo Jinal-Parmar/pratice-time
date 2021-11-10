@@ -1,0 +1,99 @@
+// { Driver Code Starts
+import java.io.*;
+import java.util.*;
+
+class GFG
+{
+    public static void main(String args[])throws IOException
+    {
+        BufferedReader read = new BufferedReader(new InputStreamReader(System.in));
+        int t = Integer.parseInt(read.readLine());
+        while(t-- > 0)
+        {
+            int N = Integer.parseInt(read.readLine());
+            String input_line[] = read.readLine().trim().split("\\s+");
+            int arr[]= new int[N];
+            for(int i = 0; i < N; i++)
+                arr[i] = Integer.parseInt(input_line[i]);
+            
+
+            Solution ob = new Solution();
+            
+            System.out.println(ob.maxSubarrayXOR(N,arr));
+            
+            
+        }
+    }
+}
+// } Driver Code Ends
+
+public class Node{
+    Node[] arr; int v;
+    public Node()
+    {  arr= new Node[2]; }
+    
+    public boolean contains(int b)
+    {return (arr[b]!=null);}
+    
+    public void put(int b, Node newnode)
+    {arr[b]=newnode;}
+    
+    public Node getnext(int b)
+    {return arr[b];}
+    }
+class Solution{
+    public static Node root;
+    public static void insert(int n)
+    {
+        Node t=root;
+        for(int b=31;b>=0;b--)
+        {
+            int bvalue=n&(1<<b);
+            if(bvalue!=0) 
+             bvalue=1;
+            else 
+             bvalue=0;
+             
+            if(!t.contains(bvalue))
+                t.put(bvalue,new Node());
+            
+            t=t.getnext(bvalue);
+        }
+        t.v=n; // bit store hua but pta nahi h kya no. h so flag k jagah pe no. store krna hai end me
+    }
+    public static int findmax_xor(int n)
+    {
+      Node t=root;
+        for(int b=31;b>=0;b--)
+        {
+            int bvalue=n&(1<<b);
+            if(bvalue!=0) 
+             bvalue=1;
+            else 
+             bvalue=0;
+             
+            if(t.contains(1-bvalue))
+                t=t.getnext(1-bvalue); //opposite bit hai to le lo
+            else if(t.contains(bvalue))
+                t=t.getnext(bvalue); // ya wahi lena hoga
+            else
+                return Integer.MIN_VALUE;    // koi nai hai
+        }
+        return n^(t.v);   // cur no. aur jisko find kiya
+    }
+    static int maxSubarrayXOR(int n, int arr[]){
+        root= new Node();
+        int prefix_xor=arr[0];
+        insert(prefix_xor);
+        // T-o(nx32)
+        int ans=prefix_xor;
+        for(int i=1;i<arr.length;i++)
+        {
+            prefix_xor=prefix_xor^arr[i];
+            ans=Math.max(ans,prefix_xor);
+            ans= Math.max(ans,findmax_xor(prefix_xor));   
+            insert(prefix_xor);
+        }
+        return ans;
+    }
+}

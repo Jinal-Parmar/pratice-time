@@ -1,0 +1,111 @@
+class MyHashMap {
+    class Node{
+        Node next;
+        int k,v;
+        public Node() {}
+        public Node(int k,int v) {this.k=k; this.v=v;}
+    }
+
+    private int size;
+    private  Node[] arr;
+    public MyHashMap() {
+        size=3;
+        arr=new Node[size];
+        Arrays.fill(arr,null);
+    }
+    
+    private int getidx(int key) {
+        key = (key + arr.length + 13) * 53;
+        return key % arr.length;
+    }
+    
+    //  private int getBucketIndex(String k) 
+    // {  
+    //     int hc = k.hashCode();
+    //     int idx = ((hc % arr.length) + arr.length % arr.length;
+    //     return idx;
+    // }
+    
+    private void rehash() {
+            Node[] t= arr;
+            arr=new Node[t.length*2];
+        for(int i=0;i<t.length*2;i++)
+            arr[i]=null;
+        size=0;
+        
+        for (int i = 0; i < t.length; i++) 
+        {
+            Node h = t[i], cur= h;
+            while (cur != null) 
+            {
+                put(cur.k, cur.v);
+                cur = cur.next;
+            }
+        }
+    }
+    
+    public void put(int k, int v) {
+        int idx=getidx(k);
+        Node h= arr[idx], newnode= new Node(k,v);
+        
+        if(h==null)
+        {
+            arr[idx]=newnode; size+=1;
+        }
+        else
+        {
+            Node t=h,prev=null;
+            while(t!=null)
+            {
+                if(t.k==k)
+                {t.v=v; return;}
+                prev=t;
+                t=t.next;
+            }
+            prev.next=newnode;
+            size+=1;
+        }
+        
+        if(((size * 1.0) / arr.length)>=0.75)
+            rehash();
+    }
+    
+    public int get(int k) {
+        int idx=getidx(k);
+        Node h= arr[idx],t=h;
+        
+        while(t!=null)
+        {
+            if(t.k==k)   return t.v;
+            t=t.next;
+        }
+        return -1;
+    }
+    
+    public void remove(int k) {
+        int idx=getidx(k);
+        Node h= arr[idx];
+        if(h==null) return;
+        
+        Node t=h, prev=null;
+        while(t!=null)
+        {
+            if(t.k==k)
+            {
+                if(prev==null)  arr[idx]=h.next;
+                else            prev.next=t.next;
+            }
+            size+=1;
+            prev=t;
+            t=t.next;
+        }
+    }
+}
+
+/**
+ * Your MyHashMap object will be instantiated and called as such:
+ * MyHashMap obj = new MyHashMap();
+ * obj.put(key,value);
+ * int param_2 = obj.get(key);
+ * obj.remove(key);
+ */

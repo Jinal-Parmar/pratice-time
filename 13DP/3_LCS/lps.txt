@@ -1,0 +1,19 @@
+ public int longestPalinSubseq(String S)
+    {
+        // lps(a)= lcs(a,reverse(a))
+        // agbcba  abcbga  ->abcba
+        StringBuilder rev=new StringBuilder(S);
+        String S2=new String(rev.reverse());
+        int t[][]=new int[S.length()+1][S.length()+1];
+        for(int i=0;i<S.length()+1;i++)
+        {
+          for(int j=0;j<S.length()+1;j++){
+              if(i==0|| j==0) t[i][j]=0;
+              else if(S.charAt(i-1)==S2.charAt(j-1))
+              t[i][j]=1+t[i-1][j-1];
+              else
+              t[i][j]=Math.max(t[i-1][j],t[i][j-1]);
+          }  
+        }
+        return t[S.length()][S.length()];
+    }

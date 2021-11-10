@@ -1,0 +1,33 @@
+class Solution {
+    public boolean dfsCycle(int node,boolean vis[], boolean pathvis[], ArrayList<ArrayList<Integer>> adj)
+    {
+        vis[node]=true;
+        pathvis[node]=true;
+        for(int x: adj.get(node))
+        {
+            if(!vis[x])
+            {
+                if(dfsCycle(x,vis,pathvis,adj))  return true;
+            }
+            else if(pathvis[x]==true) return true;
+        }
+        pathvis[node]=false;
+        return false;
+    }
+    public boolean canFinish(int numCourses, int[][] prerequisites) {
+        // b->a topo only possible in DAG
+        // 1.you can find cucle
+        // 2.topo is not possible   
+        ArrayList<ArrayList<Integer>> adj = new ArrayList<>();
+        for(int i=0 ; i<numCourses ; i++)    adj.add(new ArrayList<>());
+        for(int x[] : prerequisites)  adj.get(x[1]).add(x[0]);
+        
+        boolean vis[]=new boolean[numCourses]; boolean pathvis[]=new boolean[numCourses];
+        for(int i=0;i<numCourses;i++)
+        {
+            if(!vis[i])
+                if(dfsCycle(i,vis,pathvis,adj))  return false;
+        }
+        return true;
+    }
+}

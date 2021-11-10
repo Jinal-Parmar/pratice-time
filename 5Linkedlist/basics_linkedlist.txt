@@ -1,0 +1,879 @@
+import java.io.*;
+import java.util.*;
+
+class Node{
+    int val;
+    Node next;
+}
+
+class Solution{
+    
+    public static Node getnewNode(int  x)
+    {
+        Node a= new Node();
+        a.val=x;
+        a.next=null;
+        return a;
+    }
+    
+    public static Node recursiveinsert(int x, Node n)
+    {
+        if(n==null) return getnewNode(x);
+        else
+        n.next=recursiveinsert(x,n.next);
+        return n;
+    }
+    
+    public static void printlist(Node n)
+    {
+        if(n==null) return;
+        
+        System.out.print(n.val+ " ");
+        printlist(n.next);
+    }
+    
+    public static Node insertfront(int x,Node n)
+    {
+      Node a=getnewNode(x);
+      a.next=n; // root null hua to bhi problem nai hai
+      return a;
+    }
+    
+    public static Node insertatpos(int x,int p,Node n)
+    {
+        if(p<1) return n; // cant be less than 1
+        if(n==null && p>1) return n; // pos is greater than element exists
+        if(n==null && p==1) return getnewNode(x);// root hi null so new node banao
+        if(p==1) // add at front
+        {
+            Node a=getnewNode(x);
+            a.next=n; // root null hua to bhi problem nai hai
+            return a;
+        }
+        n.next=insertatpos(x,p-1,n.next);
+        return n;
+    }
+    
+    public static Node iterativeinsertatpos(int x,int p,Node n)
+    {
+        if(p<1) return n; // cant be less than 1
+        if(n==null && p>1) return n; // pos is greater than element exists
+        if(n==null && p==1) return getnewNode(x);// root hi null so new node banao
+        if(p==1) // add at front
+        {
+            Node a=getnewNode(x);
+            a.next=n; // root null hua to bhi problem nai hai
+            return a;
+        }
+        
+        Node prev=null,nn=n; 
+        while(n!=null && p>1)
+        {
+            prev=n;
+            n=n.next;
+            p--;
+        }
+        if(p!=1) // if  3 elements and want to add at 5
+        return nn;
+        
+        Node addme= getnewNode(x);
+        prev.next=addme;
+        addme.next=n;
+        return nn;
+    }
+    
+    public static Node deletefromend(Node n)
+    {
+        if(n==null || n.next==null) 
+        return null;// empty hai ya ek hi node hai
+    
+        Node t=n;
+        while(t.next.next!=null)
+        {
+            t=t.next;
+        }        
+        t.next=null;
+        return n;
+    }
+    
+    public  static Node deletefromfront(Node n){
+        if(n==null) return n;
+        
+        return n.next;
+    }
+    
+    public static Node deleteatpos(int p,Node n){
+       
+        if(p<1) return n;
+        if(n==null && p>1) return n; // elements less than or equal to p
+        if(p==1) return n.next; // delete from front 
+        
+        n.next=deleteatpos(p-1,n.next);
+        return n;
+    }
+    
+    public static Node iterativedeleteatpos(int p,Node n){
+       
+        if(p<1) return n;
+        if(n==null && p>=1) return n; // elements less than or equal to p
+        //if(n==null && p==1) return null; 
+        if(p==1) return n.next; // delete from front 
+        
+        Node prev=null,nn=n;
+        while(n.next!=null && p>1) // we can delete last element so .next
+        {
+            prev=n;
+            n=n.next;
+            p--;
+        }
+        
+        if(p!=1) // pos is greater than no. of elelments
+        return nn;
+         prev.next=n.next;
+        return nn;
+/*
+     Node t=n;  int pos=1;
+     if(p==1)   return t.next;
+     while(pos<p)
+     {
+        t=t.next; 
+        pos++;
+     }
+     t.next=t.next.next;
+     return n;
+    
+*/
+    }
+    
+    public static int getsize(Node n)
+    {
+        if(n==null)return 0;
+        
+        return getsize(n.next)+1;
+    }
+    
+     public static int iterativegetsize(Node n)
+    {
+        if(n==null)return 0;
+        int c=0;
+        while(n!=null){
+        c++;
+        n=n.next;
+        }
+     return c;
+    }
+    
+    public static boolean ifexists(int x,Node n)
+    {
+        if(n==null)return false;
+        while(n!=null)
+        {
+            if(n.val==x) return true;
+            n=n.next;
+        }
+        return false;
+    }
+    
+    public static Node rotateclockll(int k,Node n)
+    {
+        if(n==null || k<0) return n;
+        int s=getsize(n);
+        k%=s; // if size se zyda hai k
+        
+        if(k==0) return n;
+        Node t=n; 
+        int i=1;
+        while(i<(s-k))
+        {
+            i++;
+            t=t.next;
+        }
+    
+        Node tt=t.next;
+        Node head=tt;
+        t.next=null;
+        while(tt.next!=null)
+        {
+            tt=tt.next;
+        }
+        tt.next=n;
+        return head;
+    }
+    
+    public static Node rotateanticlockll(int k,Node n)
+    {
+        if(n==null || k<0) return n;
+        int s=getsize(n);
+        k%=s; // if size se zyda hai k
+        
+        if(k==0) return n;
+        Node t=n; 
+        int i=1;
+        while(i<k)
+        {
+            i++;
+            t=t.next;
+        }
+        
+        Node tt=t.next;
+        Node head=tt;
+        t.next=null;
+        while(tt.next!=null)
+        {
+            tt=tt.next;
+        }
+        tt.next=n;
+        return head;
+    }
+    
+    public static Node reverse(Node n)
+    {
+        if(n==null || n.next==null) return n; // empty or ek hi node hai
+        
+        Node t=reverse(n.next);
+        n.next.next=n;
+        n.next=null;
+        
+        return t;
+    }
+    public static Node middlell(Node n)
+    {
+        if(n==null) return null; // empty or ek hi node hai
+        
+        Node s=n,f=n.next;  // f=n        if 4 elements to 3rd return krega 
+                            // f=n.next   then 2nd return krega
+        
+        while(f!=null && f.next!=null)
+        {
+            s=s.next;
+            f=f.next.next;
+        }
+        return s;
+    }
+    
+    public static Node mergesortll(Node n)
+    {
+        if(n==null || n.next==null) return n; // empty or ek hi node hai
+        Node mid=middlell(n); 
+        Node secondhalf=mid.next;
+        mid.next=null;
+        return merge(mergesortll(n),mergesortll(secondhalf));
+    }
+    
+    public static Node merge(Node a, Node b)
+    {
+        Node t=new Node();
+        Node d=t;
+           while(a!=null && b!=null)
+           {
+               if(a.val<b.val)
+               {
+                   t.next=a;
+                   a=a.next;
+               }
+               else
+               {
+                   t.next=b;
+                   b=b.next;
+               }
+               /*
+               else 
+               { // when we dont want 2 duplicates twice
+                   t.next=a; a=a.next; b=b.next;
+               }
+               */
+             t=t.next;  
+           }
+           t.next=(a==null)? b:a;
+           return d.next;
+    }
+    
+    public static Node merge2ll_sorted(Node a,Node b)
+    {
+        return merge(mergesortll(a),mergesortll(b));
+    }
+    
+    public static Node merge2sortedll(Node a,Node b)
+    {
+        return merge(a,b);
+    }
+    
+    public static Node getunion(Node a,Node b)
+    {
+      a=mergesortll(a); b=mergesortll(b);
+      return mergewithunion(a,b);
+    }
+    
+    public static Node mergewithunion(Node a, Node b)
+    {
+        Node t=new Node();
+        Node d=t;
+           while(a!=null && b!=null)
+           {
+               if(a.val<b.val)
+               {
+                   t.next=a;
+                   a=a.next;
+               }
+               else if(a.val>b.val)
+               {
+                   t.next=b;
+                   b=b.next;
+               }
+               else 
+               { // when we dont want 2 duplicates twice
+                   t.next=a; a=a.next; b=b.next;
+               }
+               
+             t=t.next;  
+           }
+           t.next=(a==null)? b:a;
+           return d.next;
+    }
+    
+    public static Node getintersection(Node a,Node b)
+    {
+      a=mergesortll(a);
+      b=mergesortll(b);
+      return mergewithintersection(a,b);
+    }
+    
+    public static Node mergewithintersection(Node a, Node b)
+    {
+        Node t=new Node();
+        Node d=t;
+           while(a!=null && b!=null)
+           {
+               if(a.val<b.val)
+               a=a.next;
+               
+               else if(a.val>b.val)
+               b=b.next;
+               
+               else 
+               { // when we dont want 2 duplicates twice
+                   t.next=a; t=t.next;
+                   a=a.next; b=b.next;
+               }
+           }
+           t.next=null;
+           return d.next;
+    }
+    
+    
+    public static Node getintersectionNode(Node a, Node b)
+    {
+        a=mergesortll(a);
+        b=mergesortll(b);
+        Node t=new Node();
+           while(a!=null && b!=null)
+           {
+               if(a.val<b.val)
+               a=a.next;
+               else if(a.val>b.val)
+               b=b.next;
+               else 
+               { // when we dont want 2 duplicates twice
+                   t=a; t.next=null;
+                   return t;
+               }
+           }
+           return null;
+    }
+    
+    public static Node removeduplicatesfromsortedll(Node n)
+    {
+      if(n==null || n.next==null) return n;
+      if(n.val==n.next.val)
+      {
+          n.next=n.next.next;
+          removeduplicatesfromsortedll(n);
+      }
+      else
+         removeduplicatesfromsortedll(n.next);
+      
+      return n;
+    }
+    
+    public static Node removeduplicates(Node n)
+    {
+        if (n==null) return n;
+        
+        n=mergesortll(n);
+        return removeduplicatesfromsortedll(n);
+    }
+    
+    public static Node deleteKnodepostMnodes(int k,int m,Node n)
+    {
+        /*
+         list - null
+         n & k >0
+         k=0 - delete 0 elements       
+         m=0 - no traversing 
+        */
+        if(n==null) return n;
+    
+        Node t1=n,t2=n;  int i=0,j=0;
+        
+        while(i++<m-1) 
+        t1=t1.next; // ye m-1 times chlega
+        
+        t2= ( m==0) ? t1: t1.next;
+        
+        while(j++<k) // k times chlega
+        {
+            if(t2==null) return n; // not enough elements present to delete
+            t2=t2.next;
+        }
+        if(m==0) return t2;// m nodes traverse nahi kiye
+        else t1.next=t2;
+        return n;
+    }
+
+    // 28 video
+    
+    
+    public static Node removeduplicatesHash(Node n)
+    {
+        if(n==null) return n;
+        
+        HashSet<Integer> hs=new HashSet<>();
+        Node h=n,prev=null;
+        while(n!=null)
+        {
+            if(hs.add(n.val))
+            prev=n;
+            
+            else
+            prev.next=n.next;
+            
+            n=n.next;
+        }
+      return h;
+    }
+    
+    public static int getKth_node(int k,Node n)
+    {
+        if(n==null)return -1;
+        int i=0;
+        while( i++<k-1) // will run k-1 times
+        {
+            n=n.next;
+             if(n==null)return -1;
+        }
+        return n.val;
+    }
+    
+    public static int getKthlast_node(int k,Node n)
+    {
+        /* o(2n)
+        int s=getsize(n);
+        if(n==null)return -1;
+        int i=1;
+         // so s-k+1 element from front
+        while( i++<=s-k) // will run  times
+        {
+            n=n.next;
+             if(n==null)return -1;
+        }
+        return n.val;
+        
+        */
+        
+        //maintianing 2 pointer difference
+        // if k = 4...pointer2 4rd posn pe hoga
+        // pointer1 1st pe
+   
+      if(n==null)return -1;
+      Node t1=n,t2=n;
+      int i=1;
+      while(i++<k){ 
+          //will run k-1 times
+           if(t2==null)return -1;
+          t2=t2.next;
+      }
+      while(t2.next!=null)
+      {
+          t1=t1.next;
+          t2=t2.next;
+      }
+     return t1.val;
+    }
+    
+    public int lengthofloop(Node n)
+    {
+        if(n==null) return -1;
+        
+        Node s=n,f=n; int l=0;
+        
+        // if 4 nodes
+        // 1.f.next.next!=null && f.next!=null   middle - 2nd 
+        // 2.f!=null && f.next!=null             middle - 3rd
+        
+        //  dono me f.next==null hoga matlab odd no. of nodes
+        // 1. f.next.next==null to even no. of nodes
+        // 2. f==null to even to even no. of nodes
+       
+        while(f.next!=null && f.next.next!=null)
+        {
+            s=s.next;
+            f=f.next.next;
+            if(s.val==f.val) break;
+        }
+    
+        if(s==f)
+        while(s.next!=f){
+        s=s.next; 
+        l++;}
+        
+        return l+1;
+    }
+    
+    // 34 video
+    
+    // remove middle node 
+    // find middle then using prev.next=slow.next
+    
+    public static boolean ifpalindrome(Node n)
+    {
+      
+        if(n==null || n.next==null) return true;
+        
+        Node s=n,f=n; 
+        Stack<Integer> stack=new Stack<>();
+        stack.push(s.val);
+        // if 4 nodes
+        // 1.f.next.next!=null && f.next!=null   middle - 2nd 
+        // 2.f!=null && f.next!=null             middle - 3rd
+        
+        //  dono me f.next==null hoga matlab odd no. of nodes
+        // 1. f.next.next==null to even no. of nodes
+        // 2. f==null to even to even no. of nodes
+       
+        while(f.next!=null && f.next.next!=null)
+        {
+            s=s.next;
+            f=f.next.next;
+            stack.push(s.val);
+        }
+        
+        if(f.next==null)  // odd no. of nodes
+        stack.pop();      // 1 2 3 2 1 
+                          // check apan 2 1 krenge so 3 remove kr diya
+                          // 1 2 3 3 2 1        
+        s=s.next;
+        while(s!=null)
+        {
+            if(s.val!=stack.pop())
+            return false;
+            s=s.next;
+        }
+        return true;
+    }
+    
+    // to deletell just return null
+
+    public static Node deleteifgreateronright(Node n)
+    {
+        if(n==null || n.next==null)return n;
+        n=reverse(n);       
+        int maxi=n.val;
+        Node t=n;
+        
+        while(t.next!=null)
+        {
+            
+            maxi=Math.max(maxi,t.next.val);
+            if(t.next.val<maxi)
+            t.next=t.next.next; // delete it
+            else t=t.next;
+        }
+     return reverse(n);
+    }
+    
+    public static Node pairwiseswap(Node n)
+    {
+        if(n==null || n.next==null) return n;
+        
+        Node h=n;
+        while(n!=null && n.next!=null)
+        {
+            int t=n.val;
+            n.val=n.next.val;
+            n.next.val=t;
+            
+            n=n.next.next;// coz pairwise hai
+        }
+          return h;
+    }
+    
+    public static Node deletealternatenodes(Node n)
+    {
+        if(n==null || n.next==null) return n;
+        Node h=n;
+        while(n!=null && n.next!=null)
+        {
+            n.next=n.next.next;
+            n=n.next;
+        }
+        return h;
+    }
+    
+    public static Node movelastnodeatfront(Node n)
+    {
+        if(n==null || n.next==null) return n;
+        Node h=n;
+        
+        while(n.next.next!=null)
+        n=n.next;
+        
+        n.next.next=h; // linked last node to first
+        h=n.next;      // make last node head
+        n.next=null;   // 2nd last ka next null        
+    
+        return h;
+    }
+    
+    public static Node swapgivennodes_withoutswapingdata(int a,int b, Node n)
+    {
+        if(n==null || n.next==null) return n;
+        Node h=n,t1=null,t2=null,prev1=null,prev2=null;
+        
+        while(n!=null)
+        {
+            if(n.val==a){
+            t1=n; 
+            break;
+            }
+            prev1=n;
+            n=n.next;
+        }
+        n=h;
+        while(n!=null)
+        {
+            if(n.val==b){
+            t2=n; 
+            break;
+            }
+            prev2=n;
+            n=n.next;
+        }
+        
+        if(t1==null || t2==null) return h;
+        if(prev1!=null) //prev1 head nahi hai
+        prev1.next=t2;
+        else
+        h=t2;
+        
+        if(prev2!=null) //prev2 head nahi hai
+        prev2.next=t1;
+        else
+        h=t1;
+        
+        Node t=t1.next;
+        t1.next=t2.next;
+        t2.next=t;
+        
+        return h;
+    }
+    
+    // get intersection point of 2 ll
+    // count sizes of both, find difference
+    // in larger on traverse by difference
+    // traverse both now 
+    //when values are equal that is the point
+    
+    public static int getintersectionpoint(Node a,Node b)
+    {
+         if(a==null || b==null) return -1;
+         Node a1=a,b1=b;
+        int c1=0,c2=0;
+        while(a!=null) {c1++; a=a.next;}
+        while(b!=null) {c2++; b=b.next;}
+        int diff=c1-c2;
+        
+        while (diff>0) {
+            a1 = a1.next;
+            diff--;
+        } 
+        while (diff<0) {
+            b1 = b1.next;
+            diff++;
+        }
+        
+        while(a1!=b1)
+        {
+            a1=a1.next; 
+            b1=b1.next;
+        }
+       return a1.val; 
+    }
+    
+    public static Node iterativereverse(Node n){
+     if(n==null || n.next==null) return n;
+     
+     Node prev=null;
+        
+     while(n!=null)
+     {
+         Node next=n.next;
+         n.next=prev;
+         prev=n;
+         n=next;
+     }
+     
+     return prev;
+    }
+    
+    
+    public static Node reverseingroupofK(int k,Node n){
+    if(n==null || n.next==null) return n;
+     
+     Node prev=null,next=null,h=n;
+     int i=0;    
+     while(n!=null && i<k)
+     {
+         next=n.next;
+         n.next=prev;
+         prev=n;
+         n=next;
+         i++;
+     }
+     if(next!=null)
+      h.next=reverseingroupofK(k,next);
+     return prev;
+    }
+    
+    public static Node reversealternatively_ingroupofK(int k,Node n){
+    if(n==null || n.next==null) return n;
+     
+     Node prev=null,next=null,h=n;
+     int i=0;    
+     while(n!=null && i<k)
+     {
+         next=n.next;
+         n.next=prev;
+         prev=n;
+         n=next;
+         i++;
+     }
+     if(next!=null)
+     { h.next=n;}
+      i=0;  
+     while(n!=null && i<k-1)
+        { n=n.next; i++;}
+      
+      if(n!=null)
+      n.next=reversealternatively_ingroupofK(k,n.next);
+      
+      return prev;   
+    }
+    
+    // 50 video
+
+    public static void main(String[] args)
+    {
+        
+      Node root=null;
+      
+      root=recursiveinsert(12,root);
+      root=recursiveinsert(32,root);
+      root=recursiveinsert(62,root);
+      root=insertfront(5,root);
+      root=insertatpos(10,3,root);
+      root=iterativeinsertatpos(100,3,root);
+      root=deletefromend(root);
+      root=deletefromfront(root);
+      root=rotateclockll(2,root);
+      root=rotateanticlockll(2,root);
+      root= mergesortll(root);
+      //printlist(root);
+      
+      Node h1=null;
+      h1=recursiveinsert(12,h1);
+      h1=recursiveinsert(9,h1);
+      h1=recursiveinsert(37,h1);
+      Node h2=null;
+      h2=recursiveinsert(45,h2);
+      h2=recursiveinsert(8,h2);
+      
+      Node h5= merge2ll_sorted(h1,h2);
+      //printlist(h5);
+      
+      Node h3=null;
+      h3=recursiveinsert(5,h3);
+      h3=recursiveinsert(25,h3);
+      h3=recursiveinsert(45,h3);
+      Node h4=null;
+      h4=recursiveinsert(10,h4);
+      h4=recursiveinsert(59,h4);
+      
+      Node h6= merge2sortedll(h3,h4);
+      //printlist(h6);
+      
+      Node h7=null;
+      //h7=recursiveinsert(5,h7);
+      h7=recursiveinsert(5,h7);
+      h7=recursiveinsert(45,h7);
+      h7=recursiveinsert(62,h7); 
+      h7=recursiveinsert(10,h7);
+      
+      Node h8=null;
+      h8=recursiveinsert(10,h8);
+      h8=recursiveinsert(59,h8);
+      h8=recursiveinsert(5,h8);
+      // first sort it then merge with union
+      //Node union= getunion(h7,h8);
+      //printlist(union);
+      //System.out.println();
+      
+      //Node intersection= getintersection(h7,h8);
+      //printlist(intersection);
+     
+      // lowest common intersection Node
+      //Node intersectionNode= getintersectionNode(h7,h8);
+      //printlist(intersectionNode);
+      
+      Node n1=null;
+      n1=recursiveinsert(8,n1);
+      n1=recursiveinsert(8,n1);
+      n1=recursiveinsert(16,n1); 
+      n1=recursiveinsert(20,n1);
+      n1=recursiveinsert(21,n1);
+      n1=recursiveinsert(21,n1);
+      n1=recursiveinsert(21,n1); 
+      n1=recursiveinsert(100,n1);
+     
+      //n1=removeduplicatesHash(n1);
+      n1=removeduplicatesfromsortedll(n1);
+      n1=pairwiseswap(n1);
+      n1=deletealternatenodes(n1);
+      //n1=swapgivennodes_withoutswapingdata(16,20,n1);
+
+      printlist(n1);
+      //System.out.println();
+      
+      
+      //n1= deleteKnodepostMnodes(5,3,n1);
+      //printlist(n1);
+      
+      //delete node if grater values on right side
+      
+      // 1.reverse it
+      // 2.traverse kro with max variable
+      // 3.current should NOT be less than max if hai to delete it
+      // 4.again reverse it 
+      Node n2=null;
+      n2=recursiveinsert(10,n2);
+      n2=recursiveinsert(14,n2);
+      n2=recursiveinsert(8,n2);
+      n2=recursiveinsert(3,n2);
+      n2=recursiveinsert(5,n2);
+      System.out.println();
+      n2=deleteifgreateronright(n2);
+      n2=movelastnodeatfront(n2);
+      printlist(n2);
+      
+        
+    }
+}

@@ -1,0 +1,120 @@
+// { Driver Code Starts
+import java.util.*;
+
+class FindMinCost
+{
+	public static void main(String args[])
+	{
+		Scanner sc = new Scanner(System.in);
+		int t = sc.nextInt();
+		while(t > 0)
+		{
+			int n = sc.nextInt();
+			int m = sc.nextInt();
+			int arr[][] = new int[n][m];
+			for(int i=0; i<n; i++)
+			{
+				for(int j=0; j<m; j++ )
+				{
+					arr[i][j] = sc.nextInt();
+				}
+			}
+			System.out.println(new Solution().maxArea(arr, n, m));
+		t--;
+		}
+	}
+}// } Driver Code Ends
+
+
+/*Complete the function given below*/
+class Pair{
+    int v,i;
+    public Pair(int vv ,int ii) { i=ii; v=vv;}
+    }
+
+class Solution {
+    
+    public int[] nsl(int []h)
+    {
+        int j=0;
+        Stack<Pair> s=new Stack<Pair>();
+        int []ans= new int[h.length];
+       
+        for(int i=0;i<h.length;i++){
+            if(s.size()==0) 
+                ans[i]=-1;
+            else if(s.size()>0 && s.peek().v<h[i])
+                ans[i]=s.peek().i;
+            else
+            {
+                while (s.size()>0 && s.peek().v>=h[i]) 
+                    s.pop();
+                if(s.size()==0) ans[i]=-1;
+                else            ans[i]=s.peek().i;
+            } 
+            s.push(new Pair(h[i],i));   
+        }
+        return ans;   
+    }
+    
+    public int[] nsr(int []h)
+    {
+        int j=0;
+        Stack<Pair> s=new Stack<Pair>();
+        int []ans= new int[h.length];
+       
+        for(int i=h.length-1;i>=0;i--){
+            if(s.size()==0) 
+                ans[i]=h.length;
+            else if(s.size()>0 && s.peek().v<h[i])
+                ans[i]=s.peek().i;
+            else
+            {
+                while (s.size()>0 && s.peek().v>=h[i]) 
+                    s.pop();
+                if(s.size()==0) ans[i]=h.length;
+                else            ans[i]=s.peek().i;
+            } 
+            s.push(new Pair(h[i],i));   
+        }
+        return ans;      
+    }
+    public int MAH(int[] h) {
+     
+        // extend hogi jab tak otherh >= curh
+        // so length=(sub idx of NSR and NSL )-1
+        // s empty -1 (for NSL)
+        // s empty  h.length (for NSR)
+        // height= curh
+        
+        int[] nsl= nsl(h);
+        int[] nsr= nsr(h);
+        // for(int c: nsl) System.out.print(c+" ");
+        // System.out.println();
+        // for(int c: nsr) System.out.print(c+" ");
+        int ans=Integer.MIN_VALUE;
+        for(int i=0;i<h.length;i++)      ans=Math.max(ans, h[i]*(nsr[i]-nsl[i]-1));  
+        return ans;
+    }
+    
+    public int maxArea(int M[][], int n, int m) {
+        // max area of hsito
+        // need to find MAH for each rows
+        int ans=Integer.MIN_VALUE;
+        
+        int x[]= new int[m];
+        for(int i=0;i<m;i++) x[i]=M[0][i];
+        ans=Math.max(ans,MAH(x));
+        
+        for(int i=1;i<n;i++)
+        {
+            for(int j=0;j<m;j++)
+            {
+                if(M[i][j]==0) x[j]=0; //as hawa me hui height usko consider nai krna hai
+                else x[j]+=M[i][j];
+            }
+            ans=Math.max(ans,MAH(x));
+        }
+        return ans;
+    }
+}

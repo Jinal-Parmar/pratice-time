@@ -1,0 +1,30 @@
+/*package whatever //do not write package name here */
+
+import java.util.*;
+import java.lang.*;
+import java.io.*;
+
+class GFG {
+	public static void main (String[] args) throws Exception{
+     PrintWriter out=new PrintWriter(System.out);
+     BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+     int t=Integer.parseInt(br.readLine());
+     while(t-->0)
+     {
+         StringTokenizer st = new StringTokenizer(br.readLine()," ");
+         int n=Integer.parseInt(st.nextToken()), k=Integer.parseInt(st.nextToken());
+         
+         PriorityQueue<Integer> pq= new PriorityQueue<Integer>();
+         
+         st = new StringTokenizer(br.readLine()," ");
+         while (st.hasMoreTokens()) {  
+             pq.add(Integer.parseInt(st.nextToken())); 
+             if(pq.size()>k) out.print(pq.poll()+" ");
+            }
+            
+         while(pq.size()>0) out.print(pq.poll()+" ");
+         out.println();
+     }
+      out.close();    
+	}
+}

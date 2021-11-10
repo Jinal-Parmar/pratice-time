@@ -1,0 +1,108 @@
+class LFUCache {
+
+    
+    final int cap;
+    int cursize;
+    int minfreq;
+    Map<Integer,DLLNode> cache;
+    Map<Integer,DLL> freqmap;
+    
+    public LFUCache(int capacity) {
+        
+    cap=capacity;
+    cursize=0;
+    minfreq=0;
+    cache=new HashMap<>();
+    freqmap=new HashMap<>();
+    }
+    
+    public int get(int key) {
+        DLLNode cur=cache.get(key);
+        if(cur==null) return -1;
+        
+        update(cur); // freq increase krni hai
+        return cur.val;
+    }
+    
+    public void update(DLLNode cur){
+        int curf=cur.frequency;
+        DLL curlist= freqmap.get(curf);
+        curlist.removenode(cur);
+        
+        if(curf==minfreq && curlist.listsize==0)
+            minfreq++;
+        cur.frequency++;
+        
+        DLL newlist=freqmap.getOrDefault(cur.frequency,new DLL());
+        newlist.addnode(cur);
+        freqmap.put(cur.frequency,newlist);
+    }
+    
+    public void put(int key, int value) {
+        if(cap==0) return;
+        
+        if(cache.containsKey(key))
+        {
+            DLLNode cur= cache.get(key);
+            cur.val=value;
+            update(cur);
+        }
+        else
+        {
+            cursize++;
+            if(cursize>cap)
+            {
+                DLL minfreqlist=freqmap.get(minfreq);
+                cache.remove(minfreqlist.tail.prev.key);
+                minfreqlist.removenode(minfreqlist.tail.prev);
+                cursize--;
+            }
+        minfreq=1;
+        DLLNode newnode=new DLLNode(key,value);
+        DLL newlist=freqmap.getOrDefault(1,new DLL());
+        newlist.addnode(newnode);
+        freqmap.put(1,newlist);
+        cache.put(key,newnode);           
+        }
+        
+    }
+    
+    class DLLNode{
+        
+        int key,val,frequency; 
+        DLLNode prev,next;
+        
+        public DLLNode(int k,int v)
+        { key=k; val=v; frequency=1;}
+    }
+    
+    class DLL{    
+        int listsize; DLLNode tail,head;
+        
+        public DLL()
+        { 
+	  listsize=0;
+          head=new DLLNode(0,0);
+          tail=new DLLNode(0,0);
+          head.next=tail; tail.prev=head;
+        }
+        
+        public void addnode(DLLNode node)
+        { 
+            DLLNode next=head.next;
+            node.next=next;
+            node.prev=head;
+            head.next=node;
+            next.prev=node;
+            listsize++;
+        }
+        
+        public void removenode(DLLNode node)
+        {    
+          node.prev.next=node.next; 
+          node.next.prev=node.prev;
+            listsize--;
+        }
+    }
+      
+}

@@ -1,0 +1,27 @@
+ public void rotate(int[][] m) {
+        // brute matrix 
+        //T-O(nsq)  S-O(n-sq)
+	// traverse 1st row and put it to last column...goes on
+    
+        // transpose + reverse every row time O(nsq)
+
+        for(int i=0;i<m.length;i++)
+        {  
+            for(int j=i;j<m[0].length;j++) // i se as double times swap nahi hona chahiye
+            {
+                int t=m[i][j];    
+                m[i][j]=m[j][i];
+                m[j][i]=t;    
+            }
+        }
+        
+        for(int i=0;i<m.length;i++)
+        {  
+            for(int j=0;j<m.length/2;j++)
+            {
+                int t=m[i][j];    
+                m[i][j]=m[i][m.length-j-1];
+                m[i][m.length-j-1]=t;    
+            }
+        }   
+    }

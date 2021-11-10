@@ -1,0 +1,59 @@
+DP
+
+0-1 Knapsack(7)
+unbounded ks(5)
+LCS(15)
+mcm(7)
+
+fibonsccs(7)
+LIS(10)
+kadan's algo(6)
+dp on tree(4)
+dp on grid(14)
+other(5)
+
+
+0-1 Knapsack(7)
+subset sum
+equal sum partition
+couny of subset sum
+min subset sum diff
+target sum
+count of subset sum given diff
+
+unbounded ks(5)
+rod cutting
+coin change i
+coin change ii
+max ribbon cut
+
+LCS(15)
+longest common substring
+print LCS
+Shortest Common Superseq
+print SCS
+min no. of insertion and del a->b
+largest repeating subseq
+length of largest subseq of a ehich is subseq in b
+subseq pattern matching
+count no. of times a appears as subseq in b
+longest palindromic subseq
+longest palindromic substring
+count of longest palindromic substring
+min no. of del in "a" to make it palindrome
+min no. of ins in "a" to make it palindrome
+
+mcm(7)
+print mcm
+boolean parentheziation
+min/max value of an expn
+palindrome partitoning
+scramble string
+egg dropping
+
+34
+
+
+
+
+

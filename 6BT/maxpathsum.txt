@@ -1,0 +1,23 @@
+    int maxi=Integer.MIN_VALUE;
+    public int curmax(TreeNode root)
+    {
+        if(root ==null) return 0;
+        int lmax=Math.max(0,curmax(root.left)); // if sum -ve ho jae to 0 hi consider krna hai
+        int rmax=Math.max(0,curmax(root.right));
+  
+        maxi=Math.max(maxi,root.val+lmax+rmax);
+        
+        return root.val+Math.max(lmax,rmax);   
+    }
+    
+    public int maxPathSum(TreeNode root) {
+        /*
+        for every node (total -n) will try to find sum with all n nodes
+        T-o(n-sq)
+        */ 
+        
+        // for any node======>
+        // ans=max(ans,root.val+lmax+rmax)
+       curmax(root);
+       return maxi;
+    }

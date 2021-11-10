@@ -1,0 +1,82 @@
+import java.io.*;
+import java.util.*;
+
+class Node{
+    int data;
+    Node left,right;
+    public Node(int d)
+    { data=d; left=null; right=null;}
+}
+
+class BinaryTree{
+    Node root=null;
+    
+    void find(int v)
+    {
+           if(find(root, v)==true) System.out.print("Yes");
+           else System.out.print("No");
+    }
+    boolean find(Node r,int k)
+    {
+        if(r==null) return false;
+        if(r.data==k) return true;
+        if(r.data>k)  return find(r.left,k);
+        else if(r.data<k) return find(r.right,k);
+        
+        return false;
+    }
+
+    Node find(Node r,int k)
+    {
+        if(r==null || r.data==k) return r;
+        if(r.data>k)  return find(r.left,k);
+        else if(r.data<k) return find(r.right,k);
+/*
+ while(r!=null && r.data!=k)
+{
+ r=k<r.data? r.left:r.right;
+}
+return r;
+*/
+
+ 
+    }
+    void insert(int v){ root = insert(root, v);}
+    Node insert(Node r,int k)
+    {
+        if(r==null) {r=new Node(k); return r;}
+        if(k<r.data) r.left=insert(r.left,k);
+        if(k>r.data) r.right=insert(r.right,k);
+     return r;    
+    }
+    void inorder(){ inorder(root);}
+    void inorder(Node r){
+         if(r!=null)
+         {inorder(r.left);
+         System.out.println(r.data);
+         inorder(r.right);
+         }
+         
+    }
+   
+    public static void main(String args[])
+    {
+       
+        BinaryTree tree = new BinaryTree();
+        tree.insert(50);
+        tree.insert(30);
+        tree.insert(20);
+        tree.insert(40);
+        tree.insert(70);
+        tree.insert(60);
+        tree.insert(80);
+ 
+         tree.inorder();
+         tree.find(40);
+      
+       
+    }
+    
+    //BST no duplicate, node.l<node node.r>node l/r subtree also bst
+    
+}

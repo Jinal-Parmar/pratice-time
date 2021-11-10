@@ -1,0 +1,17 @@
+//gas station
+
+ public int canCompleteCircuit(final int[] A, final int[] B) {
+        int n=A.length;
+        int ttl=0; int cur=0,s=0;
+
+        for(int i=0;i<n;i++)
+        {
+            ttl+=A[i]-B[i];
+            cur+=A[i]-B[i];
+            if(cur<0)
+            {
+                cur=0; s=i+1;
+            }
+        }
+        return ttl<0? -1:s;
+    }

@@ -1,0 +1,41 @@
+public List<Integer> majorityElement(int[] nums) {
+     
+        // brute force for(i=0->n) for(j=0->n) check if c>nums.length/3 ?
+	//T-O(n-sq)
+
+	// T-O(n)  S-O(n) hashmap 
+        // max. 2 major elememnts
+        
+	// T-O(n)+O(n)  Moore's voting algo
+        // max. 2 major elememnts are possible
+
+        int cur1=-1, cur2=-1,c1=0,c2=0;
+        for(int x: nums)
+        {
+            if(cur1==x) c1++;
+            else if(cur2==x) c2++;
+            else if(c1==0) 
+            { cur1=x; c1=1; }
+            else if(c2==0) 
+            { cur2=x; c2=1; }
+            else
+            { c1--; c2--; }
+        }
+        
+        List<Integer> ans=new ArrayList<>();
+        c1=0; c2=0;
+        for(int x: nums)
+        {
+            if(x==cur1) c1++;
+            if(x==cur2) c2++;
+        }
+        if(c1> nums.length/3) ans.add(cur1);
+        if(cur1!=cur2)
+        if(c2> nums.length/3) ans.add(cur2);
+        return ans;     
+	// 1 1 1 3 3 2 2 2
+        // cur1 =1 cur2=3 c1=3 c2=2
+        // c1=2 c2=0
+	//cur2=2 ho jaega  c2=1
+   
+    }
