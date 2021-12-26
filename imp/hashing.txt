@@ -66,7 +66,10 @@ public List<List<Integer>> fourSum(int[] nums, int target) {
 //===================================================================
 // length of longest substring 
 
+// brute force find all substrings T-O(n-2) S- O(n)
+
 public int lengthOfLongestSubstring(String A) {
+//  2 pointers T-O(2n) S- O(n)
 
         HashSet<Character> s=new HashSet<>();
         int ans=0,l=0,r=0;
@@ -85,7 +88,12 @@ public int lengthOfLongestSubstring(String A) {
     }
 
 public int lengthOfLongestSubstring(String A) {
-
+//  2 pointers T-O(n) S- O(n)
+// l ko direct jump krne me help krega
+// abcdeef
+// l
+//      l
+  
         HashMap<Character,Integer> map=new HashMap<>();
         int ans=0,l=0,r=0;
         while(r<A.length())

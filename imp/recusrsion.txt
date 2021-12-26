@@ -1,68 +1,42 @@
 Recursion
 
-
-print 1 to n
-//      if n-1 daala to (1 to n-1)
-// bas n print krna hai BADME fir ho gya smjo
-//                     (1 to n-1) n 
-    
-print n to 1
-//      if n-1 daala to (n-1 to 1)
-// bas n print krna hai PHELE fir ho gya smjo
-//                     n(n-1 to 1)    
-print(int n)  // hypo
-{
-    if(n==1) sout(1);// base condition
-    //sout(n);     // if yaaha print kiya to n to 1 
-    print(n-1);  //hypo  
-    sout(n);     // 1  to n induction 
-         
-}
-
-
-int height(Node root)
-{
-    if(root==null) return 0; //bc
-
-    int l=height(root.left);  // hypo
-    int h=height(root.right);  //hypo
-    return 1+Math.max(l,h);   // induction
-}
-
-
 void sort(ArrayList<Integer> a)
 {
- if(a.size()==1) return; //bc
- int t=a.get(a.size()-1);
- a.removeLast(); 
- sort(a);    //hypo
- insert(a,t); // induction
+ 	if(a.size()==1) return; //bc
+	
+	int t=a.get(a.size()-1);
+ 	a.removeLast(); 
+	sort(a);    //hypo
+	insert(a,t); // induction
 }
 
 insert(ArrayList a,int x)
 {
-   if(a.size()==0 || a.get(a.size()-1)<=x) a.add(x);
-   int t=a.get(a.size()-1);
-   a.removeLast();
-   insert(a,x);
-   a.add(t);
+   	if(a.size()==0 || a.get(a.size()-1)<=x) a.add(x); //bc 
+   	
+	int t=a.get(a.size()-1);
+   	a.removeLast();
+   	insert(a,x);
+	a.add(t);
 }
 
 
 void sort(Stack<Integer> s)
 {
- if(s.size()==1) return; //bc
- int t=s.pop(); 
- sort(s);    //hypo
- insert(a,t); // induction
+ 	if(s.size()==1) return; //bc
+ 	
+	int t=s.pop(); 
+ 	sort(s);    //hypo
+ 	insert(a,t); // induction
 }
 
 insert(Stack s,int x)
 {
-   if(s.size()==0 || s.peek()<=x) a.add(x);
-   int t=s.pop();
-   insert(a,x);
-   s.push(t);
+   	if(s.size()==0 || s.peek()<=x) a.add(x);
+   
+	int t=s.pop();
+	insert(a,x);
+   	s.push(t);
 }
 
 
@@ -70,8 +44,8 @@ insert(Stack s,int x)
 
 delete(Stack<Integer> s,int n)
 {
-   if(s.size==1) s.pop(); 
-   int k=s+/2 +1;
+   if(n==1) s.pop(); 
+   int k=n/2 +1;
    deleteit(s,k);
 }
 
@@ -99,6 +73,189 @@ insert(Stack<Integer> s,int k)
    insert(s,k);
    s.push(t);
 }
+
+
+// K-th Symbol in Grammar
+public int kthGrammar(int n, int k) {
+        
+        if(n==1 && k==1) return 0;
+        
+        int mid= (int)(Math.pow(2,n-1))/2;
+        
+        if(k<=mid) return kthGrammar(n-1,k);
+        else       return 1-(kthGrammar(n-1,k-mid));   
+    }
+
+// tower of haoni
+
+class Hanoi {
+    long c=0;
+    public void tohano(int N, int from, int to, int aux) {
+        c++;
+        if(N==1) 
+        { 
+            System.out.println("move disk "+N+" from rod "+from +" to rod "+to);
+            return;
+        }
+        tohano(N-1,from, aux, to);
+        System.out.println("move disk "+N+" from rod "+from +" to rod "+to);
+        tohano(N-1,aux,to,from);
+    }
+    public long toh(int N, int from, int to, int aux) {
+     
+        tohano(N,from, to,aux);
+        return c;
+    }
+}
+
+//power set
+public void solve(String ip, String op, List<String> ans)
+    {
+        if(ip.length()==0)
+        {
+            if(op.length()!=0)  ans.add(op);
+            return;
+        }
+        String op1=op, op2=op+ip.charAt(0);
+        ip=ip.substring(1); // smaller ip
+        
+        solve(ip,op1,ans);
+        solve(ip,op2,ans);
+        
+    }
+    public List<String> AllPossibleStrings(String s)
+    {
+       List<String> ans= new ArrayList<>();
+        solve(s,"",ans);
+        Collections.sort(ans);
+        return ans;
+    }
+
+// print unqiue subsets - use set
+
+//permutation with spaces
+
+class Solution{
+    public void solve(String ip, String op,  ArrayList<String> ans)
+    {
+        if(ip.length()==0)
+        {
+            if(op.length()!=0)  ans.add(op);
+            return;
+        }
+        String op1=op+" "+ip.charAt(0), op2=op+ip.charAt(0);
+        ip=ip.substring(1); // smaller ip
+        
+        solve(ip,op1,ans);
+        solve(ip,op2,ans);
+        
+    }
+    ArrayList<String> permutation(String s){
+         ArrayList<String> ans= new ArrayList<>();
+        solve(s.substring(1),""+s.charAt(0),ans);
+        Collections.sort(ans);
+        return ans;
+    }
+}
+
+
+
+//permutation with case change
+
+class Solution{
+    public void solve(String ip, String op,  ArrayList<String> ans)
+    {
+        if(ip.length()==0)
+        {
+            if(op.length()!=0)  ans.add(op);
+            return;
+        }
+        //String op1=op+ip.charAt(0), op2=op+Character.toUpperCase(ip.charAt(0));
+        
+	solve(ip.substring(1),op+ip.charAt(0),ans);
+        solve(ip.substring(1),op+Character.toUpperCase(ip.charAt(0)),ans);
+    }
+    ArrayList<String> permutation(String s){
+        ArrayList<String> ans= new ArrayList<>();
+        solve(s,"",ans);
+        Collections.sort(ans);
+        return ans;
+    }
+}
+
+// letter case permutation
+
+ public void solve(String ip, String op,  List<String> ans)
+    {
+        if(ip.length()==0)
+        {
+            if(op.length()!=0)  ans.add(op);
+            return;
+        }
+        if(!Character.isAlphabetic(ip.charAt(0)))
+            solve(ip.substring(1),op+ip.charAt(0),ans);
+        else
+        {
+            solve(ip.substring(1),op+Character.toLowerCase(ip.charAt(0)),ans);
+            solve(ip.substring(1),op+Character.toUpperCase(ip.charAt(0)),ans);
+        }
+    }
+    public List<String> letterCasePermutation(String s) {
+        List<String> ans= new ArrayList<>();
+        solve(s,"",ans);
+        Collections.sort(ans);
+        return ans;
+    }
+
+// generate all balanxed parenthesis
+
+    public void solve(int o,int c,String op,List<String> ans)
+    {
+        if(o==0 && c==0)
+        {
+            if(op.length()!=0)  ans.add(op);
+            return;
+        }
+        if(o!=0) solve(o-1,c,op+"(",ans);
+        if(o<c ) solve(o,c-1,op+")",ans);
+    }
+    public List<String> AllParenthesis(int n) 
+    {
+        List<String> ans= new ArrayList<>();
+        solve(n,n,"",ans);
+        return ans;    
+    }
+
+//print N-bit binary numbers having more 1s than 0s
+
+    void solve(int n,int ones,int zeros,String op, ArrayList<String> ans) 
+    {
+        if(n==0)
+        {
+            if(op.length()!=0)
+            ans.add(op);
+            return;
+        }
+        solve(n-1,ones+1,zeros,op+"1",ans);
+        if(ones>zeros)
+        solve(n-1,ones,zeros+1,op+"0",ans);
+    }
+    ArrayList<String> NBitBinary(int n) {
+        ArrayList<String> ans=new ArrayList<>();
+        solve(n,0,0,"",ans);
+        return ans;
+    }
+
+
+
+
+
+
+
+
+
+
+
 
 
 

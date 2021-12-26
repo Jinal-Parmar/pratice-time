@@ -1,50 +1,41 @@
 import java.io.*;
 class Mystack{
     
-    int t=0;
-    int max=5;
-    int[] a=new int[max];
+    int t=-1, cap=5;
+    int[] a=new int[cap];
     
     private boolean isfull()
-    {
-        if(t== max) return true;
-        else return false;
-    }
+    {   return (t== cap-1); }
     
     private boolean isEmpty()
-    {
-        return (t==0);
-    }
+    {  return (t==-1); }
     
     private int top()
     {
         if(isEmpty())
-        {System.out.println("Stack empty hai");
-        return -1;}
-        return a[t-1];
+        {System.out.println("Stack empty hai"); return -1;}
+        return a[t];
     }
     private void push(int v)
     {
         if(isfull())
-        {System.out.println("Stack full hai");
-        return;}
-        a[t++]=v;
+        {System.out.println("Stack full hai");  return;}
+        a[++t]=v;
     }
     
     private int pop()
     {
         if(isEmpty())
-        {System.out.println("Stack empty hai");
-        return -1;}
-        return a[--t];
+        {System.out.println("Stack empty hai"); return -1;}
+        return a[t--];
     }
     
     public static void main (String[] args)
       {
 	Mystack x=new Mystack();
-	System.out.println(x.top());
-	x.push(33);
-	System.out.println(x.top());
+	x.push(100);
+	x.push(45);
+	System.out.println(x.pop());
       }	
 }
 
@@ -65,31 +56,24 @@ class Mystack{
      private int top()
     {
         if(f==null)
-        {System.out.println("Stack empty hai");
-        return -1;}
+        {System.out.println("Stack empty hai"); return -1;}
         return f.d;
     }
     private Node getNewNode(int v){
         Node a=new Node();
-        a.d=v;
-        a.next=null;
+	a.next=null; a.d=v;
         return a;
     }
-    
     private void push(int v)
     {
-        if(f==null){
-        f= getNewNode(v); return;}
+        if(f==null){  f= getNewNode(v); return;}
         Node t= getNewNode(v);
         t.next=f;
         f=t;
     }
-    
     private int pop()
     {
-       if(f==null)
-        {System.out.println("Stack empty hai");
-        return -1;}
+       if(f==null){System.out.println("Stack empty hai"); return -1;}
         int t=f.d;
         f=f.next;
         return t;

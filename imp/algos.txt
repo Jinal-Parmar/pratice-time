@@ -177,62 +177,7 @@ class jinal{
         
     }
 }
-===========================================================================
-//binary search sorted or continus fashion 
 
-
-//Allocate books
-
-public class Solution {
-    
-    public int maxofA(int A[])
-    {
-        int r=A[0];
-        for(int x: A)   r=Math.max(x,r);
-        return r;
-    }
-    public int sumofA(int A[])
-    {
-        int r=0;
-        for(int x: A)   r+=x;
-        return r;
-    }
-    public boolean isOK(int A[],int B,int res)
-    {
-          int student=1,sum=0;
-          for(int x: A)
-          {
-              if( sum+x>res) {
-                  student++; // if sum zyda ho jae to new student ko do
-                  sum=x;     // aur new sum hoga
-              }
-              else
-              sum+=x;    // else same student ko book do
-          }
-          return student<=B;// jab no. of students < no. of students given
-    }
-    
-    public int books(int[] A, int B) {
-        
-        if(A.length<B) return -1;// no. of books hi kam hai no. of students se
-        
-        int min=maxofA(A);// range me min to max from all elements in array if 1 student ko allow kiya
-        int max=sumofA(A);// and max sum ho jaega
-        
-        int res=Integer.MAX_VALUE;
-        while(min<=max)
-        {
-            int mid=(min+max)/2;
-            if(isOK(A,B,mid))
-            {
-                res=mid; max=mid-1;
-            }
-            else
-            min=mid+1;
-        }
-        return res;
-    }
-}
 
 
 

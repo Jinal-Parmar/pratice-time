@@ -38,9 +38,9 @@ class GFG {
     }
 	public static void main (String[] args) throws Exception {
 	 
-	 BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-     StringTokenizer st = new StringTokenizer(br.readLine()," ");
-     int n=Integer.parseInt(st.nextToken()), m=Integer.parseInt(st.nextToken());
+	BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+     	StringTokenizer st = new StringTokenizer(br.readLine()," ");
+     	int n=Integer.parseInt(st.nextToken()), m=Integer.parseInt(st.nextToken());
      
      ArrayList<ArrayList<Pair>> adj= new ArrayList<>();
      for(int i=0;i<=n;i++)   adj.add(new ArrayList<Pair>());

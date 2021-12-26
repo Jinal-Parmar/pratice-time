@@ -1,6 +1,7 @@
 public int[] maxSlidingWindow(int[] nums, int k) {
 
-//brute force O(nk)
+	//brute force T- O(nk) S- O(1)
+      
         int [] ans=new int [nums.length-k+1];
         for(int i=0;i<=nums.length-k;i++)
         {
@@ -11,17 +12,38 @@ public int[] maxSlidingWindow(int[] nums, int k) {
         }
         return ans;
     }
+   
+// PriorityQueue T-O(nlogk) S-O(k)
+
+ public int[] maxSlidingWindow(int[] arr, int k) {
+        int[] res = new int[arr.length - k + 1];        
+        PriorityQueue<Integer> queue = new PriorityQueue<>(
+            Collections.reverseOrder());
+        int i = 0,j=0;
+        for (; i < k; i++)  queue.add(arr[i]);
+        
+        res[j++]=queue.peek();
+        queue.remove(arr[0]);
+        for (; i < arr.length; i++) {
+            queue.add(arr[i]);
+            res[j++]=queue.peek();
+            queue.remove(arr[i - k + 1]);
+        }
+        return res;
+   }
 
 public int[] maxSlidingWindow(int[] nums, int k) {
         int [] ans=new int [nums.length-k+1];
-        //next greater  element
-        // decereasing fashion me store krna hai
-        // DEque
+       /*
+         next greater  element
+         decereasing fashion me store krna hai
+         DEque
             
-        // T- O(N)+o(N) S-o(k)
-        // a[i]
-        // remove from deque when 
-        // out of bound OR <a[i]
+         T- O(N)+o(N) S-o(k)
+         a[i]
+         remove from deque when 
+         out of bound OR less than cur no. ( <a[i])
+	*/
         int x=0;
         Deque<Integer> dq=new ArrayDeque<>();
         for(int i=0;i<nums.length;i++)

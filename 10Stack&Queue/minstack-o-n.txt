@@ -9,8 +9,7 @@ class MinStack {
         mini=-2/-3
        jab -4 nikalenge---> mini=-6+4(2*curmini-(2*curmini-prevmini))=-2
     */
-    
-    /** initialize your data structure here. */
+
     Stack<Long> st=new Stack<>();
     Long mini;    
     public MinStack() {
@@ -24,35 +23,27 @@ class MinStack {
             mini=v;
             st.push(v);
         }
-        else{
+        else
+	{
             if(v<mini)
             {
                 st.push(2*v-mini);
                 mini=v;
             }
-            else
-                st.push(v);
+            else     st.push(v);
         }
     }
     
     public void pop() {
         if(st.isEmpty()) return;
-        
         Long v=st.pop();
-        if(v<mini)
-          mini=2*mini-v;
+        if(v<mini)       mini=2*mini-v;
     }
     
-    public int top() {
-        
-        if(st.peek()<mini)
-            return mini.intValue();
-        else    
-        return st.peek().intValue();
-        
+    public int top() {  
+        if(st.peek()<mini)     return mini.intValue();
+        else     	       return st.peek().intValue();  
     }
     
-    public int getMin() {
-        return mini.intValue();
-    }
+    public int getMin() {return mini.intValue();}
 }

@@ -1,0 +1,75 @@
+ class Solution {
+    
+brute force T- O(m*n) * O(m+n)
+works when numbers are >=0   
+ 1. jabhi 0 aye put -1 expect where m[][]=0 ho
+ 2. traverse matrix again and replace -1 with 0  
+    
+    public void setneg(int mm, int nn, int[][] m) {
+        for(int i=0; i<m.length;i++)
+        {
+            for(int j=0; j<m[0].length;j++)
+            {
+               if((i==mm && m[i][j]!=0) || (j==nn &&  m[i][j]!=0) )    m[i][j]=Integer.MIN_VALUE;   
+            }
+        }
+    } 
+    public void setZeroes(int[][] m) {
+        for(int i=0; i<m.length;i++)
+        { 
+            for(int j=0; j<m[0].length;j++)
+            {
+               if( m[i][j]== 0) setneg(i,j,m);
+            }
+        }
+        for(int i=0; i<m.length;i++)
+        { 
+            for(int j=0; j<m[0].length;j++)
+            {
+               if(m[i][j]==Integer.MIN_VALUE ) m[i][j]=0;   
+            }
+        }
+    }
+===================================================================================== 
+use set T- O(m*n+ m*n)  S-O(m)+O(n)
+ 1. jabhi 0 aye store (indexes) i & j in 2 sets 
+ 2. traverse matrix again and if i or j is present in set then m[][]=0  
+    
+    public void setZeroes(int[][] m) {    
+        Set<Integer> r= new HashSet<>(), c= new HashSet<>();   
+        for(int i=0; i<m.length;i++)
+        { 
+            for(int j=0; j<m[0].length;j++)
+            {
+               if( m[i][j]== 0) {  r.add(i); c.add(j); }
+            }
+        }
+        for(int i=0; i<m.length;i++)
+        { 
+            for(int j=0; j<m[0].length;j++)
+            {
+               if(r.contains(i) || c.contains(j) ) m[i][j]=0;   
+            }
+        }
+    }
+=========================================================================================    
+    public void setZeroes(int[][] m) {    
+        int colzero=0, rowzero=0;
+         for(int j=0; j<m[0].length;j++)   if(m[0][j]==0) rowzero=1;
+            
+        for(int i=0; i<m.length;i++)
+        { 
+            if(m[i][0]==0) colzero=1;
+            for(int j=1; j<m[0].length;j++)
+                if( m[i][j]== 0) { m[i][0]=m[0][j]=0; }
+            
+        }
+         for(int i=1; i<m.length;i++)
+        { 
+            for(int j=1; j<m[0].length;j++)  
+                if(m[i][0] ==0 || m[0][j] ==0) m[i][j]=0;   
+        }
+        if( rowzero==1) for(int j=0; j<m[0].length;j++) m[0][j]=0;
+        if( colzero==1) for(int i=0; i<m.length;i++) m[i][0]=0;
+    }
+}

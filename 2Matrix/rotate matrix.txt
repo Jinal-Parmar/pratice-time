@@ -1,4 +1,33 @@
- public void rotate(int[][] m) {
+class Solution {
+    
+    
+    /*
+    
+    brute force - 2*O(n-sq)  rows ko utha ke new matrix me paste kro    
+    */
+
+
+    /*    
+    public void rotate(int[][] m) {
+    
+            int n= m.length;
+            for(int i=0;i< (n+1)/2;i++)
+            {
+                for(int j=0;j< n/2;j++)
+                {
+                    int t= m[n-1-j][i];
+                    m[n-1-j][i]=m[n-1-i][n-1-j];
+                    m[n-1-i][n-1-j]=m[j][n-1-i];
+                    m[j][n-1-i]= m[i][j];
+                    m[i][j]=t;
+                    
+                } 
+            }
+    }
+    */
+     
+
+   public void rotate(int[][] m) {
         // brute matrix 
         //T-O(nsq)  S-O(n-sq)
 	// traverse 1st row and put it to last column...goes on
@@ -25,3 +54,4 @@
             }
         }   
     }
+}

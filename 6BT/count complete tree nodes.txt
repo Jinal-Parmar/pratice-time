@@ -1,0 +1,28 @@
+class Solution {
+    
+    // o(logn-sq)
+    public int left_height(TreeNode root)
+    {
+       int c=0;
+        while(root.left!=null)
+        {c++; root=root.left;}
+       return c; 
+    }
+    public int right_height(TreeNode root)
+    {
+       int c=0;
+        while(root.right!=null)
+        {c++; root=root.right;}
+       return c; 
+    }
+    public int countNodes(TreeNode root) {
+        if(root==null) return 0;
+        int l= left_height(root), r= right_height(root);
+        
+        if(l==r)
+            return ((2<<l)-1); //2^h -1   h=l=r
+        
+        else
+            return countNodes(root.left)+countNodes(root.right)+1;
+    }
+}

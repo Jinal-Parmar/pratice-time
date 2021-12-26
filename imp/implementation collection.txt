@@ -16,7 +16,7 @@ public class Pair<X,Y>{
 
 // ArrayList        vs             LinkedList (data+ pointer/refernce to next)
 // 1.index se access               1.traverse whole ll
-// 2.mid/start me ins/del k        2. easy to add/delete at middle place  
+// 2.mid/start me ins/del k        2. easy to add/delete at mid/start place  
 //   liye aage k elements 
 //   displace honge 
 
@@ -102,7 +102,7 @@ class myLL<E>{
     while(t.next.next!=null) t=t.next; 
     Node<E> toremove=t.next;
     t.next=null;
-   return toremove.data;
+    return toremove.data;
    }
    
   public E getLast()
@@ -116,10 +116,13 @@ class Node<E>{
   E data; Node<E> next;
   public Node(E d) { data=d; next=null; } 
   }
+
+
+
 // Vector 2times-syncorized(thread safe) lock mechansim so time leta hai zyda compared to ArrayList
 // so arraylist is time efficient and memory efficient 1.5times
 
-//Stack lifo
+//Stack lifo(can also use ArrayDeque class)
 // Collection/List/Vector/Stack
 // I/I/C/C
 // 1 2 3 4
@@ -153,7 +156,7 @@ public void showstack()
 {   s.printll(); }
 }
 
-//Queue/LinkedList
+//Queue/LinkedList (can also use ArrayDeque/PriorityQueue class)
 // I/C
 //(throws exception)        add   remove element    
 //(return null/false/true)  offer poll   peek
@@ -195,6 +198,10 @@ public E peek(){
 //Collection/Queue/ArrayDeque
 // I/I/C
 // ArrayDouble Ended Queque
+
+// offerFirst addFirst(throwing Exception)
+// pollFirst  removeFirst
+// peekFirst  getFirst
 class myarraydeque<E>
 {
     Node<E> head,tail;
@@ -249,7 +256,7 @@ class myarraydeque<E>
 // o(constant)
 
 //LinkedHashSet order me hoga vese store hoga
-// uses LinkedList
+// uses hashmap and LinkedList
 // o(logn)
 
 //TreeSet for sorted order
